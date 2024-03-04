@@ -6,15 +6,34 @@ import {
   FaCog,
   FaPlus,
 } from "react-icons/fa";
+import ProjectModal from "./ProjectModal"; // assuming you have a ProjectModal component
 
 const Sidebar = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [step, setStep] = useState(1); // to track which step of the modal is currently active
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    setStep(1); // reset step to 1 when opening the modal
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleContinue = () => {
+    setStep(step + 1);
+  };
+
   return (
     <>
       <div className="bg-gray-200 text-gray-800 py-4 px-2 h-screen w-1/6">
         <div className="flex flex-col justify-between h-full px-6">
           <div>
-            
-            <button className="block py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 flex items-center mb-4">
+            <button
+              onClick={openModal}
+              className="block py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 flex items-center mb-4"
+            >
               <FaPlus className="mr-2" /> New Project
             </button>
             <a
@@ -44,6 +63,13 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <ProjectModal
+          step={step}
+          closeModal={closeModal}
+          handleContinue={handleContinue}
+        />
+      )}
     </>
   );
 };
