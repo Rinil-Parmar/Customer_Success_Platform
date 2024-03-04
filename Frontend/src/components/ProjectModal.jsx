@@ -154,7 +154,7 @@ const ProjectModal = ({ closeModal }) => {
           )}
           {step === 2 && (
             <div>
-              <h2 className="text-lg font-semibold mb-4 text-white">
+              <h2 className="text-lg font-semibold mb-4 text-black">
                 Client Details
               </h2>
               <input

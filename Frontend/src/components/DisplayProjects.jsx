@@ -6,25 +6,39 @@ import EditProject from "./EditProject";
 
 function DisplayProjects({ fetch, setFetch }) {
   const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/projects");
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/projects"
+        );
         setProjects(response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
-    }
-    fetchData();
+    };
+
+    fetchData(); // Fetch data initially
+
+    // Refresh data every minute
+    const intervalId = setInterval(fetchData, 6000);
+
+    return () => {
+      clearInterval(intervalId); // Cleanup interval on component unmount
+    };
   }, [fetch]);
 
   async function handleDelete(id) {
-    // eslint-disable-next-line no-restricted-globals
-    var a = confirm("Do you want to delete? ");
-    if (a) {
+    console.log("Delete id:", id);
+    const confirmed = window.confirm("Do you want to delete?");
+    if (confirmed) {
       try {
-        const response = await axios.delete(`http://localhost:3000/api/v1/projects/${id}`);
+        const response = await axios.delete(
+          `http://localhost:3000/api/v1/projects/${id}`
+        );
         toast.success(response.data.message);
         setFetch((prev) => !prev);
       } catch (error) {
@@ -33,8 +47,18 @@ function DisplayProjects({ fetch, setFetch }) {
     }
   }
 
+  const handleEdit = (project) => {
+    setSelectedProject(project);
+    setEditModalOpen(true); // Open the edit modal
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProject(null);
+    setEditModalOpen(false); // Close the edit modal
+  };
+
   return (
-    <div className=" overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
           <tr>
@@ -72,11 +96,16 @@ function DisplayProjects({ fetch, setFetch }) {
                 <td className="px-6 py-4">{project.project_status}</td>
                 <td className="px-6 py-4">{project.project_manager}</td>
                 <td className="px-6 py-4 text-right flex gap-2">
-                  {/* EDITPROJECT COMPONENT FOR POP UP  */}
-                  <EditProject project={project} setFetch={setFetch} />
+                  {/* EDIT BUTTON */}
+                  <button
+                    className="text-blue-600"
+                    onClick={() => handleEdit(project)}
+                  >
+                    Edit
+                  </button>
                   <button
                     className="text-red-600"
-                    onClick={() => handleDelete(project._id)}
+                    onClick={() => handleDelete(project.id)}
                   >
                     Delete
                   </button>
@@ -85,6 +114,15 @@ function DisplayProjects({ fetch, setFetch }) {
             ))}
         </tbody>
       </table>
+
+      {/* EDIT MODAL */}
+      {selectedProject && (
+        <EditProject
+          project={selectedProject}
+          setFetch={setFetch}
+          closeModal={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
