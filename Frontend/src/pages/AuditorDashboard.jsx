@@ -13,7 +13,8 @@ function AuditorDashboard() {
   const [fetch, setFetch] = useState(false);
   return (
     <div className="w-full">
-      <h2>AuditorDashboard</h2>
+      <h2 className="text-2xl font-bold">AuditorDashboard</h2>
+
       <TabsContext>
         <TabList>
           <Tab>All Projects</Tab>

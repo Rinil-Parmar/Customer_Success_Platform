@@ -4,6 +4,8 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./AuditorDashboard";
+import ProjectList from "./ProjectList";
+import Project from "./Project";
 // import About from '../pages/About';
 
 const Layout = () => {
@@ -16,7 +18,8 @@ const Layout = () => {
           <div className="container mx-auto p-4 flex-1">
             <Routes>
               <Route path="/" exact element={<Home />} />
-              {/* <Route path="/about" component={About} /> */}
+              <Route path="/projects" element={<ProjectList />} />
+              <Route path="/projects/:id" element={<Project/>} />
             </Routes>
           </div>
         </div>

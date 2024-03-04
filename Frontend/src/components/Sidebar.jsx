@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
   FaTachometerAlt,
   FaListAlt,
@@ -36,12 +38,19 @@ const Sidebar = () => {
             >
               <FaPlus className="mr-2" /> New Project
             </button>
-            <a
+            {/* <a
               href="#"
               className="block py-2 flex items-center hover:text-gray-600"
             >
               <FaListAlt className="mr-2" /> Projects
-            </a>
+            </a> */}
+            <Link
+              to="/projects"
+              className="block py-2 flex items-center hover:text-gray-600"
+            >
+              <FaListAlt className="mr-2" /> Projects
+            </Link>
+
             <a
               href="#"
               className="block py-2 flex items-center hover:text-gray-600"

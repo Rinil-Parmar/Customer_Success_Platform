@@ -83,12 +83,12 @@ function DisplayProjects({ fetch, setFetch }) {
           {projects.length > 0 &&
             projects.map((project) => (
               <tr
-                className="bg-white border-b  hover:bg-gray-50 "
-                key={project._id}
+                className="bg-white border-b hover:bg-gray-50"
+                key={project.id} // Add key prop here
               >
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                 >
                   {project.project_name}
                 </th>
