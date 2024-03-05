@@ -6,6 +6,12 @@ Rails.application.routes.draw do
       resources :projects
       resources :clients
       resources :overviews
+      resources :audit_histories
+      resources :version_histories
+      resources :projects do
+        resources :audit_histories, only: [:index, :create, :update, :destroy]
+        resources :version_histories, only: [:index, :create, :update, :destroy]
+      end
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -17,3 +23,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 end
+
+# rails generate scaffold VersionHistory version_no:string version_type:string change:text reason:text created_by:string revision_date:date approve_date:date approved_by:string project:references
+
+
+

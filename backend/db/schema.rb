@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_05_051258) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_05_113237) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "audit_histories", force: :cascade do |t|
+    t.date "date"
+    t.string "reviewed_by"
+    t.string "status"
+    t.text "reviewed_section"
+    t.text "queries"
+    t.text "action_item"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_audit_histories_on_project_id"
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
@@ -51,5 +64,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_051258) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "version_histories", force: :cascade do |t|
+    t.string "version_no"
+    t.string "version_type"
+    t.text "change"
+    t.text "reason"
+    t.string "created_by"
+    t.date "revision_date"
+    t.date "approve_date"
+    t.string "approved_by"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_version_histories_on_project_id"
+  end
+
+  add_foreign_key "audit_histories", "projects"
   add_foreign_key "overviews", "projects"
+  add_foreign_key "version_histories", "projects"
 end

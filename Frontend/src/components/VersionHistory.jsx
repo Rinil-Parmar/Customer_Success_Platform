@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import EditAuditHistory from "./EditAuditHistory";
-import AddAuditHistory from "./AddAuditHistory";
+import EditVersionHistory from "./EditVersionHistory";
+import AddVersionHistory from "./AddVersionHistory";
 
-function AuditHistory({ project, setFetch }) {
-  const [auditHistories, setAuditHistories] = useState([]);
-  const [selectedAudit, setSelectedAudit] = useState(null);
+function VersionHistory({ project, setFetch }) {
+  const [versionHistories, setVersionHistories] = useState([]);
+  const [selectedVersion, setSelectedVersion] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchAuditHistories = async () => {
+    const fetchVersionHistories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/audit_histories`
+          `http://localhost:3000/api/v1/projects/${project.id}/version_histories`
         );
-        setAuditHistories(response.data);
+        setVersionHistories(response.data);
       } catch (error) {
-        console.error("Error fetching audit histories:", error);
+        console.error("Error fetching version histories:", error);
       }
     };
 
-    fetchAuditHistories();
+    fetchVersionHistories();
 
-    // Set interval to fetch audit histories every minute
-    const intervalId = setInterval(fetchAuditHistories, 6000);
+    // Set interval to fetch version histories every minute
+    const intervalId = setInterval(fetchVersionHistories, 6000);
 
     // Cleanup function
     return () => {
@@ -34,25 +33,25 @@ function AuditHistory({ project, setFetch }) {
     };
   }, [project, setFetch]);
 
-  const handleEdit = (audit) => {
-    setSelectedAudit(audit);
+  const handleEdit = (version) => {
+    setSelectedVersion(version);
     setEditModalOpen(true);
   };
 
   const handleDelete = async (id) => {
     const confirmed = window.confirm(
-      "Do you want to delete this audit history?"
+      "Do you want to delete this version history?"
     );
     if (confirmed) {
       try {
         await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/audit_histories/${id}`
+          `http://localhost:3000/api/v1/projects/${project.id}/version_histories/${id}`
         );
-        toast.success("Audit history deleted successfully.");
+        toast.success("Version history deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
       } catch (error) {
-        console.error("Error deleting audit history:", error);
-        toast.error("An error occurred while deleting the audit history.");
+        console.error("Error deleting version history:", error);
+        toast.error("An error occurred while deleting the version history.");
       }
     }
   };
@@ -63,22 +62,22 @@ function AuditHistory({ project, setFetch }) {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Date
+              Version No
             </th>
             <th scope="col" className="px-6 py-3">
-              Reviewed By
+              Version Type
             </th>
             <th scope="col" className="px-6 py-3">
-              Status
+              Change
             </th>
             <th scope="col" className="px-6 py-3">
-              Reviewed Section
+              Reason
             </th>
             <th scope="col" className="px-6 py-3">
-              Queries
+              Created By
             </th>
             <th scope="col" className="px-6 py-3">
-              Action Item
+              Revision Date
             </th>
             <th scope="col" className="px-6 py-3">
               Actions
@@ -86,24 +85,24 @@ function AuditHistory({ project, setFetch }) {
           </tr>
         </thead>
         <tbody>
-          {auditHistories.map((audit) => (
-            <tr className="bg-white border-b hover:bg-gray-50" key={audit.id}>
-              <td className="px-6 py-4">{audit.date}</td>
-              <td className="px-6 py-4">{audit.reviewed_by}</td>
-              <td className="px-6 py-4">{audit.status}</td>
-              <td className="px-6 py-4">{audit.reviewed_section}</td>
-              <td className="px-6 py-4">{audit.queries}</td>
-              <td className="px-6 py-4">{audit.action_item}</td>
+          {versionHistories.map((version) => (
+            <tr className="bg-white border-b hover:bg-gray-50" key={version.id}>
+              <td className="px-6 py-4">{version.version_no}</td>
+              <td className="px-6 py-4">{version.version_type}</td>
+              <td className="px-6 py-4">{version.change}</td>
+              <td className="px-6 py-4">{version.reason}</td>
+              <td className="px-6 py-4">{version.created_by}</td>
+              <td className="px-6 py-4">{version.revision_date}</td>
               <td className="px-6 py-4 text-right flex gap-2">
                 <button
                   className="text-blue-600"
-                  onClick={() => handleEdit(audit)}
+                  onClick={() => handleEdit(version)}
                 >
                   Edit
                 </button>
                 <button
                   className="text-red-600"
-                  onClick={() => handleDelete(audit.id)}
+                  onClick={() => handleDelete(version.id)}
                 >
                   Delete
                 </button>
@@ -114,11 +113,11 @@ function AuditHistory({ project, setFetch }) {
       </table>
 
       {/* Edit Modal */}
-      {selectedAudit && (
-        <EditAuditHistory
-          audit={selectedAudit}
+      {selectedVersion && (
+        <EditVersionHistory
+          versionHistory={selectedVersion}
           setFetch={setFetch}
-          closeModal={() => setSelectedAudit(null)}
+          closeModal={() => setSelectedVersion(null)}
         />
       )}
 
@@ -127,10 +126,10 @@ function AuditHistory({ project, setFetch }) {
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
         onClick={() => setAddModalOpen(true)}
       >
-        Add Audit
+        Add Version
       </button>
       {addModalOpen && (
-        <AddAuditHistory
+        <AddVersionHistory
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
@@ -140,4 +139,4 @@ function AuditHistory({ project, setFetch }) {
   );
 }
 
-export default AuditHistory;
+export default VersionHistory;

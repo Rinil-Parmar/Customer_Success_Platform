@@ -10,9 +10,11 @@ import {
 } from "monday-ui-react-core";
 import DisplayProjects from "../components/DisplayProjects";
 import ProjectDetails from "../components/ProjectDetails";
-import Budget from "../components/Budget";
+// import Budget from "../components/Budget";
 import AddProjectOverview from "../components/AddProjectOverview";
 import EditScopeStack from "../components/EditScopeStack";
+import AuditHistory from "../components/AuditHistory";
+import VersionHistory from "../components/VersionHistory";
 
 export default function Project() {
   const { id } = useParams();
@@ -46,7 +48,7 @@ export default function Project() {
             {project.project_name}
           </h2>
           <br />
-          <hr />
+          {/* <hr /> */}
 
           {/* <p className="text-xl font-bold text-gray-900">
             Description: {project.project_desc}
@@ -73,7 +75,6 @@ export default function Project() {
               <TabPanel>
                 {/* SCOPE AND STACK  */}
                 <EditScopeStack project={project} setFetch={setFetch} />
-                
               </TabPanel>
               <TabPanel>
                 {/* ESCALATION MATRIXES */}
@@ -82,6 +83,11 @@ export default function Project() {
               </TabPanel>
               <TabPanel>
                 {/* AUDIT HISTORY */}
+                <AuditHistory project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* VERSION HISTORY */}
+                <VersionHistory project={project} setFetch={setFetch} />
               </TabPanel>
             </TabPanels>
           </TabsContext>
