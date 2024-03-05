@@ -65,6 +65,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
           <textarea
             id="overview"
             value={overview}
+            required
             onChange={(e) => setOverview(e.target.value)}
             rows="4"
             placeholder="Enter project overview"
@@ -78,6 +79,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
           <textarea
             id="purpose"
             value={purpose}
+            required
             onChange={(e) => setPurpose(e.target.value)}
             rows="4"
             placeholder="Enter purpose"
@@ -91,6 +93,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
           <textarea
             id="goals"
             value={goals}
+            required
             onChange={(e) => setGoals(e.target.value)}
             rows="4"
             placeholder="Enter goals"
@@ -104,6 +107,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
           <textarea
             id="objectives"
             value={objectives}
+            required
             onChange={(e) => setObjectives(e.target.value)}
             rows="4"
             placeholder="Enter objectives"
@@ -117,6 +121,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
           <input
             id="budget"
             type="number"
+            required
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
             min="0" // Ensure budget is not negative

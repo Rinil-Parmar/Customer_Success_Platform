@@ -13,6 +13,7 @@ import ProjectModal from "./ProjectModal"; // assuming you have a ProjectModal c
 const Sidebar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [step, setStep] = useState(1); // to track which step of the modal is currently active
+  const [activeLink, setActiveLink] = useState("Projects");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -38,34 +39,40 @@ const Sidebar = () => {
             >
               <FaPlus className="mr-2" /> New Project
             </button>
-            {/* <a
-              href="#"
-              className="block py-2 flex items-center hover:text-gray-600"
-            >
-              <FaListAlt className="mr-2" /> Projects
-            </a> */}
             <Link
               to="/projects"
-              className="block py-2 flex items-center hover:text-gray-600"
+              className={`block py-2 flex items-center hover:text-gray-600 ${
+                activeLink === "Projects" ? "text-blue-500" : ""
+              }`}
+              onClick={() => setActiveLink("Projects")}
             >
               <FaListAlt className="mr-2" /> Projects
             </Link>
 
             <a
               href="#"
-              className="block py-2 flex items-center hover:text-gray-600"
+              className={`block py-2 flex items-center hover:text-gray-600 ${
+                activeLink === "Project Manager" ? "text-blue-500" : ""
+              }`}
+              onClick={() => setActiveLink("Project Manager")}
             >
               <FaUserTie className="mr-2" /> Project Manager
             </a>
             <a
               href="#"
-              className="block py-2 flex items-center hover:text-gray-600"
+              className={`block py-2 flex items-center hover:text-gray-600 ${
+                activeLink === "Employees" ? "text-blue-500" : ""
+              }`}
+              onClick={() => setActiveLink("Employees")}
             >
               <FaTachometerAlt className="mr-2" /> Employees
             </a>
             <a
               href="#"
-              className="block py-2 flex items-center hover:text-gray-600"
+              className={`block py-2 flex items-center hover:text-gray-600 ${
+                activeLink === "Settings" ? "text-blue-500" : ""
+              }`}
+              onClick={() => setActiveLink("Settings")}
             >
               <FaCog className="mr-2" /> Settings
             </a>

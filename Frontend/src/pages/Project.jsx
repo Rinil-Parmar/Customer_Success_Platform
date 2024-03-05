@@ -13,8 +13,13 @@ import ProjectDetails from "../components/ProjectDetails";
 // import Budget from "../components/Budget";
 import AddProjectOverview from "../components/AddProjectOverview";
 import EditScopeStack from "../components/EditScopeStack";
-import AuditHistory from "../components/AuditHistory";
-import VersionHistory from "../components/VersionHistory";
+import AuditHistory from "../components/AuditHistory/AuditHistory";
+import VersionHistory from "../components/VersionHistory/VersionHistory";
+import Stackholder from "../components/Stackholder/Stackholder";
+import RiskProfiling from "../components/RiskProfiling/RiskProfiling";
+import SprintDetails from "../components/SprintDetails/SprintDetails";
+import Phases from "../components/Phases/Phases";
+import EscalationMatrix from "../components/EscalationMatix/EscalationMatixes";
 
 export default function Project() {
   const { id } = useParams();
@@ -78,8 +83,7 @@ export default function Project() {
               </TabPanel>
               <TabPanel>
                 {/* ESCALATION MATRIXES */}
-                {/* <Budget project={project} setFetch={setFetch} /> */}
-                <DisplayProjects />
+                <EscalationMatrix projectId={id} />
               </TabPanel>
               <TabPanel>
                 {/* AUDIT HISTORY */}
@@ -88,6 +92,22 @@ export default function Project() {
               <TabPanel>
                 {/* VERSION HISTORY */}
                 <VersionHistory project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* STAKEHOLDERS */}
+                <Stackholder project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* RISK PROFILING */}
+                <RiskProfiling project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* PHASES */}
+                <Phases project={project} setFetch={setFetch}/>
+              </TabPanel>
+              <TabPanel>
+                {/* SPRINT DETAIL */}
+                <SprintDetails project={project} setFetch={setFetch} />
               </TabPanel>
             </TabPanels>
           </TabsContext>

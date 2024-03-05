@@ -106,6 +106,7 @@ const ProjectModal = ({ closeModal }) => {
               <input
                 type="text"
                 placeholder="Project Name"
+                
                 className="border border-gray-300 px-3 py-2 mb-4 w-full rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}

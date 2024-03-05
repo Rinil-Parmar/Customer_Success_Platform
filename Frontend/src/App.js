@@ -8,7 +8,7 @@ import Home from "./pages/AuditorDashboard";
 import Modal from "./components/ProjectModal";
 import ProjectModal from "./components/ProjectModal";
 import { useState } from "react";
-import EscalationMatrix from "./pages/EscalationMatrix";
+// import EscalationMatrix from "./pages/EscalationMatrix";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
