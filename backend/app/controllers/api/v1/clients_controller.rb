@@ -14,15 +14,24 @@ class Api::V1::ClientsController < ApplicationController
   end
 
   # POST /clients
-  def create
-    @client = Client.new(client_params)
+  # def create
+  #   @client = Client.new(client_params)
 
-    if @client.save
-      render json: @client, status: :created, location: @client
-    else
-      render json: @client.errors, status: :unprocessable_entity
-    end
+  #   if @client.save
+  #     render json: @client, status: :created, location: @client
+  #   else
+  #     render json: @client.errors, status: :unprocessable_entity
+  #   end
+  # end
+  # POST /clients
+def create
+  @client = Client.new(client_params)
+  if @client.save
+    render json: @client, status: :created, location: api_v1_client_url(@client)
+  else
+    render json: @client.errors, status: :unprocessable_entity
   end
+end
 
   # PATCH/PUT /clients/1
   def update

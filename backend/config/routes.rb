@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :posts
       resources :projects
       resources :clients
+      resources :overviews
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

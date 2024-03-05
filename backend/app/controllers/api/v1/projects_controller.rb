@@ -14,15 +14,27 @@ class Api::V1::ProjectsController < ApplicationController
   end
 
   # POST /projects
+  # def create
+  #   @project = Project.new(project_params)
+
+  #   if @project.save
+  #     render json: @project, status: :created, location: @project
+  #   else
+  #     render json: @project.errors, status: :unprocessable_entity
+  #   end
+  # end
   def create
     @project = Project.new(project_params)
-
+  
     if @project.save
-      render json: @project, status: :created, location: @project
+      render json: @project, status: :created, location: api_v1_project_url(@project)
     else
       render json: @project.errors, status: :unprocessable_entity
     end
   end
+
+  
+
 
   # PATCH/PUT /projects/1
   def update
@@ -49,3 +61,6 @@ class Api::V1::ProjectsController < ApplicationController
       params.require(:project).permit(:project_name, :project_desc, :project_scope, :project_stack, :project_status, :project_manager)
     end
 end
+
+
+

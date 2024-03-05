@@ -61,8 +61,8 @@ const ProjectModal = ({ closeModal }) => {
       );
 
       console.log("Client created:", clientResponse.data);
-    } catch (error) {
       closeModal(); // Close modal after successful creation
+    } catch (error) {
       console.error("Error:", error);
     }
   };

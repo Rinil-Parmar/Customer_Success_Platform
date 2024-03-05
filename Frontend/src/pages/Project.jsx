@@ -8,10 +8,16 @@ import {
   TabsContext,
   TabPanel,
 } from "monday-ui-react-core";
+import DisplayProjects from "../components/DisplayProjects";
+import ProjectDetails from "../components/ProjectDetails";
+import Budget from "../components/Budget";
+import AddProjectOverview from "../components/AddProjectOverview";
+import EditScopeStack from "../components/EditScopeStack";
 
 export default function Project() {
   const { id } = useParams();
   const [project, setProject] = useState(null);
+  const [fetch, setFetch] = useState(false);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -61,8 +67,21 @@ export default function Project() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                {/* Display ptoject component  */}
-                {/* <DisplayProjects fetch={fetch} setFetch={setFetch} /> */}
+                {/* PROJECT OVERVIEW COMPONENT  */}
+                <AddProjectOverview project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* SCOPE AND STACK  */}
+                <EditScopeStack project={project} setFetch={setFetch} />
+                
+              </TabPanel>
+              <TabPanel>
+                {/* ESCALATION MATRIXES */}
+                {/* <Budget project={project} setFetch={setFetch} /> */}
+                <DisplayProjects />
+              </TabPanel>
+              <TabPanel>
+                {/* AUDIT HISTORY */}
               </TabPanel>
             </TabPanels>
           </TabsContext>
