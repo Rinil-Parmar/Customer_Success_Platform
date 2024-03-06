@@ -8,9 +8,7 @@ import {
   TabsContext,
   TabPanel,
 } from "monday-ui-react-core";
-import DisplayProjects from "../components/DisplayProjects";
-import ProjectDetails from "../components/ProjectDetails";
-// import Budget from "../components/Budget";
+
 import AddProjectOverview from "../components/AddProjectOverview";
 import EditScopeStack from "../components/EditScopeStack";
 import AuditHistory from "../components/AuditHistory/AuditHistory";
@@ -45,6 +43,31 @@ export default function Project() {
     // };
   }, [id]);
 
+  const handleClick = () => {
+    axios({
+      url: "http://localhost:3000/pdf/generate_pdf",
+      method: "GET",
+      responseType: "blob", // Specify the response type as blob
+    })
+      .then((response) => {
+        // Create a new blob object with the response data
+        const blob = new Blob([response.data], { type: "application/pdf" });
+
+        // Create a URL for the blob object
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a link element
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "project.pdf"; // Specify the file name
+        a.click(); // Trigger the click event to start the download
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("There was an error:", error);
+      });
+  };
+
   return (
     <div>
       {project ? (
@@ -52,7 +75,17 @@ export default function Project() {
           <h2 className="text-2xl font-bold text-gray-900">
             {project.project_name}
           </h2>
-          <br />
+          {/* <br /> */}
+          <div className="flex justify-end mr-4">
+            
+            <button
+              onClick={handleClick}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Generate PDF
+            </button>
+          </div>
+
           {/* <hr /> */}
 
           {/* <p className="text-xl font-bold text-gray-900">
