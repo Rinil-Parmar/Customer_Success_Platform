@@ -103,7 +103,7 @@ export default function Project() {
               </TabPanel>
               <TabPanel>
                 {/* PHASES */}
-                <Phases project={project} setFetch={setFetch}/>
+                <Phases project={project} setFetch={setFetch} />
               </TabPanel>
               <TabPanel>
                 {/* SPRINT DETAIL */}

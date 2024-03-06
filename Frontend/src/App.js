@@ -8,18 +8,15 @@ import Home from "./pages/AuditorDashboard";
 import Modal from "./components/ProjectModal";
 import ProjectModal from "./components/ProjectModal";
 import { useState } from "react";
+import Pdf from "./components/PdfComponent/pdf.jsx";
 // import EscalationMatrix from "./pages/EscalationMatrix";
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleCreateProjectClick = () => {
-    setIsModalOpen(true);
+  const generatePdf = () => {
+    // Send request to Rails backend to generate PDF
+    fetch("/generate_pdf", { method: "POST" });
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   return (
     <div className="App">
       {/* <Routes>
@@ -31,6 +28,7 @@ function App() {
       {/* <ProjectModal /> */}
       {/* <ProjectModal isOpen={isModalOpen} onClose={closeModal} /> */}
       {/* <EscalationMatrix /> */}
+      {/* <Pdf/> */}
     </div>
   );
 }

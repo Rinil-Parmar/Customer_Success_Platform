@@ -17,6 +17,8 @@ function DisplayProjects({ fetch, setFetch }) {
         );
         setProjects(response.data);
       } catch (error) {
+        // use toast to show error message
+        
         console.error("Error fetching projects:", error);
       }
     };
