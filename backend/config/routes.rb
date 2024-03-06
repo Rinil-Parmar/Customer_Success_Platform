@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'pdf/generate_pdf'
+  post '/generate_pdf', to: 'pdf#generate_pdf'
+
   # resources :posts
   namespace :api do
     namespace :v1 do
