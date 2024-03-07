@@ -8,6 +8,20 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.enable_reloading = true
 
+  # config/environments/development.rb
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'gmail.com',
+    user_name:            'parmarrinila2002@gmail.com', # Your Gmail email address
+    password:             'exto eygy kdrw gazj', # Your Gmail password or an App Password if using 2-step verification
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
+  
+
+
   # Do not eager load code on boot.
   config.eager_load = false
 

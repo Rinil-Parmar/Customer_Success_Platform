@@ -10,6 +10,8 @@ import ProjectModal from "./components/ProjectModal";
 import { useState } from "react";
 import Pdf from "./components/PdfComponent/pdf.jsx";
 // import EscalationMatrix from "./pages/EscalationMatrix";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   const generatePdf = () => {

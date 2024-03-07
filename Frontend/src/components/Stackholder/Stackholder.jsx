@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+// import toast
+import "react-toastify/dist/ReactToastify.css";
 import EditStakeholder from "./EditStakeholder";
 import AddStakeholder from "./AddStakeholder";
 
@@ -54,9 +56,29 @@ function Stakeholder({ project, setFetch }) {
     }
   };
 
+  const handleSendEmail = async () => {
+    try {
+      await axios.post(
+        `http://localhost:3000/api/v1/projects/${project.id}/email_update/send_audit_history_email`
+      );
+      toast.success("Email sent successfully.");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      toast.error("An error occurred while sending the email.");
+    }
+  };
+
   return (
-    <div className="overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+    <div className="overflow-x-auto shadow-md sm:rounded-lg relative">
+      {/* Add Send Email button */}
+      <button
+        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 absolute top-4 right-4 z-50"
+        onClick={handleSendEmail}
+      >
+        Send Email
+      </button>
+
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 mt-12">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3">
@@ -66,7 +88,7 @@ function Stakeholder({ project, setFetch }) {
               Name
             </th>
             <th scope="col" className="px-6 py-3">
-              Contact
+              Contact(Email)
             </th>
             <th scope="col" className="px-6 py-3">
               Actions
@@ -101,6 +123,7 @@ function Stakeholder({ project, setFetch }) {
         </tbody>
       </table>
 
+      {/* Modals */}
       {/* Edit Modal */}
       {selectedStakeholder && (
         <EditStakeholder

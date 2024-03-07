@@ -14,7 +14,8 @@ class Api::V1::AuditHistoriesController < ApplicationController
 
   #   render json: @audit_histories
   # end
-
+  
+  
 # GET /projects/:project_id/audit_histories
   def index
     @audit_histories = @project.audit_histories
@@ -57,15 +58,13 @@ class Api::V1::AuditHistoriesController < ApplicationController
   #   end
   # end
   # PUT /projects/:project_id/audit_histories/:id
-def update
-  @audit_history = @project.audit_histories.find(params[:id])
-
-  if @audit_history.update(audit_history_params)
-    render json: @audit_history, status: :ok
-  else
-    render json: @audit_history.errors, status: :unprocessable_entity
+  def update
+    if @audit_history.update(audit_history_params)
+      render json: @audit_history
+    else
+      render json: @audit_history.errors, status: :unprocessable_entity
+    end
   end
-end
 
 
 # api/v1/projects/${project.id}/audit_histories/${id}
@@ -82,7 +81,7 @@ end
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+   
     def set_audit_history
       @audit_history = AuditHistory.find(params[:id])
     end
