@@ -14,7 +14,7 @@ function SprintDetails({ project, setFetch }) {
     const fetchSprintDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/sprint_details`
+          `/api/v1/projects/${project.id}/sprint_details`
         );
         setSprintDetails(response.data);
       } catch (error) {
@@ -45,7 +45,7 @@ function SprintDetails({ project, setFetch }) {
     if (confirmed) {
       try {
         await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/sprint_details/${id}`
+          `/api/v1/projects/${project.id}/sprint_details/${id}`
         );
         toast.success("Sprint detail deleted successfully.");
         setFetch((prevFetch) => !prevFetch);

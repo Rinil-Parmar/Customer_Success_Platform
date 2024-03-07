@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import CreateProject from "../../components/CreateProject";
 import {
   Tab,
   TabList,
@@ -9,11 +8,13 @@ import {
 } from "monday-ui-react-core";
 import DisplayProjects from "../components/DisplayProjects";
 
+// AuditorDashboard component
 function AuditorDashboard() {
   const [fetch, setFetch] = useState(false);
+
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold">AuditorDashboard</h2>
+      <h2 className="text-2xl font-bold">Auditor Dashboard</h2>
 
       <TabsContext>
         <TabList>
@@ -23,10 +24,6 @@ function AuditorDashboard() {
           <Tab>Hold</Tab>
         </TabList>
         <TabPanels>
-          {/* <TabPanel>
-            Create ptoject component 
-            <CreateProject fetch={fetch} setFetch={setFetch} />
-          </TabPanel> */}
           <TabPanel>
             {/* Display ptoject component  */}
             <DisplayProjects fetch={fetch} setFetch={setFetch} />

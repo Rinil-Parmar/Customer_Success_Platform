@@ -25,7 +25,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
 
     try {
       await axios.post(
-        `http://localhost:3000/api/v1/projects/${project.id}/audit_histories`,
+        `/api/v1/projects/${project.id}/audit_histories`,
         newAudit
       );
       toast.success("Audit history added successfully.");
@@ -39,7 +39,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-md">
+      <div className="bg-gray-200 p-8 rounded-md shadow-lg">
         <h2 className="text-lg font-semibold mb-4">Add Audit History</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -47,6 +47,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
             <input
               type="date"
               value={date}
+              required
               onChange={(e) => setDate(e.target.value)}
               className="border rounded-md px-2 py-1 ml-2"
             />
@@ -56,6 +57,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
             <input
               type="text"
               value={reviewedBy}
+              required
               onChange={(e) => setReviewedBy(e.target.value)}
               className="border rounded-md px-2 py-1 ml-2"
             />
@@ -65,6 +67,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
             <input
               type="text"
               value={status}
+              required
               onChange={(e) => setStatus(e.target.value)}
               className="border rounded-md px-2 py-1 ml-2"
             />
@@ -74,6 +77,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
             <input
               type="text"
               value={reviewedSection}
+              required
               onChange={(e) => setReviewedSection(e.target.value)}
               className="border rounded-md px-2 py-1 ml-2"
             />
@@ -83,6 +87,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
             <input
               type="text"
               value={queries}
+              required
               onChange={(e) => setQueries(e.target.value)}
               className="border rounded-md px-2 py-1 ml-2"
             />
@@ -92,6 +97,7 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
             <input
               type="text"
               value={actionItem}
+              required
               onChange={(e) => setActionItem(e.target.value)}
               className="border rounded-md px-2 py-1 ml-2"
             />

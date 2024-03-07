@@ -8,16 +8,16 @@ import {
   FaCog,
   FaPlus,
 } from "react-icons/fa";
-import ProjectModal from "./ProjectModal"; // assuming you have a ProjectModal component
+import ProjectModal from "./ProjectModal";
 
 const Sidebar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [step, setStep] = useState(1); // to track which step of the modal is currently active
-  const [activeLink, setActiveLink] = useState("Projects");
+  const [step, setStep] = useState(1);
+  const [activeLink, setActiveLink] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
-    setStep(1); // reset step to 1 when opening the modal
+    setStep(1); 
   };
 
   const closeModal = () => {

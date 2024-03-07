@@ -16,11 +16,12 @@ function Stakeholder({ project, setFetch }) {
     const fetchStakeholders = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/stakeholders`
+          `/api/v1/projects/${project.id}/stakeholders`
         );
         setStakeholders(response.data);
       } catch (error) {
         console.error("Error fetching stakeholders:", error);
+        toast.error("An error occurred while fetching stakeholders.");
       }
     };
 
@@ -44,9 +45,7 @@ function Stakeholder({ project, setFetch }) {
     const confirmed = window.confirm("Do you want to delete this stakeholder?");
     if (confirmed) {
       try {
-        await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/stakeholders/${id}`
-        );
+        await axios.delete(`/api/v1/projects/${project.id}/stakeholders/${id}`);
         toast.success("Stakeholder deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
       } catch (error) {
@@ -59,7 +58,7 @@ function Stakeholder({ project, setFetch }) {
   const handleSendEmail = async () => {
     try {
       await axios.post(
-        `http://localhost:3000/api/v1/projects/${project.id}/email_update/send_audit_history_email`
+        `/api/v1/projects/${project.id}/email_update/send_audit_history_email`
       );
       toast.success("Email sent successfully.");
     } catch (error) {
@@ -123,8 +122,7 @@ function Stakeholder({ project, setFetch }) {
         </tbody>
       </table>
 
-      {/* Modals */}
-      {/* Edit Modal */}
+      
       {selectedStakeholder && (
         <EditStakeholder
           stakeholder={selectedStakeholder}

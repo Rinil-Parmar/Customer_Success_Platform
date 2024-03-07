@@ -14,7 +14,7 @@ function RiskProfiling({ project, setFetch }) {
     const fetchRiskProfiles = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/risk_profilings`
+          `/api/v1/projects/${project.id}/risk_profilings`
         );
         setRiskProfiles(response.data);
       } catch (error) {
@@ -45,7 +45,7 @@ function RiskProfiling({ project, setFetch }) {
     if (confirmed) {
       try {
         await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/risk_profilings/${id}`
+          `/api/v1/projects/${project.id}/risk_profilings/${id}`
         );
         toast.success("Risk profile deleted successfully.");
         setFetch((prevFetch) => !prevFetch);

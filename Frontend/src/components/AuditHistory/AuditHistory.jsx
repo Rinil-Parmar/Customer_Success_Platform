@@ -15,10 +15,11 @@ function AuditHistory({ project, setFetch }) {
     const fetchAuditHistories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/audit_histories`
+          `/api/v1/projects/${project.id}/audit_histories`
         );
         setAuditHistories(response.data);
       } catch (error) {
+        toast.error("Error fetching audit histories");
         console.error("Error fetching audit histories:", error);
       }
     };
@@ -46,7 +47,7 @@ function AuditHistory({ project, setFetch }) {
     if (confirmed) {
       try {
         await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/audit_histories/${id}`
+          `/api/v1/projects/${project.id}/audit_histories/${id}`
         );
         toast.success("Audit history deleted successfully.");
         setFetch((prevFetch) => !prevFetch);

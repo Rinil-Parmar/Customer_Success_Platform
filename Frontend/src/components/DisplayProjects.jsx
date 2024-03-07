@@ -12,38 +12,37 @@ function DisplayProjects({ fetch, setFetch }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/projects"
-        );
+        const response = await axios.get("/api/v1/projects");
         setProjects(response.data);
       } catch (error) {
         // use toast to show error message
-        
+        toast.error("Error fetching projects");
         console.error("Error fetching projects:", error);
       }
     };
 
     fetchData(); // Fetch data initially
 
-    // Refresh data every minute
+    // Refresh data every six seconds
     const intervalId = setInterval(fetchData, 6000);
 
     return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
+      clearInterval(intervalId); 
     };
   }, [fetch]);
 
   async function handleDelete(id) {
     console.log("Delete id:", id);
     const confirmed = window.confirm("Do you want to delete?");
+
     if (confirmed) {
       try {
-        const response = await axios.delete(
-          `http://localhost:3000/api/v1/projects/${id}`
-        );
-        toast.success(response.data.message);
+        const response = await axios.delete(`/api/v1/projects/${id}`);
+        // toast.success(response.data.message);
+        toast.success("Project deleted successfully");
         setFetch((prev) => !prev);
       } catch (error) {
+        toast.error("Error deleting project");
         console.log(error);
       }
     }
@@ -86,7 +85,7 @@ function DisplayProjects({ fetch, setFetch }) {
             projects.map((project) => (
               <tr
                 className="bg-white border-b hover:bg-gray-50"
-                key={project.id} // Add key prop here
+                key={project.id} 
               >
                 <th
                   scope="row"
@@ -105,6 +104,7 @@ function DisplayProjects({ fetch, setFetch }) {
                   >
                     Edit
                   </button>
+                  {/* DELETE BUTTON */}
                   <button
                     className="text-red-600"
                     onClick={() => handleDelete(project.id)}

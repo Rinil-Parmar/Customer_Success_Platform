@@ -24,7 +24,7 @@ function EditSprintDetail({ sprintDetail, setFetch, closeModal }) {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/projects/${id}/sprint_details/${sprintDetail.id}`,
+        `/api/v1/projects/${id}/sprint_details/${sprintDetail.id}`,
         updatedSprintDetail
       );
       toast.success("Sprint detail updated successfully.");
@@ -38,12 +38,12 @@ function EditSprintDetail({ sprintDetail, setFetch, closeModal }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-md">
+      <div className="bg-gray-200 p-8 rounded-md shadow-lg">
         <button
           onClick={closeModal}
           className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700"
         >
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
             fill="none"
@@ -56,7 +56,7 @@ function EditSprintDetail({ sprintDetail, setFetch, closeModal }) {
               strokeWidth={2}
               d="M6 18L18 6M6 6l12 12"
             />
-          </svg>
+          </svg> */}
         </button>
         <h2 className="text-lg font-semibold mb-4">Edit Sprint Detail</h2>
         <form onSubmit={handleSubmit}>

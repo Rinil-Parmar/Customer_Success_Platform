@@ -1,11 +1,12 @@
 import React from "react";
 import logo from "../assets/CS.png";
-// import Dp from "../assets/dp.png";
 import { Link } from "react-router-dom";
 import { Avatar } from "monday-ui-react-core";
+
 const Navbar = () => {
   return (
     <nav className="bg-white shadow-lg p-4 flex justify-between items-center">
+
       {/* Logo and Site Name */}
       <div className="flex items-center">
         <Link to="/" className="flex items-center">
@@ -16,6 +17,7 @@ const Navbar = () => {
           </span>
         </Link>
       </div>
+
       {/* Search Bar */}
       <div className="flex items-center bg-gray-200 rounded-full px-4 py-2">
         <input
@@ -29,6 +31,7 @@ const Navbar = () => {
           viewBox="0 0 20 20"
           fill="currentColor"
         ></svg>
+
         {/* Search Button */}
         <button className="flex items-center bg-gray-300 rounded-full px-2 py-2 hover:bg-gray-400">
           <svg
@@ -46,6 +49,7 @@ const Navbar = () => {
           </svg>
         </button>
       </div>
+
       {/* User Profile */}
       <div className="flex items-center">
         {/* <img src={Dp} alt="User" className="w-10 h-10 rounded-full" /> */}
@@ -62,6 +66,7 @@ const Navbar = () => {
           <span className="text-gray-600 text-sm">Admin</span>
         </div>
       </div>
+
     </nav>
   );
 };

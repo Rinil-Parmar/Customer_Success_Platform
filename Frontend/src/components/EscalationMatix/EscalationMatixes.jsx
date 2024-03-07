@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const EscalationMatrix = ({ projectId }) => {
   const [operationalEscalations, setOperationalEscalations] = useState([]);
@@ -10,28 +11,28 @@ const EscalationMatrix = ({ projectId }) => {
     const fetchEscalations = async () => {
       try {
         const operationalResponse = await axios.get(
-          `http://localhost:3000/api/v1/projects/${projectId}/operational_escalations`
+          `/api/v1/projects/${projectId}/operational_escalations`
         );
         const financialResponse = await axios.get(
-          `http://localhost:3000/api/v1/projects/${projectId}/financial_escalations`
+          `/api/v1/projects/${projectId}/financial_escalations`
         );
         const technicalResponse = await axios.get(
-          `http://localhost:3000/api/v1/projects/${projectId}/technical_escalations`
+          `/api/v1/projects/${projectId}/technical_escalations`
         );
 
         setOperationalEscalations(operationalResponse.data);
         setFinancialEscalations(financialResponse.data);
         setTechnicalEscalations(technicalResponse.data);
       } catch (error) {
+        toast.error("Error fetching escalation data");
         console.error("Error fetching escalation data:", error);
       }
     };
 
     fetchEscalations();
 
-    const intervalId = setInterval(fetchEscalations, 60000); // Refresh every minute
-
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
+    // const intervalId = setInterval(fetchEscalations, 120000); // Refresh every minute
+    // return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, [projectId]);
 
   return (

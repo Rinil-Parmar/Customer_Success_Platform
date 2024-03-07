@@ -18,6 +18,7 @@ import RiskProfiling from "../components/RiskProfiling/RiskProfiling";
 import SprintDetails from "../components/SprintDetails/SprintDetails";
 import Phases from "../components/Phases/Phases";
 import EscalationMatrix from "../components/EscalationMatix/EscalationMatixes";
+import { toast } from "react-toastify";
 
 export default function Project() {
   const { id } = useParams();
@@ -27,11 +28,10 @@ export default function Project() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${id}`
-        );
+        const response = await axios.get(`/api/v1/projects/${id}`);
         setProject(response.data);
       } catch (error) {
+
         console.error("Error fetching project:", error);
       }
     };
@@ -45,9 +45,9 @@ export default function Project() {
 
   const handleClick = () => {
     axios({
-      url: "http://localhost:3000/pdf/generate_pdf",
+      url: "/pdf/generate_pdf",
       method: "GET",
-      responseType: "blob", // Specify the response type as blob
+      responseType: "blob",
     })
       .then((response) => {
         // Create a new blob object with the response data
@@ -61,9 +61,11 @@ export default function Project() {
         a.href = url;
         a.download = "project.pdf"; // Specify the file name
         a.click(); // Trigger the click event to start the download
+        toast.success("PDF generated successfully");
       })
       .catch((error) => {
         // Handle error
+        toast.error("Error generating PDF");
         console.error("There was an error:", error);
       });
   };
@@ -77,7 +79,6 @@ export default function Project() {
           </h2>
           {/* <br /> */}
           <div className="flex justify-end mr-4">
-            
             <button
               onClick={handleClick}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -87,11 +88,6 @@ export default function Project() {
           </div>
 
           {/* <hr /> */}
-
-          {/* <p className="text-xl font-bold text-gray-900">
-            Description: {project.project_desc}
-          </p> */}
-          {/* Add other project details */}
 
           <TabsContext>
             <TabList>
@@ -106,42 +102,52 @@ export default function Project() {
               <Tab>Sprint detail</Tab>
             </TabList>
             <TabPanels>
+
               <TabPanel>
                 {/* PROJECT OVERVIEW COMPONENT  */}
                 <AddProjectOverview project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* SCOPE AND STACK  */}
                 <EditScopeStack project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* ESCALATION MATRIXES */}
                 <EscalationMatrix projectId={id} />
               </TabPanel>
+
               <TabPanel>
                 {/* AUDIT HISTORY */}
                 <AuditHistory project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* VERSION HISTORY */}
                 <VersionHistory project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* STAKEHOLDERS */}
                 <Stackholder project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* RISK PROFILING */}
                 <RiskProfiling project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* PHASES */}
                 <Phases project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* SPRINT DETAIL */}
                 <SprintDetails project={project} setFetch={setFetch} />
               </TabPanel>
+              
             </TabPanels>
           </TabsContext>
         </div>

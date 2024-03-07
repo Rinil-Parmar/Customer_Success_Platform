@@ -6,11 +6,14 @@ ruby "3.2.3"
 gem 'rack-cors'
 
 gem 'jspdf-rails'
+
+# for the pdf generation
+
 gem 'prawn'
 gem 'prawn-table'
 
 gem 'wicked_pdf'
-
+gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"

@@ -2,31 +2,17 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    "/friends2",
+    "/api",
     createProxyMiddleware({
-      target: "http://localhost:3000",
+      target: "http://localhost:4000",
       changeOrigin: true,
     })
   );
-  //   app.use(
-  //     "/auths",
-  //     createProxyMiddleware({
-  //       target: "http://host.docker.internal:8800/api",
-  //       changeOrigin: true,
-  //     })
-  //   );
-  //   app.use(
-  //     "/upload",
-  //     createProxyMiddleware({
-  //       target: "http://host.docker.internal:8800/api",
-  //       changeOrigin: true,
-  //     })
-  //   );
-  //   app.use(
-  //     "/file",
-  //     createProxyMiddleware({
-  //       target: "http://host.docker.internal:8800/api",
-  //       changeOrigin: true,
-  //     })
-  //   );
+  app.use(
+    "/pdf",
+    createProxyMiddleware({
+      target: "http://localhost:4000",
+      changeOrigin: true,
+    })
+  );
 };

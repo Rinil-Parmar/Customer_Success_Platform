@@ -25,7 +25,7 @@ function AddVersionHistory({ project, setFetch, closeModal }) {
 
     try {
       await axios.post(
-        `http://localhost:3000/api/v1/projects/${project.id}/version_histories`,
+        `/api/v1/projects/${project.id}/version_histories`,
         newVersion
       );
       toast.success("Version history added successfully.");
@@ -39,7 +39,7 @@ function AddVersionHistory({ project, setFetch, closeModal }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-md">
+      <div className="bg-gray-200 p-8 rounded-md shadow-lg">
         <h2 className="text-lg font-semibold mb-4">Add Version History</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

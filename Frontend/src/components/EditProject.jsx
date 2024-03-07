@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const EditProject = ({ project, setFetch, closeModal }) => {
   const [projectName, setProjectName] = useState(project.project_name);
@@ -13,7 +14,7 @@ const EditProject = ({ project, setFetch, closeModal }) => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      await axios.put(`http://localhost:3000/api/v1/projects/${project.id}`, {
+      await axios.put(`/api/v1/projects/${project.id}`, {
         project_name: projectName,
         project_desc: projectDesc,
         project_scope: projectScope,
@@ -21,12 +22,14 @@ const EditProject = ({ project, setFetch, closeModal }) => {
         project_status: projectStatus,
         project_manager: projectManager,
       });
+      toast.success("Project updated successfully");
       setLoading(false);
       setFetch(true); // Trigger fetch to update project list
       closeModal(); // Close the modal after successful update
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again later.");
+      toast.error("An error occurred. Please try again later.");
+      // alert("An error occurred. Please try again later.");
       setLoading(false);
     }
   };

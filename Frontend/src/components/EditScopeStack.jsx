@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const EditScopeStack = ({ project, setFetch }) => {
   const [projectStack, setProjectStack] = useState(project.project_stack);
   const [projectScope, setProjectScope] = useState(project.project_scope);
   const [loading, setLoading] = useState(false);
-  const [saved, setSaved] = useState(false);
+  // const [saved, setSaved] = useState(false);
 
   const handleSave = async () => {
     try {
       setLoading(true);
-      await axios.put(`http://localhost:3000/api/v1/projects/${project.id}`, {
+      await axios.put(`/api/v1/projects/${project.id}`, {
         project_stack: projectStack,
         project_scope: projectScope,
       });
       setLoading(false);
       setFetch((prevFetch) => !prevFetch); // Trigger fetch to update project list
-      setSaved(true);
-      setTimeout(() => setSaved(false), 5000); // Hide saved message after 2 seconds
+      toast.success("Scope and Stack updated successfully");
+      // setSaved(true);
+      // setTimeout(() => setSaved(false), 5000); // Hide saved message after 2 seconds
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again later.");
+      toast.error("An error occurred. Please try again later.");
+      // alert("An error occurred. Please try again later.");
       setLoading(false);
     }
   };
@@ -28,6 +31,7 @@ const EditScopeStack = ({ project, setFetch }) => {
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-lg font-semibold mb-4">Edit Scope and Stack</h2>
+
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Project Stack
@@ -42,7 +46,9 @@ const EditScopeStack = ({ project, setFetch }) => {
           <option value="mobile">Mobile App</option>
           <option value="database">Database</option>
         </select>
+
       </div>
+
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Project Scope
@@ -54,6 +60,7 @@ const EditScopeStack = ({ project, setFetch }) => {
           className="border border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500"
         />
       </div>
+      
       <button
         onClick={handleSave}
         disabled={loading}
@@ -61,9 +68,6 @@ const EditScopeStack = ({ project, setFetch }) => {
       >
         {loading ? "Saving..." : "Save"}
       </button>
-      {saved && (
-        <div className="mt-4 text-green-600">Project details saved!</div>
-      )}
     </div>
   );
 };

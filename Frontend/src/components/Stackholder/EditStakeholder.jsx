@@ -20,7 +20,7 @@ function EditStakeholder({ stakeholder, setFetch, closeModal }) {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/projects/${id}/stakeholders/${stakeholder.id}`,
+        `/api/v1/projects/${id}/stakeholders/${stakeholder.id}`,
         updatedStakeholder
       );
       toast.success("Stakeholder updated successfully.");
@@ -34,7 +34,7 @@ function EditStakeholder({ stakeholder, setFetch, closeModal }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-md">
+      <div className="bg-gray-200 p-8 rounded-md shadow-lg">
         <button
           onClick={closeModal}
           className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700"
@@ -75,7 +75,7 @@ function EditStakeholder({ stakeholder, setFetch, closeModal }) {
             />
           </div>
           <div className="mb-4">
-            <label>Contact:</label>
+            <label>Contact(Email):</label>
             <input
               type="text"
               value={contact}

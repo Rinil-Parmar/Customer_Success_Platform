@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddProjectOverview = ({ project, setFetch }) => {
   const [overview, setOverview] = useState("");
@@ -7,7 +8,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
   const [goals, setGoals] = useState("");
   const [objectives, setObjectives] = useState("");
   const [budget, setBudget] = useState("");
-  const [submitted, setSubmitted] = useState(false); // State for confirmation message
+  // const [submitted, setSubmitted] = useState(false); // State for confirmation message
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,10 +30,11 @@ const AddProjectOverview = ({ project, setFetch }) => {
 
     try {
       console.log("Submitting data:", data);
-      await axios.post("http://localhost:3000/api/v1/overviews", data);
+      await axios.post("/api/v1/overviews", data);
       console.log("Data submitted successfully");
+      toast.success("Project Overview added successfully");
       setFetch((prevFetch) => !prevFetch);
-      setSubmitted(true); // Show confirmation message
+      // setSubmitted(true); // Show confirmation message
       // Reset form fields
       setOverview("");
       setPurpose("");
@@ -40,6 +42,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
       setObjectives("");
       setBudget("");
     } catch (error) {
+      toast.error("Error submitting data");
       console.error("Error submitting data:", error);
     }
   };
@@ -47,17 +50,6 @@ const AddProjectOverview = ({ project, setFetch }) => {
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <form onSubmit={handleSubmit} className="space-y-4">
-        {submitted && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-            Project Overview added successfully.
-            <span
-              className="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer"
-              onClick={() => setSubmitted(false)}
-            >
-              &times;
-            </span>
-          </div>
-        )}
         <div>
           <label htmlFor="overview" className="block mb-1 font-medium">
             Project Overview

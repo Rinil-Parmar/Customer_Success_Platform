@@ -14,10 +14,11 @@ function Phases({ project, setFetch }) {
     const fetchPhases = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/phases`
+          `/api/v1/projects/${project.id}/phases`
         );
         setPhases(response.data);
       } catch (error) {
+        toast.error("An error occurred while fetching phases.");
         console.error("Error fetching phases:", error);
       }
     };
@@ -42,9 +43,7 @@ function Phases({ project, setFetch }) {
     const confirmed = window.confirm("Do you want to delete this phase?");
     if (confirmed) {
       try {
-        await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/phases/${id}`
-        );
+        await axios.delete(`/api/v1/projects/${project.id}/phases/${id}`);
         toast.success("Phase deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
       } catch (error) {

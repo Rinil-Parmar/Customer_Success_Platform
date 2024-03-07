@@ -30,7 +30,7 @@ function EditVersionHistory({ versionHistory, setFetch, closeModal }) {
 
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/projects/${id}/version_histories/${versionHistory.id}`,
+        `/api/v1/projects/${id}/version_histories/${versionHistory.id}`,
         updatedVersion
       );
       toast.success("Version history updated successfully.");
@@ -44,7 +44,7 @@ function EditVersionHistory({ versionHistory, setFetch, closeModal }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-8 rounded-md">
+      <div className="bg-gray-200 p-8 rounded-md shadow-lg">
         <button
           onClick={closeModal}
           className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700"

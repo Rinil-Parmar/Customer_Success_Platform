@@ -14,7 +14,7 @@ function VersionHistory({ project, setFetch }) {
     const fetchVersionHistories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/projects/${project.id}/version_histories`
+          `/api/v1/projects/${project.id}/version_histories`
         );
         setVersionHistories(response.data);
       } catch (error) {
@@ -45,7 +45,7 @@ function VersionHistory({ project, setFetch }) {
     if (confirmed) {
       try {
         await axios.delete(
-          `http://localhost:3000/api/v1/projects/${project.id}/version_histories/${id}`
+          `/api/v1/projects/${project.id}/version_histories/${id}`
         );
         toast.success("Version history deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
