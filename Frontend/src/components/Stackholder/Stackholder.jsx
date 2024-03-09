@@ -122,7 +122,6 @@ function Stakeholder({ project, setFetch }) {
         </tbody>
       </table>
 
-      
       {selectedStakeholder && (
         <EditStakeholder
           stakeholder={selectedStakeholder}

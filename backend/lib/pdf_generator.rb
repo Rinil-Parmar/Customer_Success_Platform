@@ -5,7 +5,7 @@ require 'prawn/table'
 class PdfGenerator
   def self.generate_pdf
     Prawn::Document.generate('project.pdf', page_size: 'A4', margin: [20, 50]) do |pdf|
-      pdf.text 'Escalations', align: :center, size: 16, style: :bold
+      pdf.text 'Project Details', align: :center, size: 16, style: :bold
       pdf.move_down 20
 
       # Fetch data from the database for all types of escalations
@@ -64,7 +64,7 @@ class PdfGenerator
       table_options = {
         header: true,
         cell_style: { padding: 5, border_width: 1, size: 10 },
-        column_widths: { 0 => 150, 1 => 150 }, # Adjust column widths as needed
+        # column_widths: { 0 => 50, 1 => 50 }, # Adjust column widths as needed
         row_colors: ['FFFFFF', 'DDDDDD']
       }
 

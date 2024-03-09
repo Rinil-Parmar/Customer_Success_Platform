@@ -30,7 +30,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
 
     try {
       console.log("Submitting data:", data);
-      await axios.post("/api/v1/overviews", data);
+      await axios.post(`/api/v1/projects/${project.id}/overviews`, data);
       console.log("Data submitted successfully");
       toast.success("Project Overview added successfully");
       setFetch((prevFetch) => !prevFetch);

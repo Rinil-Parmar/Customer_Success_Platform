@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :audit_histories
       resources :version_histories
       resources :projects do
+        resources :overviews, only: [:index, :create, :update, :destroy]
         resources :audit_histories, only: [:index, :create, :update, :destroy]
         resources :version_histories, only: [:index, :create, :update, :destroy]
         resources :stakeholders, only: [:index, :create, :update, :destroy]
