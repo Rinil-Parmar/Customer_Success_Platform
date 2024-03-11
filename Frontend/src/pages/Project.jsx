@@ -20,11 +20,31 @@ import SprintDetails from "../components/SprintDetails/SprintDetails";
 import Phases from "../components/Phases/Phases";
 import EscalationMatrix from "../components/EscalationMatix/EscalationMatixes";
 import { toast } from "react-toastify";
+import ApprovedTeam from "../components/ApprovedTeam/ApprovedTeam";
+import Resources from "../components/Resource/Resources";
+import ClientFeedback from "../components/ClientFeedback/ClientFeedback";
 
 export default function Project() {
   const { id } = useParams();
   const [project, setProject] = useState(null);
   const [fetch, setFetch] = useState(false);
+
+  const tabs = [
+    "Overview",
+    "Scope & stack",
+    "Escalation Matixes",
+    "Audit History",
+    "Version History",
+    "Stakeholders",
+    "Risk Profiling",
+    "Phases",
+    "Sprint detail",
+    "Approved Team",
+    "Resources",
+    "Client Feedback",
+    "Project Update",
+    "MoMs of client meetings",
+  ];
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -71,7 +91,7 @@ export default function Project() {
   };
 
   return (
-    <div>
+    <div className="max-w-screen-lg mx-auto">
       {project ? (
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
@@ -90,7 +110,8 @@ export default function Project() {
           {/* <hr /> */}
 
           <TabsContext>
-            <TabList>
+            {/* <div className="overflow-x-auto flex w-500 whitespace-nowrap"> */}
+            <TabList className="overflow-x-auto flex whitespace-nowrap">
               <Tab>Overview</Tab>
               <Tab>Scope & stack</Tab>
               <Tab>Escalation Matixes</Tab>
@@ -100,7 +121,25 @@ export default function Project() {
               <Tab>Risk Profiling</Tab>
               <Tab>Phases</Tab>
               <Tab>Sprint detail</Tab>
+              <Tab>Approved Team</Tab>
+              <Tab>Resources</Tab>
+              <Tab>Client Feedback</Tab>
+              <Tab>Project Update</Tab>
+              <Tab>MoMs of client meetings</Tab>
             </TabList>
+            {/* </div> */}
+            {/* <TabList
+              className="overflow-x-auto whitespace-nowrap"
+              style={{
+                maxHeight: "calc(100vh - 1000px)",
+                overflowY: "auto",
+                paddingRight: "10px",
+              }}
+            >
+              {tabs.map((tab, index) => (
+                <Tab key={index}>{tab}</Tab>
+              ))}
+            </TabList> */}
             <TabPanels>
               <TabPanel>
                 {/* PROJECT OVERVIEW COMPONENT  */}
@@ -147,6 +186,18 @@ export default function Project() {
               <TabPanel>
                 {/* SPRINT DETAIL */}
                 <SprintDetails project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* APPROVED TEAM */}
+                <ApprovedTeam project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* RESOURCES */}
+                <Resources project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* CLIENT FEEDBACK */}
+                <ClientFeedback project={project} setFetch={setFetch} />
               </TabPanel>
             </TabPanels>
           </TabsContext>

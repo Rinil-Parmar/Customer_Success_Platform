@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_05_213944) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_11_130653) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "approved_teams", force: :cascade do |t|
+    t.bigint "project_id", null: false
+    t.integer "number_of_resources"
+    t.string "role"
+    t.integer "availability_percentage"
+    t.string "duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_approved_teams_on_project_id"
+  end
 
   create_table "audit_histories", force: :cascade do |t|
     t.date "date"
@@ -25,6 +36,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_213944) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_audit_histories_on_project_id"
+  end
+
+  create_table "client_feedbacks", force: :cascade do |t|
+    t.string "feedback_type"
+    t.date "date_received"
+    t.text "detailed_feedback"
+    t.text "action_taken"
+    t.date "closure_date"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_client_feedbacks_on_project_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -96,6 +119,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_213944) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "resources", force: :cascade do |t|
+    t.string "resource_name"
+    t.string "role"
+    t.date "start_date"
+    t.date "end_date"
+    t.text "comment"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_resources_on_project_id"
+  end
+
   create_table "risk_profilings", force: :cascade do |t|
     t.string "risk_type"
     t.text "description"
@@ -156,11 +191,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_213944) do
     t.index ["project_id"], name: "index_version_histories_on_project_id"
   end
 
+  add_foreign_key "approved_teams", "projects"
   add_foreign_key "audit_histories", "projects"
+  add_foreign_key "client_feedbacks", "projects"
   add_foreign_key "financial_escalations", "projects"
   add_foreign_key "operational_escalations", "projects"
   add_foreign_key "overviews", "projects"
   add_foreign_key "phases", "projects"
+  add_foreign_key "resources", "projects"
   add_foreign_key "risk_profilings", "projects"
   add_foreign_key "sprint_details", "projects"
   add_foreign_key "stakeholders", "projects"

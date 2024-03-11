@@ -8,7 +8,7 @@ const Navbar = () => {
   const { user, isAuthenticated } = useAuth0(); // Destructure user and isAuthenticated from useAuth0
 
   return (
-    <nav className="bg-white shadow-lg p-4 flex justify-between items-center">
+    <nav className="bg-white shadow-lg p-5 flex justify-between items-center">
       {/* Logo and Site Name */}
       <div className="flex items-center">
         <Link to="/dashboard" className="flex items-center">
@@ -65,15 +65,8 @@ const Navbar = () => {
           <div className="ml-3">
             <span className="text-gray-800 font-medium">{user.name}</span>
             <br />
-            {/* <span className="text-gray-600 text-sm">{user.email}</span> */}
-            {user[`${process.env.REACT_APP_AUTH0_NAMESPACE}/roles`] && (
-              <p>
-                Roles:{" "}
-                {user[`${process.env.REACT_APP_AUTH0_NAMESPACE}/roles`].join(
-                  ", "
-                )}
-              </p>
-            )}
+            <span className="text-gray-600 text-sm">{user.email}</span>
+            {/* <span className="text-gray-600 text-sm">{user.sub}</span> */}
           </div>
         </div>
       )}

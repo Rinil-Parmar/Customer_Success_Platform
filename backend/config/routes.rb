@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'pdf/generate_pdf'
   post '/generate_pdf', to: 'pdf#generate_pdf'
   # post '/projects/:project_id/email_update/send_audit_history_email', to: 'email_update#send_audit_history_email'
-
+  
   # resources :posts
   namespace :api do
     namespace :v1 do
@@ -23,6 +23,9 @@ Rails.application.routes.draw do
         resources :operational_escalations, only: [:index, :create, :update, :destroy]
         resources :financial_escalations, only: [:index, :create, :update, :destroy]
         resources :technical_escalations, only: [:index, :create, :update, :destroy]
+        resources :approved_teams, only: [:index, :create, :update, :destroy]
+        resources :resources, only: [:index, :create, :update, :destroy]
+        resources :client_feedbacks, only: [:index, :create, :update, :destroy]
         post '/email_update/send_audit_history_email', to: 'email_update#send_audit_history_email'
       end
     end

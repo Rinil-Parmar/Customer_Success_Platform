@@ -9,4 +9,7 @@ class Project < ApplicationRecord
     has_many :operational_escalations
     has_many :financial_escalations
     has_many :technical_escalations
+    has_many :approved_teams
+    has_many :resources
+    has_many :client_feedbacks
 end
