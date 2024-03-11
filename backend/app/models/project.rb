@@ -12,4 +12,6 @@ class Project < ApplicationRecord
     has_many :approved_teams
     has_many :resources
     has_many :client_feedbacks
+    has_many :project_updates
+    has_many :moms_of_client_meetings
 end

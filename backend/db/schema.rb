@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_11_130653) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_11_175100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_130653) do
     t.index ["project_id"], name: "index_financial_escalations_on_project_id"
   end
 
+  create_table "moms_of_client_meetings", force: :cascade do |t|
+    t.date "date"
+    t.integer "duration"
+    t.string "mom_link"
+    t.text "comments"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_moms_of_client_meetings_on_project_id"
+  end
+
   create_table "operational_escalations", force: :cascade do |t|
     t.string "escalation_level"
     t.string "name"
@@ -106,6 +117,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_130653) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "project_updates", force: :cascade do |t|
+    t.date "date"
+    t.text "general_updates"
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_updates_on_project_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -195,9 +215,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_130653) do
   add_foreign_key "audit_histories", "projects"
   add_foreign_key "client_feedbacks", "projects"
   add_foreign_key "financial_escalations", "projects"
+  add_foreign_key "moms_of_client_meetings", "projects"
   add_foreign_key "operational_escalations", "projects"
   add_foreign_key "overviews", "projects"
   add_foreign_key "phases", "projects"
+  add_foreign_key "project_updates", "projects"
   add_foreign_key "resources", "projects"
   add_foreign_key "risk_profilings", "projects"
   add_foreign_key "sprint_details", "projects"

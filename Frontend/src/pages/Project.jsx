@@ -23,6 +23,8 @@ import { toast } from "react-toastify";
 import ApprovedTeam from "../components/ApprovedTeam/ApprovedTeam";
 import Resources from "../components/Resource/Resources";
 import ClientFeedback from "../components/ClientFeedback/ClientFeedback";
+import ProjectUpdates from "../components/ProjectUpdate/ProjectUpdates";
+import MomsOfClientMeeting from "../components/MomsOfClientMeeting/MomsOfClientMeeting";
 
 export default function Project() {
   const { id } = useParams();
@@ -127,19 +129,7 @@ export default function Project() {
               <Tab>Project Update</Tab>
               <Tab>MoMs of client meetings</Tab>
             </TabList>
-            {/* </div> */}
-            {/* <TabList
-              className="overflow-x-auto whitespace-nowrap"
-              style={{
-                maxHeight: "calc(100vh - 1000px)",
-                overflowY: "auto",
-                paddingRight: "10px",
-              }}
-            >
-              {tabs.map((tab, index) => (
-                <Tab key={index}>{tab}</Tab>
-              ))}
-            </TabList> */}
+
             <TabPanels>
               <TabPanel>
                 {/* PROJECT OVERVIEW COMPONENT  */}
@@ -198,6 +188,14 @@ export default function Project() {
               <TabPanel>
                 {/* CLIENT FEEDBACK */}
                 <ClientFeedback project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* PROJECT UPDATE */}
+                <ProjectUpdates project={project} setFetch={setFetch} />
+              </TabPanel>
+              <TabPanel>
+                {/* MOMS OF CLIENT MEETINGS */}
+                <MomsOfClientMeeting project={project} setFetch={setFetch} />
               </TabPanel>
             </TabPanels>
           </TabsContext>

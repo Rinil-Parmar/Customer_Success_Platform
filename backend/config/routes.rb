@@ -26,6 +26,8 @@ Rails.application.routes.draw do
         resources :approved_teams, only: [:index, :create, :update, :destroy]
         resources :resources, only: [:index, :create, :update, :destroy]
         resources :client_feedbacks, only: [:index, :create, :update, :destroy]
+        resources :project_updates, only: [:index, :create, :update, :destroy]
+        resources :moms_of_client_meetings, only: [:index, :create, :update, :destroy]
         post '/email_update/send_audit_history_email', to: 'email_update#send_audit_history_email'
       end
     end
