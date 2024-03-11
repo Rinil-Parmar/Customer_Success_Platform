@@ -1,15 +1,17 @@
 import React from "react";
 import logo from "../assets/CS.png";
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react"; // Import useAuth0 hook
 import { Avatar } from "monday-ui-react-core";
 
 const Navbar = () => {
+  const { user, isAuthenticated } = useAuth0(); // Destructure user and isAuthenticated from useAuth0
+
   return (
     <nav className="bg-white shadow-lg p-4 flex justify-between items-center">
-
       {/* Logo and Site Name */}
       <div className="flex items-center">
-        <Link to="/" className="flex items-center">
+        <Link to="/dashboard" className="flex items-center">
           <img src={logo} alt="Logo" className="w-12 h-12 mr-2" />
           <span className="text-gray-800 font-bold text-l">
             Customer <br />
@@ -51,23 +53,32 @@ const Navbar = () => {
       </div>
 
       {/* User Profile */}
-      <div className="flex items-center">
-        {/* <img src={Dp} alt="User" className="w-10 h-10 rounded-full" /> */}
-        <Avatar
-          ariaLabel="Hadas Fahri"
-          size="large"
-          src="https://style.monday.com/static/media/person1.de30c8ee.png"
-          type="img"
-        />
-
-        <div className="ml-3">
-          <span className="text-gray-800 font-medium">John Doe</span>
-          <br />
-          <span className="text-gray-600 text-sm">Admin</span>
+      {isAuthenticated && user && (
+        <div className="flex items-center">
+          <Avatar
+            ariaLabel={user.name}
+            size="large"
+            src={user.picture}
+            alt={user.name}
+            type="img"
+          />
+          <div className="ml-3">
+            <span className="text-gray-800 font-medium">{user.name}</span>
+            <br />
+            {/* <span className="text-gray-600 text-sm">{user.email}</span> */}
+            {user[`${process.env.REACT_APP_AUTH0_NAMESPACE}/roles`] && (
+              <p>
+                Roles:{" "}
+                {user[`${process.env.REACT_APP_AUTH0_NAMESPACE}/roles`].join(
+                  ", "
+                )}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
-
+      )}
     </nav>
   );
 };
+
 export default Navbar;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Tab,
   TabList,
@@ -31,7 +32,6 @@ export default function Project() {
         const response = await axios.get(`/api/v1/projects/${id}`);
         setProject(response.data);
       } catch (error) {
-
         console.error("Error fetching project:", error);
       }
     };
@@ -102,9 +102,9 @@ export default function Project() {
               <Tab>Sprint detail</Tab>
             </TabList>
             <TabPanels>
-
               <TabPanel>
                 {/* PROJECT OVERVIEW COMPONENT  */}
+
                 <AddProjectOverview project={project} setFetch={setFetch} />
               </TabPanel>
 
@@ -115,6 +115,7 @@ export default function Project() {
 
               <TabPanel>
                 {/* ESCALATION MATRIXES */}
+
                 <EscalationMatrix projectId={id} />
               </TabPanel>
 
@@ -147,7 +148,6 @@ export default function Project() {
                 {/* SPRINT DETAIL */}
                 <SprintDetails project={project} setFetch={setFetch} />
               </TabPanel>
-              
             </TabPanels>
           </TabsContext>
         </div>
