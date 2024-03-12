@@ -1,5 +1,5 @@
 import "./App.css";
-import Layout from "../src/pages/Layout";
+import Layout from "./pages/Layout";
 import "monday-ui-react-core/tokens";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import ProjectList from "./pages/ProjectList";
 import AuditorDashboard from "./pages/AuditorDashboard";
 import Project from "./pages/Project";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <div className="App">
@@ -22,11 +22,12 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<AuditorDashboard />} />
-            <Route path="/projects" element={<ProjectList />} />
-            <Route path="/projects/:id" element={<Project />} />
-            {/* Add more routes if needed */}
+          {/* <Route path="/" element={<ProtectedRoute />}> */}
+            <Route path="/" element={<Layout />}>
+              <Route path="/dashboard" element={<AuditorDashboard />} />
+              <Route path="/projects" element={<ProjectList />} />
+              <Route path="/projects/:id" element={<Project />} />
+            {/* </Route> */}
           </Route>
         </Routes>
       </Router>

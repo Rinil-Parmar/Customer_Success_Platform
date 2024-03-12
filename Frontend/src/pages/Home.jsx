@@ -3,20 +3,20 @@ import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
-
 const Home = () => {
-    const navigation = useNavigate();
-    const { loginWithRedirect, isAuthenticated } = useAuth0();
-  
-    useEffect(() => {
-      if (isAuthenticated) {
-        navigation("/dashboard");
-      }
-    }, [isAuthenticated, navigation]);
-  
-    const handleLogin = () => {
-      loginWithRedirect();
-    };
+  const navigation = useNavigate();
+  const { loginWithRedirect, logout, user, isLoading, isAuthenticated } =
+    useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigation("/dashboard");
+    }
+  }, [isAuthenticated, navigation]);
+
+   const handleLogin = () => {
+     loginWithRedirect();
+   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-blue-700 text-white">
