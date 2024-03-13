@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import logo from "../assets/CS.png";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar } from "monday-ui-react-core";
+import { Avatar, Button } from "monday-ui-react-core";
 
 const Navbar = () => {
   const { loginWithRedirect, logout, user, isLoading, isAuthenticated } =
     useAuth0();
   // const { myUser } = useContext(UserContext);
-
+  
   if (isLoading) {
     return <div>Loading...</div>;
   }
+  console.log(user);
 
   const handleLogout = () => {
     logout({ returnTo: window.location.origin });
@@ -61,6 +62,34 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* <Button
+        onClick={() =>
+          isAuthenticated
+            ? logout({ returnTo: window.location.origin })
+            : loginWithRedirect()
+        }
+        className="bg-blue-500 text-white px-4 py-2 text-lg font-bold rounded"
+      >
+        {isAuthenticated ? "Logout" : "Login"}
+      </Button>
+      {isAuthenticated && user && (
+        <div className="flex gap-4 mr-10">
+          <Avatar
+            ariaLabel={user?.name}
+            size="large"
+            src={
+              user?.picture ||
+              "https://style.monday.com/static/media/person1.de30c8ee.png"
+            }
+            type="img"
+          />
+          <div className="flex flex-col">
+            <div>{user?.name.split("@")[0] || user?.email.split("@")[0]}</div>
+            {/* <div>{myUser?.role || "User"}</div> */}
+          {/* </div>
+        </div>
+      )} */} 
+
       {isAuthenticated && user && (
         <div className="ml-auto flex items-center">
           <div className="flex items-center">
@@ -72,9 +101,7 @@ const Navbar = () => {
               type="img"
             />
             <div className="ml-3">
-              <span className="text-gray-800 font-medium">
-                {user.name}
-              </span>
+              <span className="text-gray-800 font-medium">{user.name}</span>
               <br />
               <span className="text-gray-600 text-sm">{user.email}</span>
             </div>

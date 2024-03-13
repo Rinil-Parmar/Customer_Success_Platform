@@ -22,12 +22,12 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/" element={<ProtectedRoute />}> */}
-            <Route path="/" element={<Layout />}>
-              <Route path="/dashboard" element={<AuditorDashboard />} />
-              <Route path="/projects" element={<ProjectList />} />
-              <Route path="/projects/:id" element={<Project />} />
-            {/* </Route> */}
+          <Route path="/" element={<ProtectedRoute />}>
+          <Route path="/" element={<Layout />}>
+            <Route path="/dashboard" element={<AuditorDashboard />} />
+            <Route path="/projects" element={<ProjectList />} />
+            <Route path="/projects/:id" element={<Project />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

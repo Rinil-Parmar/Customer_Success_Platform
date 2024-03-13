@@ -8,7 +8,7 @@ import AddAuditHistory from "./AddAuditHistory";
 function AuditHistory({ project, setFetch }) {
   const [auditHistories, setAuditHistories] = useState([]);
   const [selectedAudit, setSelectedAudit] = useState(null);
-  const [editModalOpen, setEditModalOpen] = useState(false);
+  // const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function AuditHistory({ project, setFetch }) {
 
   const handleEdit = (audit) => {
     setSelectedAudit(audit);
-    setEditModalOpen(true);
+    // setEditModalOpen(true);
   };
 
   const handleDelete = async (id) => {

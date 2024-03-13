@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigation = useNavigate();
-  const { loginWithRedirect, logout, user, isLoading, isAuthenticated } =
-    useAuth0();
+  const { loginWithRedirect, logout, user, isLoading, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     if (isAuthenticated) {
