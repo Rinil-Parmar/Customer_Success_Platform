@@ -13,7 +13,7 @@ class PdfGenerator
       financial_escalations = FinancialEscalation.all
       operational_escalations = OperationalEscalation.all
 
-      # Fetch data from the database for projects, clients, audit histories, version histories, overviews, stakeholders, risk profilings, sprint details, and phases
+      # Fetch data from the database for projects, clients, audit histories, version histories, overviews, stakeholders, risk profilings, and phases
       projects = Project.all
       clients = Client.all
       audit_histories = AuditHistory.all
@@ -21,8 +21,18 @@ class PdfGenerator
       overviews = Overview.all
       stakeholders = Stakeholder.all
       risk_profilings = RiskProfiling.all
-      sprint_details = SprintDetail.all
       phases = Phase.all
+      
+      # Fetch data from the database for sprint details
+      sprint_details = SprintDetail.all
+
+      # Fetch data from the database for approved teams, resources, client feedbacks, project updates, and minutes of meetings
+      approved_teams = ApprovedTeam.all
+      resources = Resource.all
+      client_feedbacks = ClientFeedback.all
+      project_updates = ProjectUpdate.all
+      # Fetch data from the database for moms of client meetings
+      moms_of_client_meetings = MomsOfClientMeeting.all
 
       # Define table data and styles for technical escalations
       technical_table_data = generate_table_data(technical_escalations)
@@ -54,13 +64,28 @@ class PdfGenerator
       # Define table data and styles for risk profilings
       risk_profiling_table_data = generate_risk_profiling_table_data(risk_profilings)
 
-      # Define table data and styles for sprint details
-      sprint_detail_table_data = generate_sprint_detail_table_data(sprint_details)
-
       # Define table data and styles for phases
       phase_table_data = generate_phase_table_data(phases)
 
-      # Define table options and styles for all escalations, projects, audit histories, version histories, overviews, stakeholders, risk profilings, sprint details, and phases
+      # Define table data and styles for sprint details
+      sprint_detail_table_data = generate_sprint_detail_table_data(sprint_details)
+
+       # Define table data and styles for approved teams
+       approved_teams_table_data = generate_approved_teams_table_data(approved_teams)
+
+       # Define table data and styles for resources
+       resources_table_data = generate_resources_table_data(resources)
+ 
+       # Define table data and styles for client feedbacks
+       client_feedbacks_table_data = generate_client_feedbacks_table_data(client_feedbacks)
+ 
+       # Define table data and styles for project updates
+       project_updates_table_data = generate_project_updates_table_data(project_updates)
+ 
+      # Define table data and styles for moms of client meetings
+      moms_of_client_meetings_table_data = generate_moms_of_client_meetings_table_data(moms_of_client_meetings)
+
+      # Define table options and styles for all escalations, projects, audit histories, version histories, overviews, stakeholders, risk profilings, phases, and sprint details
       table_options = {
         header: true,
         cell_style: { padding: 5, border_width: 1, size: 10 },
@@ -98,11 +123,20 @@ class PdfGenerator
       # Draw the table for risk profilings
       draw_table(pdf, risk_profiling_table_data, 'Risk Profilings', table_options)
 
+      # Draw the table for phases
+      draw_table(pdf, phase_table_data, 'Phases', table_options)
+
       # Draw the table for sprint details
       draw_table(pdf, sprint_detail_table_data, 'Sprint Details', table_options)
 
-      # Draw the table for phases
-      draw_table(pdf, phase_table_data, 'Phases', table_options)
+      # Draw tables
+      draw_table(pdf, approved_teams_table_data, 'Approved Teams', table_options)
+      draw_table(pdf, resources_table_data, 'Resources', table_options)
+      draw_table(pdf, client_feedbacks_table_data, 'Client Feedbacks', table_options)
+      draw_table(pdf, project_updates_table_data, 'Project Updates', table_options)
+      draw_table(pdf, moms_of_client_meetings_table_data, 'Moms of Client Meetings', table_options)
+
+      
     end
   end
 
@@ -167,6 +201,37 @@ class PdfGenerator
     phases.each { |phase| table_data << [phase.title, phase.start_date, phase.completion_date, phase.approval_date, phase.status, phase.revised_completion_date, phase.comments] }
     table_data
   end
+
+  def self.generate_approved_teams_table_data(approved_teams)
+    table_data = [['Number of Resources', 'Role', 'Availability Percentage', 'Duration']]
+    approved_teams.each { |team| table_data << [team.number_of_resources, team.role, team.availability_percentage, team.duration] }
+    table_data
+  end
+
+  def self.generate_resources_table_data(resources)
+    table_data = [['Resource Name', 'Role', 'Start Date', 'End Date', 'Comment']]
+    resources.each { |resource| table_data << [resource.resource_name, resource.role, resource.start_date, resource.end_date, resource.comment] }
+    table_data
+  end
+
+  def self.generate_client_feedbacks_table_data(client_feedbacks)
+    table_data = [['Feedback Type', 'Date Received', 'Detailed Feedback', 'Action Taken', 'Closure Date']]
+    client_feedbacks.each { |feedback| table_data << [feedback.feedback_type, feedback.date_received, feedback.detailed_feedback, feedback.action_taken, feedback.closure_date] }
+    table_data
+  end
+
+  def self.generate_project_updates_table_data(project_updates)
+    table_data = [['Date', 'General Updates']]
+    project_updates.each { |update| table_data << [update.date, update.general_updates] }
+    table_data
+  end
+
+  def self.generate_moms_of_client_meetings_table_data(moms_of_client_meetings)
+    table_data = [['Date', 'Duration', 'MoM Link', 'Comments']]
+    moms_of_client_meetings.each { |mom| table_data << [mom.date, mom.duration, mom.mom_link, mom.comments] }
+    table_data
+  end
+
 
   def self.draw_table(pdf, table_data, title, table_options)
     pdf.text title, align: :center, size: 14, style: :bold
