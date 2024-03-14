@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EditClientFeedback from "./EditClientFeedback";
 import AddClientFeedback from "./AddClientFeedback";
+import { UserContext } from "../../contexts/UserContext";
 
 function ClientFeedback({ project, setFetch }) {
   const [clientFeedbacks, setClientFeedbacks] = useState([]);
   const [selectedClientFeedback, setSelectedClientFeedback] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchClientFeedbacks = async () => {
@@ -56,6 +59,9 @@ function ClientFeedback({ project, setFetch }) {
     }
   };
 
+  const isAdminOrProjectManager =
+    myUser && (myUser.role === "admin" || myUser.role === "projectmanager");
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -93,18 +99,22 @@ function ClientFeedback({ project, setFetch }) {
               <td className="px-6 py-4">{clientFeedback.action_taken}</td>
               <td className="px-6 py-4">{clientFeedback.closure_date}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(clientFeedback)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(clientFeedback.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrProjectManager && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(clientFeedback)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(clientFeedback.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -121,12 +131,14 @@ function ClientFeedback({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Client Feedback
-      </button>
+      {isAdminOrProjectManager && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Client Feedback
+        </button>
+      )}
       {addModalOpen && (
         <AddClientFeedback
           project={project}

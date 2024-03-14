@@ -15,10 +15,10 @@ export default function ProjectList() {
       }
     };
 
-    fetchData(); 
+    fetchData();
 
     // Refresh data every minute
-    const intervalId = setInterval(fetchData, 60000);
+    const intervalId = setInterval(fetchData, 6000);
 
     return () => {
       clearInterval(intervalId); // Cleanup interval on component unmount

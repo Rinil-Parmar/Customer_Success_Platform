@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Tab,
   TabList,
@@ -7,14 +7,29 @@ import {
   TabPanel,
 } from "monday-ui-react-core";
 import DisplayProjects from "../components/DisplayProjects";
+import { UserContext } from "../contexts/UserContext";
 
 // AuditorDashboard component
 function AuditorDashboard() {
   const [fetch, setFetch] = useState(false);
+  const { myUser } = useContext(UserContext);
 
+  if (!myUser) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold">Auditor Dashboard</h2>
+      {!myUser ? (
+        <div>Loading...</div>
+      ) : myUser.role === "admin" ? (
+        <h2 className="text-2xl font-bold">Admin Dashboard</h2>
+      ) : myUser.role === "projectmanager" ? (
+        <h2 className="text-2xl font-bold">Project Manager Dashboard</h2>
+      ) : myUser.role === "client" ? (
+        <h2 className="text-2xl font-bold">Client Dashboard</h2>
+      ) : (
+        <h2 className="text-2xl font-bold">Auditor Dashboard</h2>
+      )}
 
       <TabsContext>
         <TabList>

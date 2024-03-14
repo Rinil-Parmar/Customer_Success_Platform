@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { UserContext } from "../contexts/UserContext";
 
 const AddProjectOverview = ({ project, setFetch }) => {
   const [overview, setOverview] = useState("");
@@ -8,7 +9,13 @@ const AddProjectOverview = ({ project, setFetch }) => {
   const [goals, setGoals] = useState("");
   const [objectives, setObjectives] = useState("");
   const [budget, setBudget] = useState("");
-  // const [submitted, setSubmitted] = useState(false); // State for confirmation message
+  const { myUser } = useContext(UserContext);
+
+  const isAdminOrProjectManager =
+    myUser &&
+    (myUser.role === "admin" ||
+      myUser.role === "project_manager" ||
+      myUser.role === "auditor");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +41,6 @@ const AddProjectOverview = ({ project, setFetch }) => {
       console.log("Data submitted successfully");
       toast.success("Project Overview added successfully");
       setFetch((prevFetch) => !prevFetch);
-      // setSubmitted(true); // Show confirmation message
       // Reset form fields
       setOverview("");
       setPurpose("");
@@ -48,7 +54,7 @@ const AddProjectOverview = ({ project, setFetch }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="overview" className="block mb-1 font-medium">
@@ -121,14 +127,16 @@ const AddProjectOverview = ({ project, setFetch }) => {
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-500"
           />
         </div>
-        <div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
-          >
-            Save
-          </button>
-        </div>
+        {isAdminOrProjectManager && (
+          <div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Save
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

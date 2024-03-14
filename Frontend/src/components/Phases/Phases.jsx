@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import EditPhase from "./EditPhases";
 import AddPhase from "./AddPhases";
+import { UserContext } from "../../contexts/UserContext";
 
 function Phases({ project, setFetch }) {
   const [phases, setPhases] = useState([]);
   const [selectedPhase, setSelectedPhase] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchPhases = async () => {
@@ -18,8 +20,8 @@ function Phases({ project, setFetch }) {
         );
         setPhases(response.data);
       } catch (error) {
-        toast.error("An error occurred while fetching phases.");
         console.error("Error fetching phases:", error);
+        toast.error("An error occurred while fetching phases.");
       }
     };
 
@@ -52,6 +54,9 @@ function Phases({ project, setFetch }) {
       }
     }
   };
+
+  const isAdminOrProjectManager =
+    myUser && (myUser.role === "admin" || myUser.role === "projectmanager");
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -95,18 +100,22 @@ function Phases({ project, setFetch }) {
               <td className="px-6 py-4">{phase.revised_completion_date}</td>
               <td className="px-6 py-4">{phase.comments}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(phase)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(phase.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrProjectManager && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(phase)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(phase.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -123,12 +132,14 @@ function Phases({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Phase
-      </button>
+      {isAdminOrProjectManager && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Phase
+        </button>
+      )}
       {addModalOpen && (
         <AddPhase
           project={project}

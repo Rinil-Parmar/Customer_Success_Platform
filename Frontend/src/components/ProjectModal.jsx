@@ -8,6 +8,7 @@ const ProjectModal = ({ closeModal }) => {
   const [projectDesc, setProjectDesc] = useState("");
   const [projectScope, setProjectScope] = useState("");
   const [projectStack, setProjectStack] = useState("");
+  const [project_manager, setProject_manager] = useState("");
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
 
@@ -29,7 +30,7 @@ const ProjectModal = ({ closeModal }) => {
         project_scope: projectScope,
         project_stack: projectStack,
         project_status: "In progress",
-        project_manager: "Dipa Majumdar",
+        project_manager: project_manager,
       });
 
       // Post request for client details
@@ -136,7 +137,13 @@ const ProjectModal = ({ closeModal }) => {
                 <option value="mobile">Mobile App</option>
                 <option value="database">Database</option>
               </select>
-              <select className="border border-gray-300 px-3 py-2 mb-4 w-full rounded-md focus:outline-none focus:ring focus:ring-blue-500">
+
+              <select
+                className="border border-gray-300 px-3 py-2 mb-4 w-full rounded-md focus:outline-none focus:ring focus:ring-blue-500"
+                required
+                value={project_manager}
+                onChange={(e) => setProject_manager(e.target.value)}
+              >
                 <option value="">Select Project Manager</option>
                 <option value="Dipa Majumdar">Dipa Majumdar</option>
                 <option value="Firoja Parveen">Firoja Parveen</option>

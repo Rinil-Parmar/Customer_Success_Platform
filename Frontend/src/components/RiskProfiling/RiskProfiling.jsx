@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import EditRiskProfile from "./EditRiskProfile";
 import AddRiskProfile from "./AddRiskProfile";
+import { UserContext } from "../../contexts/UserContext";
 
 function RiskProfiling({ project, setFetch }) {
   const [riskProfiles, setRiskProfiles] = useState([]);
   const [selectedRiskProfile, setSelectedRiskProfile] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchRiskProfiles = async () => {
@@ -19,6 +21,7 @@ function RiskProfiling({ project, setFetch }) {
         setRiskProfiles(response.data);
       } catch (error) {
         console.error("Error fetching risk profiles:", error);
+        toast.error("An error occurred while fetching risk profiles.");
       }
     };
 
@@ -55,6 +58,9 @@ function RiskProfiling({ project, setFetch }) {
       }
     }
   };
+
+  const isAdminOrProjectManager =
+    myUser && (myUser.role === "admin" || myUser.role === "projectmanager");
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -101,18 +107,22 @@ function RiskProfiling({ project, setFetch }) {
               <td className="px-6 py-4">{riskProfile.status}</td>
               <td className="px-6 py-4">{riskProfile.closure_date}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(riskProfile)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(riskProfile.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrProjectManager && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(riskProfile)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(riskProfile.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -129,12 +139,14 @@ function RiskProfiling({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Risk Profile
-      </button>
+      {isAdminOrProjectManager && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Risk Profile
+        </button>
+      )}
       {addModalOpen && (
         <AddRiskProfile
           project={project}

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 // import toast
 import "react-toastify/dist/ReactToastify.css";
 import EditStakeholder from "./EditStakeholder";
 import AddStakeholder from "./AddStakeholder";
+import { UserContext } from "../../contexts/UserContext";
 
 function Stakeholder({ project, setFetch }) {
   const [stakeholders, setStakeholders] = useState([]);
   const [selectedStakeholder, setSelectedStakeholder] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchStakeholders = async () => {
@@ -67,15 +69,20 @@ function Stakeholder({ project, setFetch }) {
     }
   };
 
+  const isAdminOrAuditor =
+    myUser && (myUser.role === "admin" || myUser.role === "auditor");
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg relative">
       {/* Add Send Email button */}
-      <button
-        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 absolute top-4 right-4 z-50"
-        onClick={handleSendEmail}
-      >
-        Send Email
-      </button>
+      {isAdminOrAuditor && (
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 absolute top-4 right-4 z-50"
+          onClick={handleSendEmail}
+        >
+          Send Email
+        </button>
+      )}
 
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 mt-12">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -104,18 +111,22 @@ function Stakeholder({ project, setFetch }) {
               <td className="px-6 py-4">{stakeholder.name}</td>
               <td className="px-6 py-4">{stakeholder.contact}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(stakeholder)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(stakeholder.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrAuditor && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(stakeholder)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(stakeholder.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -131,12 +142,14 @@ function Stakeholder({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Stakeholder
-      </button>
+      {isAdminOrAuditor && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Stakeholder
+        </button>
+      )}
       {addModalOpen && (
         <AddStakeholder
           project={project}

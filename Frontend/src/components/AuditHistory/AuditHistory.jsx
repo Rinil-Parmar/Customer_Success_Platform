@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditAuditHistory from "./EditAuditHistory";
 import AddAuditHistory from "./AddAuditHistory";
+import { UserContext } from "../../contexts/UserContext";
 
 function AuditHistory({ project, setFetch }) {
   const [auditHistories, setAuditHistories] = useState([]);
   const [selectedAudit, setSelectedAudit] = useState(null);
-  // const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchAuditHistories = async () => {
@@ -37,7 +38,6 @@ function AuditHistory({ project, setFetch }) {
 
   const handleEdit = (audit) => {
     setSelectedAudit(audit);
-    // setEditModalOpen(true);
   };
 
   const handleDelete = async (id) => {
@@ -57,6 +57,9 @@ function AuditHistory({ project, setFetch }) {
       }
     }
   };
+
+  const isAdminOrAuditor =
+    myUser && (myUser.role === "admin" || myUser.role === "auditor");
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -96,18 +99,22 @@ function AuditHistory({ project, setFetch }) {
               <td className="px-6 py-4">{audit.queries}</td>
               <td className="px-6 py-4">{audit.action_item}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(audit)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(audit.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrAuditor && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(audit)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(audit.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -124,12 +131,14 @@ function AuditHistory({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Audit
-      </button>
+      {isAdminOrAuditor && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Audit
+        </button>
+      )}
       {addModalOpen && (
         <AddAuditHistory
           project={project}

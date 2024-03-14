@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EditResource from "./EditResource";
 import AddResource from "./AddResource";
+import { UserContext } from "../../contexts/UserContext";
 
 function Resources({ project, setFetch }) {
   const [resources, setResources] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchResources = async () => {
@@ -53,6 +56,9 @@ function Resources({ project, setFetch }) {
     }
   };
 
+  const isAdminOrProjectManager =
+    myUser && (myUser.role === "admin" || myUser.role === "projectmanager");
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
@@ -90,18 +96,22 @@ function Resources({ project, setFetch }) {
               <td className="px-6 py-4">{resource.end_date}</td>
               <td className="px-6 py-4">{resource.comment}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(resource)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(resource.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrProjectManager && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(resource)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(resource.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -118,12 +128,14 @@ function Resources({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Resource
-      </button>
+      {isAdminOrProjectManager && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Resource
+        </button>
+      )}
       {addModalOpen && (
         <AddResource
           project={project}

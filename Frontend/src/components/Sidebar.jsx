@@ -23,6 +23,9 @@ const Sidebar = () => {
     return <div>Loading...</div>;
   }
 
+  const isAdminOrProjectManager =
+    myUser && (myUser.role === "admin" || myUser.role === "auditor");
+
   const openModal = () => {
     setIsModalOpen(true);
     setStep(1);
@@ -41,12 +44,14 @@ const Sidebar = () => {
       <div className="bg-gray-200 text-gray-800 py-4 px-2 h-screen w-1/6">
         <div className="flex flex-col justify-between h-full px-6">
           <div>
-            <button
-              onClick={openModal}
-              className="block py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 flex items-center mb-4"
-            >
-              <FaPlus className="mr-2" /> New Project
-            </button>
+            {isAdminOrProjectManager && (
+              <button
+                onClick={openModal}
+                className="block py-2 px-4 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 flex items-center mb-4"
+              >
+                <FaPlus className="mr-2" /> New Project
+              </button>
+            )}
             <Link
               to="/projects"
               className={`block py-2 flex items-center hover:text-gray-600 ${
@@ -77,7 +82,7 @@ const Sidebar = () => {
             </a>
             {myUser.role === "admin" && ( // Check if user role is admin
               <Link
-                to="/users" // Replace "/add-user" with the actual route for adding users
+                to="/users"
                 className={`block py-2 flex items-center hover:text-gray-600 ${
                   activeLink === "AddUser" ? "text-blue-500" : ""
                 }`}

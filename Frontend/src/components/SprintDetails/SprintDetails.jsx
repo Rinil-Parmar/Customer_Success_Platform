@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import EditSprintDetail from "./EditSprintDetails";
 import AddSprintDetail from "./AddSprintDetails";
+import { UserContext } from "../../contexts/UserContext";
 
 function SprintDetails({ project, setFetch }) {
   const [sprintDetails, setSprintDetails] = useState([]);
   const [selectedSprintDetail, setSelectedSprintDetail] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const { myUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchSprintDetails = async () => {
@@ -19,6 +21,7 @@ function SprintDetails({ project, setFetch }) {
         setSprintDetails(response.data);
       } catch (error) {
         console.error("Error fetching sprint details:", error);
+        toast.error("An error occurred while fetching sprint details.");
       }
     };
 
@@ -55,6 +58,9 @@ function SprintDetails({ project, setFetch }) {
       }
     }
   };
+
+  const isAdminOrProjectManager =
+    myUser && (myUser.role === "admin" || myUser.role === "projectmanager");
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -93,18 +99,22 @@ function SprintDetails({ project, setFetch }) {
               <td className="px-6 py-4">{sprintDetail.status}</td>
               <td className="px-6 py-4">{sprintDetail.comments}</td>
               <td className="px-6 py-4 text-right flex gap-2">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleEdit(sprintDetail)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600"
-                  onClick={() => handleDelete(sprintDetail.id)}
-                >
-                  Delete
-                </button>
+                {isAdminOrProjectManager && (
+                  <>
+                    <button
+                      className="text-blue-600"
+                      onClick={() => handleEdit(sprintDetail)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="text-red-600"
+                      onClick={() => handleDelete(sprintDetail.id)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}
@@ -121,12 +131,14 @@ function SprintDetails({ project, setFetch }) {
       )}
 
       {/* Add Modal */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
-        onClick={() => setAddModalOpen(true)}
-      >
-        Add Sprint Detail
-      </button>
+      {isAdminOrProjectManager && (
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mt-4"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Sprint Detail
+        </button>
+      )}
       {addModalOpen && (
         <AddSprintDetail
           project={project}
