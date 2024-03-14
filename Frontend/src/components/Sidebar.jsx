@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -8,16 +8,24 @@ import {
   FaCog,
   FaPlus,
 } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa";
 import ProjectModal from "./ProjectModal";
+import { UserContext } from "../contexts/UserContext";
 
 const Sidebar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [step, setStep] = useState(1);
   const [activeLink, setActiveLink] = useState("");
 
+  const { myUser } = useContext(UserContext);
+
+  if (!myUser) {
+    return <div>Loading...</div>;
+  }
+
   const openModal = () => {
     setIsModalOpen(true);
-    setStep(1); 
+    setStep(1);
   };
 
   const closeModal = () => {
@@ -67,6 +75,17 @@ const Sidebar = () => {
             >
               <FaTachometerAlt className="mr-2" /> Employees
             </a>
+            {myUser.role === "admin" && ( // Check if user role is admin
+              <Link
+                to="/users" // Replace "/add-user" with the actual route for adding users
+                className={`block py-2 flex items-center hover:text-gray-600 ${
+                  activeLink === "AddUser" ? "text-blue-500" : ""
+                }`}
+                onClick={() => setActiveLink("AddUser")}
+              >
+                <FaUserPlus className="mr-2" /> Add User
+              </Link>
+            )}
             <a
               href="#"
               className={`block py-2 flex items-center hover:text-gray-600 ${

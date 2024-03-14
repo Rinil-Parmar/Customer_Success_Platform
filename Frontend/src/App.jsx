@@ -14,22 +14,29 @@ import ProjectList from "./pages/ProjectList";
 import AuditorDashboard from "./pages/AuditorDashboard";
 import Project from "./pages/Project";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UsersList from "./pages/UsersList";
+import { UserContextProvider } from "./contexts/UserContext";
+import MyComponent from "./pages/test-usercontext";
+
 function App() {
   return (
     <div className="App">
       {/*Layout has all the components */}
       {/* <Home /> */}
       <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<ProtectedRoute />}>
-          <Route path="/" element={<Layout />}>
-            <Route path="/dashboard" element={<AuditorDashboard />} />
-            <Route path="/projects" element={<ProjectList />} />
-            <Route path="/projects/:id" element={<Project />} />
+        <UserContextProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ProtectedRoute />}>
+              <Route path="/" element={<Layout />}>
+                <Route path="/dashboard" element={<AuditorDashboard />} />
+                <Route path="/projects" element={<ProjectList />} />
+                <Route path="/users" element={<UsersList />} />
+                <Route path="/projects/:id" element={<Project />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
+          </Routes>
+        </UserContextProvider>
       </Router>
       <ToastContainer />
     </div>

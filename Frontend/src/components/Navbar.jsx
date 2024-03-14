@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/CS.png";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Button } from "monday-ui-react-core";
+import { UserContext } from "../contexts/UserContext";
 
 const Navbar = () => {
   const { loginWithRedirect, logout, user, isLoading, isAuthenticated } =
     useAuth0();
-  // const { myUser } = useContext(UserContext);
-  
+
+  const { myUser } = useContext(UserContext);
+
+  if (!myUser) {
+    return <div>Loading...</div>;
+  }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
   console.log(user);
+  console.log(myUser);
 
   const handleLogout = () => {
     logout({ returnTo: window.location.origin });
@@ -86,9 +93,9 @@ const Navbar = () => {
           <div className="flex flex-col">
             <div>{user?.name.split("@")[0] || user?.email.split("@")[0]}</div>
             {/* <div>{myUser?.role || "User"}</div> */}
-          {/* </div>
+      {/* </div>
         </div>
-      )} */} 
+      )} */}
 
       {isAuthenticated && user && (
         <div className="ml-auto flex items-center">
@@ -103,7 +110,7 @@ const Navbar = () => {
             <div className="ml-3">
               <span className="text-gray-800 font-medium">{user.name}</span>
               <br />
-              <span className="text-gray-600 text-sm">{user.email}</span>
+              <span className="text-gray-600 text-sm">{myUser.role}</span>
             </div>
           </div>
           <button
