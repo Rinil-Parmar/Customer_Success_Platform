@@ -53,8 +53,11 @@ The Customer Success Platform is a comprehensive application aimed at enhancing 
 1. Register for an account or log in using Microsoft credentials.
 2. Navigate through different sections of the platform to perform CRUD operations or view project details.
 3. Manage user roles and permissions as an Admin.
-4. Receive email notifications for updates in the platform.
-5. Export project details as a document for offline reference.
+   For admin login credetials:
+   email: admin1@gmail.com
+   password: admin1@gmail.com
+5. Receive email notifications for updates in the platform.
+6. Export project details as a document for offline reference.
 
 ---
 
@@ -64,11 +67,6 @@ We welcome contributions to enhance the Customer Success Platform. Please follow
 
 ---
 
-### License:
-
-This project is licensed under the [MIT License](#).
-
----
 
 ### Authors:
 
