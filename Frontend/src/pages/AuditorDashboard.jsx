@@ -8,6 +8,9 @@ import {
 } from "monday-ui-react-core";
 import DisplayProjects from "../components/DisplayProjects";
 import { UserContext } from "../contexts/UserContext";
+import InProgressProjects from "../components/InProgressProjects";
+import CompletedProjects from "../components/CompletedProjects";
+import OnHoldProjects from "../components/OnHoldProjects";
 
 // AuditorDashboard component
 function AuditorDashboard() {
@@ -42,6 +45,17 @@ function AuditorDashboard() {
           <TabPanel>
             {/* Display ptoject component  */}
             <DisplayProjects fetch={fetch} setFetch={setFetch} />
+          </TabPanel>
+
+          <TabPanel>
+            <InProgressProjects fetch={fetch} setFetch={setFetch} />
+          </TabPanel>
+
+          <TabPanel>
+            <CompletedProjects fetch={fetch} setFetch={setFetch} />
+          </TabPanel>
+          <TabPanel>
+            <OnHoldProjects fetch={fetch} setFetch={setFetch} />
           </TabPanel>
         </TabPanels>
       </TabsContext>

@@ -142,7 +142,7 @@ const ProjectModal = ({ closeModal }) => {
                 className="border border-gray-300 px-3 py-2 mb-4 w-full rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                 required
                 value={project_manager}
-                onChange={(e) => setProject_manager(e.target.value)}
+                onChange={(e) => setProject_manager(e.target.value)}cd 
               >
                 <option value="">Select Project Manager</option>
                 <option value="Dipa Majumdar">Dipa Majumdar</option>
