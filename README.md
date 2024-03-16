@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# Customer_Success
-=======
+
 ### Project Name: Customer Success Platform
 
 ---
@@ -95,4 +93,3 @@ We welcome contributions to enhance the Customer Success Platform. Please follow
 
 ---
 
->>>>>>> ade1415b9c1270fb6448fd0407862f3e17d169f1
