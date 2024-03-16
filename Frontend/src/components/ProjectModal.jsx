@@ -13,12 +13,32 @@ const ProjectModal = ({ closeModal }) => {
   const [clientEmail, setClientEmail] = useState("");
 
   const handleContinue = () => {
-    if (step === 2) {
-      handleClient();
+    if (step === 1) {
+      if (validateProjectDetails()) {
+        handleProjctDetails();
+        setStep(step + 1);
+      }
     } else {
-      handleProjctDetails();
-      setStep(step + 1);
+      if (validateClientDetails()) {
+        handleClient();
+      }
     }
+  };
+
+  const validateProjectDetails = () => {
+    if (!projectName || !projectDesc || !projectScope || !projectStack || !project_manager) {
+      toast.error("Please fill in all project details");
+      return false;
+    }
+    return true;
+  };
+
+  const validateClientDetails = () => {
+    if (!clientName || !clientEmail) {
+      toast.error("Please fill in all client details");
+      return false;
+    }
+    return true;
   };
 
   const handleProjctDetails = async () => {
@@ -34,13 +54,6 @@ const ProjectModal = ({ closeModal }) => {
       });
 
       // Post request for client details
-      //   const clientResponse = await axios.post(
-      //     "/api/v1/clients",
-      //     {
-      //       name: clientName,
-      //       email: clientEmail,
-      //     }
-      //   );
       toast.success("Project created successfully");
       console.log("Project created:", projectResponse.data);
     } catch (error) {
@@ -65,6 +78,7 @@ const ProjectModal = ({ closeModal }) => {
       console.error("Error:", error);
     }
   };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
       <div className="bg-white rounded-lg p-10 w-96 ">

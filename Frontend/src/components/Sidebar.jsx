@@ -88,7 +88,7 @@ const Sidebar = () => {
                 }`}
                 onClick={() => setActiveLink("AddUser")}
               >
-                <FaUserPlus className="mr-2" /> Add User
+                <FaUserPlus className="mr-2" />  Users
               </Link>
             )}
             <a

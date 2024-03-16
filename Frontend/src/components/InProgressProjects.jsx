@@ -19,7 +19,7 @@ function InProgressProjects({ fetch, setFetch }) {
         const filteredProjects = response.data.filter(
           (project) => project.project_status == "In progress"
         );
-        console.log("hello", response);
+        // console.log("hello", response);
         setInProgressProjects(filteredProjects);
       } catch (error) {
         // use toast to show error message

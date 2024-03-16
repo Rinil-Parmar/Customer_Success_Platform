@@ -48,13 +48,16 @@ function AuditorDashboard() {
           </TabPanel>
 
           <TabPanel>
+            {/* In progress projects component  */}
             <InProgressProjects fetch={fetch} setFetch={setFetch} />
           </TabPanel>
 
           <TabPanel>
+            {/* Completed projects component  */}
             <CompletedProjects fetch={fetch} setFetch={setFetch} />
           </TabPanel>
           <TabPanel>
+            {/* On hold projects component  */}
             <OnHoldProjects fetch={fetch} setFetch={setFetch} />
           </TabPanel>
         </TabPanels>
