@@ -26,7 +26,13 @@ const ProjectModal = ({ closeModal }) => {
   };
 
   const validateProjectDetails = () => {
-    if (!projectName || !projectDesc || !projectScope || !projectStack || !project_manager) {
+    if (
+      !projectName ||
+      !projectDesc ||
+      !projectScope ||
+      !projectStack ||
+      !project_manager
+    ) {
       toast.error("Please fill in all project details");
       return false;
     }
@@ -156,7 +162,8 @@ const ProjectModal = ({ closeModal }) => {
                 className="border border-gray-300 px-3 py-2 mb-4 w-full rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                 required
                 value={project_manager}
-                onChange={(e) => setProject_manager(e.target.value)}cd 
+                onChange={(e) => setProject_manager(e.target.value)}
+                cd
               >
                 <option value="">Select Project Manager</option>
                 <option value="Dipa Majumdar">Dipa Majumdar</option>
