@@ -16,7 +16,9 @@ import Project from "./pages/Project";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UsersList from "./pages/UsersList";
 import { UserContextProvider } from "./contexts/UserContext";
-import MyComponent from "./pages/test-usercontext";
+import ProjectManager from "./pages/ProjectManager";
+import Employee from "./pages/Employees";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -31,8 +33,11 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route path="/dashboard" element={<AuditorDashboard />} />
                 <Route path="/projects" element={<ProjectList />} />
-                <Route path="/users" element={<UsersList />} />
                 <Route path="/projects/:id" element={<Project />} />
+                <Route path="/project_manager" element={<ProjectManager />} />
+                <Route path="/users" element={<UsersList />} />
+                <Route path="/employee" element={<Employee />} />
+                <Route path="/settings" element={<Settings />} />
               </Route>
             </Route>
           </Routes>

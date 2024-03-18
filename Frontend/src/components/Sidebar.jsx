@@ -6,6 +6,7 @@ import {
   FaListAlt,
   FaUserTie,
   FaCog,
+  FaUser,
   FaPlus,
 } from "react-icons/fa";
 import { FaUserPlus } from "react-icons/fa";
@@ -52,6 +53,7 @@ const Sidebar = () => {
                 <FaPlus className="mr-2" /> New Project
               </button>
             )}
+
             <Link
               to="/projects"
               className={`block py-2 flex items-center hover:text-gray-600 ${
@@ -62,24 +64,26 @@ const Sidebar = () => {
               <FaListAlt className="mr-2" /> Projects
             </Link>
 
-            <a
-              href="#"
+            <Link
+              to="/project_manager"
               className={`block py-2 flex items-center hover:text-gray-600 ${
                 activeLink === "Project Manager" ? "text-blue-500" : ""
               }`}
               onClick={() => setActiveLink("Project Manager")}
             >
               <FaUserTie className="mr-2" /> Project Manager
-            </a>
-            <a
-              href="#"
+            </Link>
+
+            <Link
+              to="/employee"
               className={`block py-2 flex items-center hover:text-gray-600 ${
-                activeLink === "Employees" ? "text-blue-500" : ""
+                activeLink === "Employee" ? "text-blue-500" : ""
               }`}
-              onClick={() => setActiveLink("Employees")}
+              onClick={() => setActiveLink("Employee")}
             >
-              <FaTachometerAlt className="mr-2" /> Employees
-            </a>
+              <FaUserTie className="mr-2" /> Employee
+            </Link>
+
             {myUser.role === "admin" && ( // Check if user role is admin
               <Link
                 to="/users"
@@ -88,18 +92,20 @@ const Sidebar = () => {
                 }`}
                 onClick={() => setActiveLink("AddUser")}
               >
-                <FaUserPlus className="mr-2" />  Users
+                <FaUserPlus className="mr-2" /> Users
               </Link>
             )}
-            <a
-              href="#"
+
+            <Link
+              to="/settings"
               className={`block py-2 flex items-center hover:text-gray-600 ${
                 activeLink === "Settings" ? "text-blue-500" : ""
               }`}
               onClick={() => setActiveLink("Settings")}
             >
               <FaCog className="mr-2" /> Settings
-            </a>
+            </Link>
+            
           </div>
         </div>
       </div>
