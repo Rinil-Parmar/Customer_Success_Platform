@@ -63,7 +63,7 @@ curl -X POST http://localhost:4000/api/v1/users -H 'Content-Type: application/js
 This command will send a POST request to the `/api/v1/users` endpoint with the following JSON payload:
 
 
-After successful execution, You can Register the user with the `admin@gmail.com` email from the auth0 and after login you will get admin access. Now, In another browser, you can log in using MS identity or Google default role will be a client. You can change it from the admin panel in the add user section.
+After successful execution, You can log in with the admin email `admin@gmail.com` and password `Admin@123`. Now, In another browser, you can log in using MS identity or Google default role will be a client. You can change it from the admin panel in the add user section.
 
 ---
 # Limitation of the Auth0:-
