@@ -8,11 +8,11 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
-  app.use(
-    "/pdf",
-    createProxyMiddleware({
-      target: "http://localhost:4000",
-      changeOrigin: true,
-    })
-  );
+  // app.use(
+  //   "/",
+  //   createProxyMiddleware({
+  //     target: "http://localhost:4000",
+  //     changeOrigin: true,
+  //   })
+  // );
 };

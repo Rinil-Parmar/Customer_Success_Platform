@@ -1,4 +1,4 @@
-# app/controllers/email_update_controller.rb
+
 #path for the call
 class Api::V1::EmailUpdateController < ApplicationController
     def send_audit_history_email

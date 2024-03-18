@@ -21,7 +21,7 @@ const Sidebar = () => {
   const { myUser } = useContext(UserContext);
 
   if (!myUser) {
-    return <div>Loading...</div>;
+    return ;
   }
 
   const isAdminOrProjectManager =

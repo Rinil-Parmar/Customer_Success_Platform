@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Tab,
   TabList,
@@ -67,26 +66,20 @@ export default function Project() {
 
   const handleClick = () => {
     axios({
-      url: "/pdf/generate_pdf",
+      url: `http://localhost:4000/generate_pdf/${id}`,
       method: "GET",
       responseType: "blob",
     })
       .then((response) => {
-        // Create a new blob object with the response data
         const blob = new Blob([response.data], { type: "application/pdf" });
-
-        // Create a URL for the blob object
         const url = window.URL.createObjectURL(blob);
-
-        // Create a link element
         const a = document.createElement("a");
         a.href = url;
         a.download = "project.pdf"; // Specify the file name
-        a.click(); // Trigger the click event to start the download
+        a.click();
         toast.success("PDF generated successfully");
       })
       .catch((error) => {
-        // Handle error
         toast.error("Error generating PDF");
         console.error("There was an error:", error);
       });

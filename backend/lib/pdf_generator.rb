@@ -1,142 +1,60 @@
-# lib/pdf_generator.rb
 require 'prawn'
 require 'prawn/table'
 
 class PdfGenerator
-  def self.generate_pdf
-    Prawn::Document.generate('project.pdf', page_size: 'A4', margin: [20, 50]) do |pdf|
-      pdf.text 'Project Details', align: :center, size: 16, style: :bold
+  def self.generate_pdf(project_id)
+    project = Project.find(project_id)
+    Prawn::Document.generate("project_#{project_id}.pdf", page_size: 'A4', margin: [20, 50]) do |pdf|
+      pdf.text "Project Details - #{project.project_name}", align: :center, size: 16, style: :bold
       pdf.move_down 20
 
-      # Fetch data from the database for all types of escalations
-      technical_escalations = TechnicalEscalation.all
-      financial_escalations = FinancialEscalation.all
-      operational_escalations = OperationalEscalation.all
+      # Fetch data from the database for the specific project
+      technical_escalations = project.technical_escalations
+      financial_escalations = project.financial_escalations
+      operational_escalations = project.operational_escalations
+      # clients = [project.client] # Assuming each project has one client
+      audit_histories = project.audit_histories
+      version_histories = project.version_histories
+      overviews = project.overviews
+      stakeholders = project.stakeholders
+      risk_profilings = project.risk_profilings
+      phases = project.phases
+      sprint_details = project.sprint_details
+      approved_teams = project.approved_teams
+      resources = project.resources
+      client_feedbacks = project.client_feedbacks
+      project_updates = project.project_updates
+      moms_of_client_meetings = project.moms_of_client_meetings
 
-      # Fetch data from the database for projects, clients, audit histories, version histories, overviews, stakeholders, risk profilings, and phases
-      projects = Project.all
-      clients = Client.all
-      audit_histories = AuditHistory.all
-      version_histories = VersionHistory.all
-      overviews = Overview.all
-      stakeholders = Stakeholder.all
-      risk_profilings = RiskProfiling.all
-      phases = Phase.all
+      # Define table data and styles for each data type
       
-      # Fetch data from the database for sprint details
-      sprint_details = SprintDetail.all
-
-      # Fetch data from the database for approved teams, resources, client feedbacks, project updates, and minutes of meetings
-      approved_teams = ApprovedTeam.all
-      resources = Resource.all
-      client_feedbacks = ClientFeedback.all
-      project_updates = ProjectUpdate.all
-      # Fetch data from the database for moms of client meetings
-      moms_of_client_meetings = MomsOfClientMeeting.all
-
-      # Define table data and styles for technical escalations
-      technical_table_data = generate_table_data(technical_escalations)
-
-      # Define table data and styles for financial escalations
-      financial_table_data = generate_table_data(financial_escalations)
-
-      # Define table data and styles for operational escalations
-      operational_table_data = generate_table_data(operational_escalations)
-
-      # Define table data and styles for projects
-      project_table_data = generate_project_table_data(projects)
-
-      # Define table data and styles for clients
-      client_table_data = generate_client_table_data(clients)
-
-      # Define table data and styles for audit histories
-      audit_table_data = generate_audit_table_data(audit_histories)
-
-      # Define table data and styles for version histories
-      version_table_data = generate_version_table_data(version_histories)
-
-      # Define table data and styles for overviews
-      overview_table_data = generate_overview_table_data(overviews)
-
-      # Define table data and styles for stakeholders
-      stakeholder_table_data = generate_stakeholder_table_data(stakeholders)
-
-      # Define table data and styles for risk profilings
-      risk_profiling_table_data = generate_risk_profiling_table_data(risk_profilings)
-
-      # Define table data and styles for phases
-      phase_table_data = generate_phase_table_data(phases)
-
-      # Define table data and styles for sprint details
-      sprint_detail_table_data = generate_sprint_detail_table_data(sprint_details)
-
-       # Define table data and styles for approved teams
-       approved_teams_table_data = generate_approved_teams_table_data(approved_teams)
-
-       # Define table data and styles for resources
-       resources_table_data = generate_resources_table_data(resources)
- 
-       # Define table data and styles for client feedbacks
-       client_feedbacks_table_data = generate_client_feedbacks_table_data(client_feedbacks)
- 
-       # Define table data and styles for project updates
-       project_updates_table_data = generate_project_updates_table_data(project_updates)
- 
-      # Define table data and styles for moms of client meetings
-      moms_of_client_meetings_table_data = generate_moms_of_client_meetings_table_data(moms_of_client_meetings)
-
-      # Define table options and styles for all escalations, projects, audit histories, version histories, overviews, stakeholders, risk profilings, phases, and sprint details
+      # Table data generation methods remain unchanged
+      
+      # Define table options and styles for all data types
       table_options = {
         header: true,
         cell_style: { padding: 5, border_width: 1, size: 10 },
-        # column_widths: { 0 => 50, 1 => 50 }, # Adjust column widths as needed
         row_colors: ['FFFFFF', 'DDDDDD']
       }
 
-      # Draw the table for technical escalations
-      draw_table(pdf, technical_table_data, 'Technical Escalations', table_options)
-
-      # Draw the table for financial escalations
-      draw_table(pdf, financial_table_data, 'Financial Escalations', table_options)
-
-      # Draw the table for operational escalations
-      draw_table(pdf, operational_table_data, 'Operational Escalations', table_options)
-
-      # Draw the table for projects
-      draw_table(pdf, project_table_data, 'Projects', table_options)
-
-      # Draw the table for clients
-      draw_table(pdf, client_table_data, 'Clients', table_options)
-
-      # Draw the table for audit histories
-      draw_table(pdf, audit_table_data, 'Audit Histories', table_options)
-
-      # Draw the table for version histories
-      draw_table(pdf, version_table_data, 'Version Histories', table_options)
-
-      # Draw the table for overviews
-      draw_table(pdf, overview_table_data, 'Overviews', table_options)
-
-      # Draw the table for stakeholders
-      draw_table(pdf, stakeholder_table_data, 'Stakeholders', table_options)
-
-      # Draw the table for risk profilings
-      draw_table(pdf, risk_profiling_table_data, 'Risk Profilings', table_options)
-
-      # Draw the table for phases
-      draw_table(pdf, phase_table_data, 'Phases', table_options)
-
-      # Draw the table for sprint details
-      draw_table(pdf, sprint_detail_table_data, 'Sprint Details', table_options)
-
-      # Draw tables
-      draw_table(pdf, approved_teams_table_data, 'Approved Teams', table_options)
-      draw_table(pdf, resources_table_data, 'Resources', table_options)
-      draw_table(pdf, client_feedbacks_table_data, 'Client Feedbacks', table_options)
-      draw_table(pdf, project_updates_table_data, 'Project Updates', table_options)
-      draw_table(pdf, moms_of_client_meetings_table_data, 'Moms of Client Meetings', table_options)
-
-      
+      # Draw tables for each data type
+      draw_table(pdf, generate_table_data(technical_escalations), 'Technical Escalations', table_options)
+      draw_table(pdf, generate_table_data(financial_escalations), 'Financial Escalations', table_options)
+      draw_table(pdf, generate_table_data(operational_escalations), 'Operational Escalations', table_options)
+      draw_table(pdf, generate_project_table_data([project]), 'Projects', table_options) # Pass project as an array
+      # draw_table(pdf, generate_client_table_data(clients), 'Clients', table_options)
+      draw_table(pdf, generate_audit_table_data(audit_histories), 'Audit Histories', table_options)
+      draw_table(pdf, generate_version_table_data(version_histories), 'Version Histories', table_options)
+      draw_table(pdf, generate_overview_table_data(overviews), 'Overviews', table_options)
+      draw_table(pdf, generate_stakeholder_table_data(stakeholders), 'Stakeholders', table_options)
+      draw_table(pdf, generate_risk_profiling_table_data(risk_profilings), 'Risk Profilings', table_options)
+      draw_table(pdf, generate_phase_table_data(phases), 'Phases', table_options)
+      draw_table(pdf, generate_sprint_detail_table_data(sprint_details), 'Sprint Details', table_options)
+      draw_table(pdf, generate_approved_teams_table_data(approved_teams), 'Approved Teams', table_options)
+      draw_table(pdf, generate_resources_table_data(resources), 'Resources', table_options)
+      draw_table(pdf, generate_client_feedbacks_table_data(client_feedbacks), 'Client Feedbacks', table_options)
+      draw_table(pdf, generate_project_updates_table_data(project_updates), 'Project Updates', table_options)
+      draw_table(pdf, generate_moms_of_client_meetings_table_data(moms_of_client_meetings), 'Moms of Client Meetings', table_options)
     end
   end
 
@@ -154,11 +72,11 @@ class PdfGenerator
     table_data
   end
 
-  def self.generate_client_table_data(clients)
-    table_data = [['Client Name', 'Client Email']]
-    clients.each { |client| table_data << [client.name, client.email] }
-    table_data
-  end
+  # def self.generate_client_table_data(clients)
+  #   table_data = [['Client Name', 'Client Email']]
+  #   clients.each { |client| table_data << [client.name, client.email] }
+  #   table_data
+  # end
 
   def self.generate_audit_table_data(audit_histories)
     table_data = [['Date', 'Reviewed By', 'Status', 'Reviewed Section', 'Queries', 'Action Item']]
