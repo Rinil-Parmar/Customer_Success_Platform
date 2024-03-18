@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'pdf/generate_pdf'
+  # get 'pdf/generate_pdf'
+  get '/generate_pdf/:project_id', to: 'pdf#generate_pdf', as: 'generate_pdf'
   # post '/generate_pdf', to: 'pdf#generate_pdf'
   # get '/projects/:project_id/generate_pdf', to: 'pdf#generate_pdf', as: 'generate_pdf'
   # post '/projects/:project_id/email_update/send_audit_history_email', to: 'email_update#send_audit_history_email'

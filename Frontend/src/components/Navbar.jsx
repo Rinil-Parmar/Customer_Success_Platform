@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext} from "react";
 import logo from "../assets/CS.png";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Button } from "monday-ui-react-core";
+import { Avatar} from "monday-ui-react-core";
 import { UserContext } from "../contexts/UserContext";
 
 const Navbar = () => {
-  const { loginWithRedirect, logout, user, isLoading, isAuthenticated } =
+  const { logout, user, isLoading, isAuthenticated } =
     useAuth0();
 
   const { myUser } = useContext(UserContext);
 
   if (!myUser) {
-    return <div>Loading...</div>;
+    return ;
   }
 
   if (isLoading) {
