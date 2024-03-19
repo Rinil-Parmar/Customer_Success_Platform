@@ -6,18 +6,21 @@ export default function ProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
+
     const fetchData = async () => {
+
       try {
         const response = await axios.get("/api/v1/projects");
         setProjects(response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
+
     };
 
     fetchData();
 
-    // Refresh data every minute
+    // Refresh data every 6 seconds
     const intervalId = setInterval(fetchData, 6000);
 
     return () => {

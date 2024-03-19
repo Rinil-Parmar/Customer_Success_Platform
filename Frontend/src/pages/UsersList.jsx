@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import EditUser from "../components/EditUser"; // Import the EditUser component
+import EditUser from "../components/EditUser"; 
 
 function UsersList() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
+
     const fetchUsers = async () => {
       try {
         const response = await axios.get("/api/v1/users");
@@ -16,6 +17,7 @@ function UsersList() {
         toast.error("Error fetching users");
         console.error("Error fetching users:", error);
       }
+
     };
 
     fetchUsers();
@@ -28,6 +30,7 @@ function UsersList() {
   }, []);
 
   const handleDelete = async (id) => {
+
     const confirmed = window.confirm("Do you want to delete this user?");
     if (confirmed) {
       try {
@@ -39,6 +42,7 @@ function UsersList() {
         toast.error("An error occurred while deleting the user.");
       }
     }
+    
   };
 
   const handleEdit = (user) => {

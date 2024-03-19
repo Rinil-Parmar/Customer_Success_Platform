@@ -148,7 +148,7 @@ const ProjectDetails = ({ project, setFetch }) => {
           Save
         </button>
       </form>
-      ;
+      
     </div>
   );
 };

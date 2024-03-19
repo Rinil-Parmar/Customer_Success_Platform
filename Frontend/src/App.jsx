@@ -23,11 +23,12 @@ function App() {
   return (
     <div className="App">
 
-      {/* <Home /> */}
       <Router>
         <UserContextProvider>
+
           <Routes>
             <Route path="/" element={<Home />} />
+            
             <Route path="/" element={<ProtectedRoute />}>
               <Route path="/" element={<Layout />}>
                 <Route path="/dashboard" element={<AuditorDashboard />} />
@@ -40,8 +41,10 @@ function App() {
               </Route>
             </Route>
           </Routes>
+
         </UserContextProvider>
       </Router>
+      
       <ToastContainer />
     </div>
   );

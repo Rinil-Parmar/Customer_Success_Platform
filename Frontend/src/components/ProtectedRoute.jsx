@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
   const { isAuthenticated, isLoading } = useAuth0();
   console.log("in protected", isAuthenticated);
   if (isLoading) {
-    return <div>Loading...</div>; // Handle loading state if needed
+    return <div>Loading...</div>; 
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/" />;

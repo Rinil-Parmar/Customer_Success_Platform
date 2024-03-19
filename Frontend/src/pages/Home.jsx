@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Home = () => {
   const navigation = useNavigate();
-  const { loginWithRedirect, user, isLoading, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -21,7 +21,6 @@ const Home = () => {
       await axios.post("/api/v1/users", {
         name: userData.name,
         email: userData.email,
-        // Include any additional user data you want to save
       });
     } catch (error) {
       console.error("Error saving user data:", error);
