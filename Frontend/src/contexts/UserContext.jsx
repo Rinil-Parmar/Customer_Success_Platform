@@ -11,6 +11,7 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     console.log("User:", user);
     const fetchUser = async () => {
+
       if (isAuthenticated && user) {
         try {
           const response = await axios.get(
@@ -26,7 +27,7 @@ export function UserContextProvider({ children }) {
           );
 
           setMyUser(filteredUser);
-          console.log("User fetched:", filteredUser);
+          
         } catch (error) {
           console.error("Error fetching user:", error);
         }

@@ -28,7 +28,7 @@ function ApprovedTeam({ project, setFetch }) {
 
     fetchApprovedTeam();
 
-    // Set interval to fetch approved team members every minute
+    // Set interval to fetch approved team members every 6 seconds
     const intervalId = setInterval(fetchApprovedTeam, 6000);
 
     // Cleanup function

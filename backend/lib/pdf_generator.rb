@@ -27,9 +27,7 @@ class PdfGenerator
       moms_of_client_meetings = project.moms_of_client_meetings
 
       # Define table data and styles for each data type
-      
       # Table data generation methods remain unchanged
-      
       # Define table options and styles for all data types
       table_options = {
         header: true,

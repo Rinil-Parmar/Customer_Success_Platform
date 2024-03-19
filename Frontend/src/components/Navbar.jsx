@@ -18,8 +18,7 @@ const Navbar = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log(user);
-  console.log(myUser);
+  
 
   const handleLogout = () => {
     logout({ returnTo: window.location.origin });

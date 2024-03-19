@@ -30,31 +30,18 @@ export default function Project() {
   const [project, setProject] = useState(null);
   const [fetch, setFetch] = useState(false);
 
-  const tabs = [
-    "Overview",
-    "Scope & stack",
-    "Escalation Matixes",
-    "Audit History",
-    "Version History",
-    "Stakeholders",
-    "Risk Profiling",
-    "Phases",
-    "Sprint detail",
-    "Approved Team",
-    "Resources",
-    "Client Feedback",
-    "Project Update",
-    "MoMs of client meetings",
-  ];
 
   useEffect(() => {
+
     const fetchProject = async () => {
+
       try {
         const response = await axios.get(`/api/v1/projects/${id}`);
         setProject(response.data);
       } catch (error) {
         console.error("Error fetching project:", error);
       }
+
     };
 
     fetchProject();
@@ -65,6 +52,7 @@ export default function Project() {
   }, [id]);
 
   const handleClick = () => {
+
     axios({
       url: `http://localhost:4000/generate_pdf/${id}`,
       method: "GET",
@@ -83,6 +71,7 @@ export default function Project() {
         toast.error("Error generating PDF");
         console.error("There was an error:", error);
       });
+      
   };
 
   return (

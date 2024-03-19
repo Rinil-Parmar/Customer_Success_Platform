@@ -21,7 +21,7 @@ const Sidebar = () => {
   const { myUser } = useContext(UserContext);
 
   if (!myUser) {
-    return ;
+    return;
   }
 
   const isAdminOrProjectManager =
@@ -105,7 +105,6 @@ const Sidebar = () => {
             >
               <FaCog className="mr-2" /> Settings
             </Link>
-            
           </div>
         </div>
       </div>

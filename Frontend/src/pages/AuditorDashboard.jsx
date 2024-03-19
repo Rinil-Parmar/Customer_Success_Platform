@@ -56,10 +56,12 @@ function AuditorDashboard() {
             {/* Completed projects component  */}
             <CompletedProjects fetch={fetch} setFetch={setFetch} />
           </TabPanel>
+
           <TabPanel>
             {/* On hold projects component  */}
             <OnHoldProjects fetch={fetch} setFetch={setFetch} />
           </TabPanel>
+          
         </TabPanels>
       </TabsContext>
     </div>
