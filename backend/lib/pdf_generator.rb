@@ -65,8 +65,17 @@ class PdfGenerator
   end
 
   def self.generate_project_table_data(projects)
-    table_data = [['Project Name', 'Project Description', 'Project Manager']]
-    projects.each { |project| table_data << [project.project_name, project.project_desc, project.project_manager] }
+    table_data = [['Project Name', 'Project Description', 'Project Scope', 'Project Stack', 'Project Status', 'Project Manager']]
+    projects.each do |project|
+      table_data << [
+        project.project_name,
+        project.project_desc,
+        project.project_scope,
+        project.project_stack,
+        project.project_status,
+        project.project_manager
+      ]
+    end
     table_data
   end
 
