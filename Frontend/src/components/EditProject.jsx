@@ -24,7 +24,7 @@ const EditProject = ({ project, setFetch, closeModal }) => {
       });
       toast.success("Project updated successfully");
       setLoading(false);
-      setFetch(true); // Trigger fetch to update project list
+      // setFetch(true); // Trigger fetch to update project list
       closeModal(); // Close the modal after successful update
     } catch (error) {
       console.error("Error:", error);
