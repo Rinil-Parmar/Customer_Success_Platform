@@ -46,6 +46,14 @@ Before starting, ensure that you have the following prerequisites installed on y
    DATABASE_PASSWORD=12345678
    DATABASE_HOST=localhost
    DATABASE_PORT=5432
+   SMTP_ADDRESS - SMTP server address (e.g., smtp.gmail.com)
+   SMTP_PORT - SMTP server port (e.g., 587)
+   SMTP_DOMAIN - Domain (e.g., gmail.com)
+   SMTP_USERNAME - Your email address used for SMTP authentication
+   SMTP_PASSWORD - Your email password or an App Password if using 2-step verification
+   SMTP_AUTHENTICATION - Authentication method (e.g., plain)
+   SMTP_ENABLE_STARTTLS_AUTO - Whether to enable STARTTLS auto (true/false)
+
    ```
 
    Make sure to replace the values with your actual database credentials and connection details.
