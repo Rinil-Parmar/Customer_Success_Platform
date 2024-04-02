@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const EditProject = ({ project, setFetch, closeModal }) => {
+const EditProject = ({ project, setFetch, closeModal,fetchData }) => {
   const [projectName, setProjectName] = useState(project.project_name);
   const [projectDesc, setProjectDesc] = useState(project.project_desc);
   const [projectScope, setProjectScope] = useState(project.project_scope);
@@ -24,12 +24,13 @@ const EditProject = ({ project, setFetch, closeModal }) => {
       });
       toast.success("Project updated successfully");
       setLoading(false);
-      // setFetch(true); // Trigger fetch to update project list
+    
+      await fetchData();
       closeModal(); // Close the modal after successful update
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again later.");
-      // alert("An error occurred. Please try again later.");
+      
       setLoading(false);
     }
   };

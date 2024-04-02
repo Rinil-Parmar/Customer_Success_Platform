@@ -13,29 +13,20 @@ function ApprovedTeam({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchApprovedTeam = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/approved_teams`
+      );
+      setApprovedTeam(response.data);
+    } catch (error) {
+      toast.error("Error fetching approved team members");
+      console.error("Error fetching approved team members:", error);
+    }
+  };
   useEffect(() => {
-    const fetchApprovedTeam = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/approved_teams`
-        );
-        setApprovedTeam(response.data);
-      } catch (error) {
-        toast.error("Error fetching approved team members");
-        console.error("Error fetching approved team members:", error);
-      }
-    };
-
     fetchApprovedTeam();
-
-    // Set interval to fetch approved team members every 6 seconds
-    const intervalId = setInterval(fetchApprovedTeam, 6000);
-
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
+  }, []);
 
   const handleEdit = (teamMember) => {
     setSelectedTeamMember(teamMember);
@@ -53,6 +44,8 @@ function ApprovedTeam({ project, setFetch }) {
         );
         toast.success("Approved team member deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the approved team members again to update the list
+        await fetchApprovedTeam();
       } catch (error) {
         console.error("Error deleting approved team member:", error);
         toast.error(
@@ -128,6 +121,7 @@ function ApprovedTeam({ project, setFetch }) {
           teamMember={selectedTeamMember}
           setFetch={setFetch}
           closeModal={() => setSelectedTeamMember(null)}
+          fetchApprovedTeam={fetchApprovedTeam}
         />
       )}
 
@@ -145,6 +139,7 @@ function ApprovedTeam({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchApprovedTeam={fetchApprovedTeam}
         />
       )}
     </div>

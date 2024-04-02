@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditRiskProfile({ riskProfile, setFetch, closeModal }) {
+function EditRiskProfile({ riskProfile, setFetch, closeModal, fetchRiskProfiles }) {
   const [riskType, setRiskType] = useState(riskProfile.risk_type);
   const [description, setDescription] = useState(riskProfile.description);
   const [severity, setSeverity] = useState(riskProfile.severity);
@@ -35,6 +35,8 @@ function EditRiskProfile({ riskProfile, setFetch, closeModal }) {
       );
       toast.success("Risk profile updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the risk profiles again to update the list
+      await fetchRiskProfiles();
       closeModal();
     } catch (error) {
       console.error("Error updating risk profile:", error);

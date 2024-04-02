@@ -11,30 +11,25 @@ function CompletedProjects({ fetch, setFetch }) {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/v1/projects");
+      // Filter projects by status "Complete"
+      const filteredProjects = response.data.filter(
+        (project) => project.project_status === "Completed"
+      );
+      setCompletedProjects(filteredProjects);
+    } catch (error) {
+      toast.error("Error fetching completed projects");
+      console.error("Error fetching completed projects:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/v1/projects");
-        // Filter projects by status "Complete"
-        const filteredProjects = response.data.filter(
-          (project) => project.project_status === "Completed"
-        );
-        setCompletedProjects(filteredProjects);
-      } catch (error) {
-        toast.error("Error fetching completed projects");
-        console.error("Error fetching completed projects:", error);
-      }
-    };
 
     fetchData(); // Fetch data initially
 
-    // Refresh data every six seconds
-    const intervalId = setInterval(fetchData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [fetch]);
+   
+  }, []);
 
   async function handleDelete(id) {
     const confirmed = window.confirm("Do you want to delete?");
@@ -43,7 +38,8 @@ function CompletedProjects({ fetch, setFetch }) {
       try {
         await axios.delete(`/api/v1/projects/${id}`);
         toast.success("Project deleted successfully");
-        setFetch((prev) => !prev);
+        // setFetch((prev) => !prev);
+        await fetchData();
       } catch (error) {
         toast.error("Error deleting project");
         console.error(error);
@@ -126,6 +122,7 @@ function CompletedProjects({ fetch, setFetch }) {
           project={selectedProject}
           setFetch={setFetch}
           closeModal={handleCloseModal}
+          fetchData={fetchData}
         />
       )}
     </div>

@@ -30,18 +30,14 @@ export default function Project() {
   const [project, setProject] = useState(null);
   const [fetch, setFetch] = useState(false);
 
-
   useEffect(() => {
-
     const fetchProject = async () => {
-
       try {
         const response = await axios.get(`/api/v1/projects/${id}`);
         setProject(response.data);
       } catch (error) {
         console.error("Error fetching project:", error);
       }
-
     };
 
     fetchProject();
@@ -52,7 +48,6 @@ export default function Project() {
   }, [id]);
 
   const handleClick = () => {
-
     axios({
       url: `http://localhost:4000/generate_pdf/${id}`,
       method: "GET",
@@ -71,7 +66,6 @@ export default function Project() {
         toast.error("Error generating PDF");
         console.error("There was an error:", error);
       });
-      
   };
 
   return (
@@ -159,22 +153,27 @@ export default function Project() {
                 {/* SPRINT DETAIL */}
                 <SprintDetails project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* APPROVED TEAM */}
                 <ApprovedTeam project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* RESOURCES */}
                 <Resources project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* CLIENT FEEDBACK */}
                 <ClientFeedback project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* PROJECT UPDATE */}
                 <ProjectUpdates project={project} setFetch={setFetch} />
               </TabPanel>
+
               <TabPanel>
                 {/* MOMS OF CLIENT MEETINGS */}
                 <MomsOfClientMeeting project={project} setFetch={setFetch} />

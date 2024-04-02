@@ -12,31 +12,25 @@ function SprintDetails({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchSprintDetails = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/sprint_details`
+      );
+      setSprintDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching sprint details:", error);
+      toast.error("An error occurred while fetching sprint details.");
+    }
+  };
+
   useEffect(() => {
-    const fetchSprintDetails = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/sprint_details`
-        );
-        setSprintDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching sprint details:", error);
-        toast.error("An error occurred while fetching sprint details.");
-      }
-    };
 
     fetchSprintDetails();
 
-    // Set interval to fetch sprint details every minute
-    const intervalId = setInterval(fetchSprintDetails, 6000);
+  }, []);
 
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
-
-  const handleEdit = (sprintDetail) => {
+  const handleEdit = async(sprintDetail) => {
     setSelectedSprintDetail(sprintDetail);
     setEditModalOpen(true);
   };
@@ -52,6 +46,8 @@ function SprintDetails({ project, setFetch }) {
         );
         toast.success("Sprint detail deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch sprint details again to update the list
+        await fetchSprintDetails();
       } catch (error) {
         console.error("Error deleting sprint detail:", error);
         toast.error("An error occurred while deleting the sprint detail.");
@@ -127,6 +123,7 @@ function SprintDetails({ project, setFetch }) {
           sprintDetail={selectedSprintDetail}
           setFetch={setFetch}
           closeModal={() => setSelectedSprintDetail(null)}
+          fetchSprintDetails={fetchSprintDetails}
         />
       )}
 
@@ -144,6 +141,7 @@ function SprintDetails({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchSprintDetails={fetchSprintDetails}
         />
       )}
     </div>

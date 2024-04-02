@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function AddAuditHistory({ project, setFetch, closeModal }) {
+function AddAuditHistory({
+  project,
+  setFetch,
+  closeModal,
+  fetchAuditHistories,
+}) {
   const [date, setDate] = useState("");
   const [reviewedBy, setReviewedBy] = useState("");
   const [status, setStatus] = useState("");
@@ -30,6 +35,8 @@ function AddAuditHistory({ project, setFetch, closeModal }) {
       );
       toast.success("Audit history added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the audit histories again to update the list
+      await fetchAuditHistories();
       closeModal();
     } catch (error) {
       console.error("Error adding audit history:", error);

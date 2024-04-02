@@ -3,7 +3,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditAuditHistory({ audit, setFetch, closeModal }) {
+function EditAuditHistory({
+  audit,
+  setFetch,
+  closeModal,
+  fetchAuditHistories,
+}) {
   const [date, setDate] = useState(audit.date);
   const [reviewedBy, setReviewedBy] = useState(audit.reviewed_by);
   const [status, setStatus] = useState(audit.status);
@@ -33,7 +38,10 @@ function EditAuditHistory({ audit, setFetch, closeModal }) {
         updatedAudit
       );
       toast.success("Audit history updated successfully.");
+
       setFetch((prev) => !prev);
+      // Fetch the audit histories again to update the list
+      await fetchAuditHistories();
       closeModal();
     } catch (error) {
       console.error("Error updating audit history:", error);

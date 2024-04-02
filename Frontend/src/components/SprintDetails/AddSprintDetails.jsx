@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function AddSprintDetail({ project, setFetch, closeModal }) {
+function AddSprintDetail({ setFetch, closeModal,fetchSprintDetails }) {
   const [sprint, setSprint] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -30,6 +30,9 @@ function AddSprintDetail({ project, setFetch, closeModal }) {
       );
       toast.success("Sprint detail added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the sprint details again to update the list
+      await fetchSprintDetails();
+      
       closeModal();
     } catch (error) {
       console.error("Error adding sprint detail:", error);

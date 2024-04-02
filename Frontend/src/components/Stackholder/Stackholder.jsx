@@ -14,29 +14,21 @@ function Stakeholder({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchStakeholders = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/stakeholders`
+      );
+      setStakeholders(response.data);
+    } catch (error) {
+      console.error("Error fetching stakeholders:", error);
+      toast.error("An error occurred while fetching stakeholders.");
+    }
+  };
   useEffect(() => {
-    const fetchStakeholders = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/stakeholders`
-        );
-        setStakeholders(response.data);
-      } catch (error) {
-        console.error("Error fetching stakeholders:", error);
-        toast.error("An error occurred while fetching stakeholders.");
-      }
-    };
-
     fetchStakeholders();
 
-    // Set interval to fetch stakeholders every minute
-    const intervalId = setInterval(fetchStakeholders, 6000);
-
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
+  }, []);
 
   const handleEdit = (stakeholder) => {
     setSelectedStakeholder(stakeholder);
@@ -50,6 +42,8 @@ function Stakeholder({ project, setFetch }) {
         await axios.delete(`/api/v1/projects/${project.id}/stakeholders/${id}`);
         toast.success("Stakeholder deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        
+        await fetchStakeholders();
       } catch (error) {
         console.error("Error deleting stakeholder:", error);
         toast.error("An error occurred while deleting the stakeholder.");
@@ -138,6 +132,7 @@ function Stakeholder({ project, setFetch }) {
           stakeholder={selectedStakeholder}
           setFetch={setFetch}
           closeModal={() => setSelectedStakeholder(null)}
+          fetchStakeholders={fetchStakeholders}
         />
       )}
 
@@ -155,6 +150,7 @@ function Stakeholder({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchStakeholders={fetchStakeholders}
         />
       )}
     </div>

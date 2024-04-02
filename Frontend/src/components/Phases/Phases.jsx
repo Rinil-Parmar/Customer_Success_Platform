@@ -12,33 +12,27 @@ function Phases({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchPhases = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/phases`
+      );
+      setPhases(response.data);
+    } catch (error) {
+      console.error("Error fetching phases:", error);
+      toast.error("An error occurred while fetching phases.");
+    }
+  };
   useEffect(() => {
-    const fetchPhases = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/phases`
-        );
-        setPhases(response.data);
-      } catch (error) {
-        console.error("Error fetching phases:", error);
-        toast.error("An error occurred while fetching phases.");
-      }
-    };
 
     fetchPhases();
 
-    // Set interval to fetch phases every minute
-    const intervalId = setInterval(fetchPhases, 6000);
+  }, []);
 
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
-
-  const handleEdit = (phase) => {
+  const handleEdit = async(phase) => {
     setSelectedPhase(phase);
     setEditModalOpen(true);
+    // await fetchPhases();
   };
 
   const handleDelete = async (id) => {
@@ -48,6 +42,8 @@ function Phases({ project, setFetch }) {
         await axios.delete(`/api/v1/projects/${project.id}/phases/${id}`);
         toast.success("Phase deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the phases again to update the list
+        await fetchPhases();
       } catch (error) {
         console.error("Error deleting phase:", error);
         toast.error("An error occurred while deleting the phase.");
@@ -128,6 +124,7 @@ function Phases({ project, setFetch }) {
           phase={selectedPhase}
           setFetch={setFetch}
           closeModal={() => setSelectedPhase(null)}
+          fetchPhases={fetchPhases}
         />
       )}
 
@@ -140,11 +137,13 @@ function Phases({ project, setFetch }) {
           Add Phase
         </button>
       )}
+      
       {addModalOpen && (
         <AddPhase
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchPhases={fetchPhases}
         />
       )}
     </div>

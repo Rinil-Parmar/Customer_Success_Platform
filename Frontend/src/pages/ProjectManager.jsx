@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import EditUser from "../components/EditUser";
 
 const ProjectManager = () => {
   const [users, setUsers] = useState([]);
@@ -22,11 +21,7 @@ const ProjectManager = () => {
 
     fetchUsers();
 
-    const intervalId = setInterval(fetchUsers, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
+  
   }, []);
 
   return (

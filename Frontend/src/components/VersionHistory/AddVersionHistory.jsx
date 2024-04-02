@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function AddVersionHistory({ project, setFetch, closeModal }) {
+function AddVersionHistory({ project, setFetch, closeModal, fetchVersionHistories}) {
   const [versionNo, setVersionNo] = useState("");
   const [versionType, setVersionType] = useState("");
   const [change, setChange] = useState("");
@@ -30,6 +30,7 @@ function AddVersionHistory({ project, setFetch, closeModal }) {
       );
       toast.success("Version history added successfully.");
       setFetch((prev) => !prev);
+      await fetchVersionHistories();
       closeModal();
     } catch (error) {
       console.error("Error adding version history:", error);

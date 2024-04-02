@@ -13,29 +13,22 @@ function Resources({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchResources = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/resources`
+      );
+      setResources(response.data);
+    } catch (error) {
+      console.error("Error fetching resources:", error);
+      toast.error("Error fetching resources");
+    }
+  };
   useEffect(() => {
-    const fetchResources = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/resources`
-        );
-        setResources(response.data);
-      } catch (error) {
-        console.error("Error fetching resources:", error);
-        toast.error("Error fetching resources");
-      }
-    };
 
     fetchResources();
 
-    // Set interval to fetch resources every minute
-    const intervalId = setInterval(fetchResources, 6000);
-
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
+  }, []);
 
   const handleEdit = (resource) => {
     setSelectedResource(resource);
@@ -49,6 +42,8 @@ function Resources({ project, setFetch }) {
         await axios.delete(`/api/v1/projects/${project.id}/resources/${id}`);
         toast.success("Resource deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the resources again to update the list
+        await fetchResources();
       } catch (error) {
         console.error("Error deleting resource:", error);
         toast.error("An error occurred while deleting the resource.");
@@ -124,6 +119,7 @@ function Resources({ project, setFetch }) {
           resource={selectedResource}
           setFetch={setFetch}
           closeModal={() => setSelectedResource(null)}
+          fetchResources={fetchResources}
         />
       )}
 
@@ -136,11 +132,13 @@ function Resources({ project, setFetch }) {
           Add Resource
         </button>
       )}
+      
       {addModalOpen && (
         <AddResource
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchResources={fetchResources}
         />
       )}
     </div>

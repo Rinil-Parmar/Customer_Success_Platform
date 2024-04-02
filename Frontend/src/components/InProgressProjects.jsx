@@ -11,32 +11,25 @@ function InProgressProjects({ fetch, setFetch }) {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/v1/projects");
+      // Filter projects by status "In progress"
+      const filteredProjects = response.data.filter(
+        (project) => project.project_status == "In progress"
+      );
+      // console.log("hello", response);
+      setInProgressProjects(filteredProjects);
+    } catch (error) {
+      // use toast to show error message
+      toast.error("Error fetching in-progress projects");
+      console.error("Error fetching in-progress projects:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/v1/projects");
-        // Filter projects by status "In progress"
-        const filteredProjects = response.data.filter(
-          (project) => project.project_status == "In progress"
-        );
-        // console.log("hello", response);
-        setInProgressProjects(filteredProjects);
-      } catch (error) {
-        // use toast to show error message
-        toast.error("Error fetching in-progress projects");
-        console.error("Error fetching in-progress projects:", error);
-      }
-    };
 
     fetchData(); // Fetch data initially
-
-    // Refresh data every six seconds
-    const intervalId = setInterval(fetchData, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [fetch]);
+  }, []);
 
   async function handleDelete(id) {
     console.log("Delete id:", id);
@@ -46,7 +39,8 @@ function InProgressProjects({ fetch, setFetch }) {
       try {
         const response = await axios.delete(`/api/v1/projects/${id}`);
         toast.success("Project deleted successfully");
-        setFetch((prev) => !prev);
+        // setFetch((prev) => !prev);
+        await fetchData();
       } catch (error) {
         toast.error("Error deleting project");
         console.log(error);
@@ -133,6 +127,7 @@ function InProgressProjects({ fetch, setFetch }) {
           project={selectedProject}
           setFetch={setFetch}
           closeModal={handleCloseModal}
+          fetchData={fetchData}
         />
       )}
     </div>

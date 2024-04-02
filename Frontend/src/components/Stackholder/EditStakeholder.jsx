@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditStakeholder({ stakeholder, setFetch, closeModal }) {
+function EditStakeholder({ stakeholder, setFetch, closeModal, fetchStakeholders }) {
   const [title, setTitle] = useState(stakeholder.title);
   const [name, setName] = useState(stakeholder.name);
   const [contact, setContact] = useState(stakeholder.contact);
@@ -25,6 +25,7 @@ function EditStakeholder({ stakeholder, setFetch, closeModal }) {
       );
       toast.success("Stakeholder updated successfully.");
       setFetch((prev) => !prev);
+      await fetchStakeholders();
       closeModal();
     } catch (error) {
       console.error("Error updating stakeholder:", error);

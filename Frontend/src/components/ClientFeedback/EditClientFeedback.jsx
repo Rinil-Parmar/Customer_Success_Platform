@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditClientFeedback({ clientFeedback, setFetch, closeModal }) {
+function EditClientFeedback({ clientFeedback, setFetch, closeModal,fetchClientFeedbacks }) {
   const [feedbackType, setFeedbackType] = useState(
     clientFeedback.feedback_type
   );
@@ -35,6 +35,8 @@ function EditClientFeedback({ clientFeedback, setFetch, closeModal }) {
       );
       toast.success("Client feedback updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the client feedbacks again to update the list
+      await fetchClientFeedbacks();
       closeModal();
     } catch (error) {
       console.error("Error updating client feedback:", error);

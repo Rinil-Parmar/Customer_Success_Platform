@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function AddClientFeedback({ project, setFetch, closeModal }) {
+function AddClientFeedback({ setFetch, closeModal, fetchClientFeedbacks }) {
   const [feedbackType, setFeedbackType] = useState("");
   const [dateReceived, setDateReceived] = useState("");
   const [detailedFeedback, setDetailedFeedback] = useState("");
@@ -30,6 +30,9 @@ function AddClientFeedback({ project, setFetch, closeModal }) {
       );
       toast.success("Client feedback added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the client feedbacks again to update the list
+      await fetchClientFeedbacks();
+
       closeModal();
     } catch (error) {
       console.error("Error adding client feedback:", error);
@@ -110,7 +113,8 @@ function AddClientFeedback({ project, setFetch, closeModal }) {
             </button>
           </div>
         </form>
-      </div>cd 
+      </div>
+      cd
     </div>
   );
 }

@@ -26,12 +26,10 @@ const EditScopeStack = ({ project, setFetch }) => {
       setLoading(false);
       setFetch((prevFetch) => !prevFetch); // Trigger fetch to update project list
       toast.success("Scope and Stack updated successfully");
-      // setSaved(true);
-      // setTimeout(() => setSaved(false), 5000); // Hide saved message after 2 seconds
+      
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again later.");
-      // alert("An error occurred. Please try again later.");
       setLoading(false);
     }
   };

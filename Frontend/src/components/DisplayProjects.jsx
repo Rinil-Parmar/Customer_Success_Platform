@@ -11,27 +11,26 @@ function DisplayProjects({ fetch, setFetch }) {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("/api/v1/projects");
+      setProjects(response.data);
+    } catch (error) {
+      // use toast to show error message
+      toast.error("Error fetching projects");
+      console.error("Error fetching projects:", error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/v1/projects");
-        setProjects(response.data);
-      } catch (error) {
-        // use toast to show error message
-        toast.error("Error fetching projects");
-        console.error("Error fetching projects:", error);
-      }
-    };
-
     fetchData(); // Fetch data initially
 
     // Refresh data every six seconds
-    const intervalId = setInterval(fetchData, 6000);
+    // const intervalId = setInterval(fetchData, 6000);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [fetch]);
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
+  }, []);
 
   async function handleDelete(id) {
     console.log("Delete id:", id);
@@ -42,7 +41,8 @@ function DisplayProjects({ fetch, setFetch }) {
         const response = await axios.delete(`/api/v1/projects/${id}`);
         // toast.success(response.data.message);
         toast.success("Project deleted successfully");
-        setFetch((prev) => !prev);
+        // setFetch((prev) => !prev);
+        await fetchData();
       } catch (error) {
         toast.error("Error deleting project");
         console.log(error);
@@ -129,6 +129,7 @@ function DisplayProjects({ fetch, setFetch }) {
           project={selectedProject}
           setFetch={setFetch}
           closeModal={handleCloseModal}
+          fetchData={fetchData}
         />
       )}
     </div>

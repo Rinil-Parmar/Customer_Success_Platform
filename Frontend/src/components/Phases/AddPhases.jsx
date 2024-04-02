@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function AddPhase({ project, setFetch, closeModal }) {
+function AddPhase({ setFetch, closeModal, fetchPhases }) {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [completionDate, setCompletionDate] = useState("");
@@ -31,6 +31,8 @@ function AddPhase({ project, setFetch, closeModal }) {
       await axios.post(`/api/v1/projects/${id}/phases`, newPhase);
       toast.success("Phase added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the phases again to update the list
+      await fetchPhases();
       closeModal();
     } catch (error) {
       console.error("Error adding phase:", error);
