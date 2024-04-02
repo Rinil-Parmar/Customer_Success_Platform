@@ -6,16 +6,13 @@ export default function ProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-
     const fetchData = async () => {
-
       try {
         const response = await axios.get("/api/v1/projects");
         setProjects(response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
-
     };
 
     fetchData();

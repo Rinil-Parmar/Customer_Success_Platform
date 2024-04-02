@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-function AddApprovedTeam({ project, setFetch, closeModal }) {
+function AddApprovedTeam({ project, setFetch, closeModal, fetchApprovedTeam }) {
   const [numberOfResources, setNumberOfResources] = useState("");
   const [role, setRole] = useState("");
   const [availabilityPercentage, setAvailabilityPercentage] = useState("");
@@ -26,6 +26,8 @@ function AddApprovedTeam({ project, setFetch, closeModal }) {
       );
       toast.success("Approved team member added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the approved team members again to update the list
+      await fetchApprovedTeam();
       closeModal();
     } catch (error) {
       console.error("Error adding approved team member:", error);

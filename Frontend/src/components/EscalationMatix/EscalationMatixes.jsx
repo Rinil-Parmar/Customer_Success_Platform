@@ -31,8 +31,6 @@ const EscalationMatrix = ({ projectId }) => {
 
     fetchEscalations();
 
-    // const intervalId = setInterval(fetchEscalations, 120000); // Refresh every minute
-    // return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, [projectId]);
 
   return (

@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditPhase({ phase, setFetch, closeModal }) {
+function EditPhase({ phase, setFetch, closeModal,fetchPhases }) {
   const [title, setTitle] = useState(phase.title);
   const [startDate, setStartDate] = useState(phase.start_date);
   const [completionDate, setCompletionDate] = useState(phase.completion_date);
@@ -35,6 +35,8 @@ function EditPhase({ phase, setFetch, closeModal }) {
       );
       toast.success("Phase updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the phases again to update the list
+      await fetchPhases();
       closeModal();
     } catch (error) {
       console.error("Error updating phase:", error);

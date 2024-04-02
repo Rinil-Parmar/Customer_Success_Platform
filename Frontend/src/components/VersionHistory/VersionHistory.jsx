@@ -12,32 +12,27 @@ function VersionHistory({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchVersionHistories = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/version_histories`
+      );
+      setVersionHistories(response.data);
+    } catch (error) {
+      console.error("Error fetching version histories:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchVersionHistories = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/version_histories`
-        );
-        setVersionHistories(response.data);
-      } catch (error) {
-        console.error("Error fetching version histories:", error);
-      }
-    };
 
     fetchVersionHistories();
 
-    // Set interval to fetch version histories every minute
-    const intervalId = setInterval(fetchVersionHistories, 6000);
+  }, []);
 
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
-
-  const handleEdit = (version) => {
+  const handleEdit = async (version) => {
     setSelectedVersion(version);
-    setEditModalOpen(true);
+    // setEditModalOpen(true);
+    // await fetchVersionHistories();
   };
 
   const handleDelete = async (id) => {
@@ -51,6 +46,7 @@ function VersionHistory({ project, setFetch }) {
         );
         toast.success("Version history deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        await fetchVersionHistories();
       } catch (error) {
         console.error("Error deleting version history:", error);
         toast.error("An error occurred while deleting the version history.");
@@ -127,6 +123,7 @@ function VersionHistory({ project, setFetch }) {
           versionHistory={selectedVersion}
           setFetch={setFetch}
           closeModal={() => setSelectedVersion(null)}
+          fetchVersionHistories={fetchVersionHistories}
         />
       )}
 
@@ -144,6 +141,7 @@ function VersionHistory({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchVersionHistories={fetchVersionHistories}
         />
       )}
     </div>

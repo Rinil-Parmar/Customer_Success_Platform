@@ -13,26 +13,20 @@ function MomsOfClientMeeting({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchMoms = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/moms_of_client_meetings`
+      );
+      setMoms(response.data);
+    } catch (error) {
+      console.error("Error fetching Moms of client meetings:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchMoms = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/moms_of_client_meetings`
-        );
-        setMoms(response.data);
-      } catch (error) {
-        console.error("Error fetching Moms of client meetings:", error);
-      }
-    };
-
     fetchMoms();
-
-    const intervalId = setInterval(fetchMoms, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [project, setFetch]);
+  }, []);
 
   const handleEdit = (mom) => {
     setSelectedMom(mom);
@@ -50,6 +44,8 @@ function MomsOfClientMeeting({ project, setFetch }) {
         );
         toast.success("Mom of client meeting deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the moms of client meetings again to update the list
+        await fetchMoms();
       } catch (error) {
         console.error("Error deleting mom of client meeting:", error);
         toast.error(
@@ -120,6 +116,7 @@ function MomsOfClientMeeting({ project, setFetch }) {
           mom={selectedMom}
           setFetch={setFetch}
           closeModal={() => setSelectedMom(null)}
+          fetchMoms={fetchMoms}
         />
       )}
 
@@ -137,6 +134,7 @@ function MomsOfClientMeeting({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchMoms={fetchMoms}
         />
       )}
     </div>

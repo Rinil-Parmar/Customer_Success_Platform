@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditSprintDetail({ sprintDetail, setFetch, closeModal }) {
+function EditSprintDetail({ sprintDetail, setFetch, closeModal, fetchSprintDetails}) {
   const [sprint, setSprint] = useState(sprintDetail.sprint);
   const [startDate, setStartDate] = useState(sprintDetail.start_date);
   const [endDate, setEndDate] = useState(sprintDetail.end_date);
@@ -29,6 +29,8 @@ function EditSprintDetail({ sprintDetail, setFetch, closeModal }) {
       );
       toast.success("Sprint detail updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the sprint details again to update the list
+      await fetchSprintDetails();
       closeModal();
     } catch (error) {
       console.error("Error updating sprint detail:", error);

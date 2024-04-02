@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function AddResource({ project, setFetch, closeModal }) {
+function AddResource({ project, setFetch, closeModal,fetchResources }) {
   const [resourceName, setResourceName] = useState("");
   const [role, setRole] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -27,6 +27,8 @@ function AddResource({ project, setFetch, closeModal }) {
       await axios.post(`/api/v1/projects/${id}/resources`, newResource);
       toast.success("Resource added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the resources again to update the list
+      await fetchResources();
       closeModal();
     } catch (error) {
       console.error("Error adding resource:", error);

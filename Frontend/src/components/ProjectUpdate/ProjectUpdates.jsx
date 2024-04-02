@@ -13,28 +13,21 @@ function ProjectUpdates({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchProjectUpdates = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/project_updates`
+      );
+      setProjectUpdates(response.data);
+    } catch (error) {
+      console.error("Error fetching project updates:", error);
+    }
+  };
   useEffect(() => {
-    const fetchProjectUpdates = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/project_updates`
-        );
-        setProjectUpdates(response.data);
-      } catch (error) {
-        console.error("Error fetching project updates:", error);
-      }
-    };
 
     fetchProjectUpdates();
 
-    // Set interval to fetch project updates every minute
-    const intervalId = setInterval(fetchProjectUpdates, 6000);
-
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
+  }, []);
 
   const handleEdit = (projectUpdate) => {
     setSelectedProjectUpdate(projectUpdate);
@@ -52,6 +45,9 @@ function ProjectUpdates({ project, setFetch }) {
         );
         toast.success("Project update deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the project updates again to update the list
+        await fetchProjectUpdates();
+
       } catch (error) {
         console.error("Error deleting project update:", error);
         toast.error("An error occurred while deleting the project update.");
@@ -115,6 +111,7 @@ function ProjectUpdates({ project, setFetch }) {
           projectUpdate={selectedProjectUpdate}
           setFetch={setFetch}
           closeModal={() => setSelectedProjectUpdate(null)}
+          fetchProjectUpdates={fetchProjectUpdates}
         />
       )}
 
@@ -132,6 +129,7 @@ function ProjectUpdates({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchProjectUpdates={fetchProjectUpdates}
         />
       )}
     </div>

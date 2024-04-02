@@ -59,7 +59,6 @@ const ProjectModal = ({ closeModal }) => {
         project_manager: project_manager,
       });
 
-      
       toast.success("Project created successfully");
       console.log("Project created:", projectResponse.data);
     } catch (error) {

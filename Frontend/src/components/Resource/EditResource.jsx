@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditResource({ resource, setFetch, closeModal }) {
+function EditResource({ resource, setFetch, closeModal,fetchResources }) {
   const [resourceName, setResourceName] = useState(resource.resource_name);
   const [role, setRole] = useState(resource.role);
   const [startDate, setStartDate] = useState(resource.start_date);
@@ -29,6 +29,8 @@ function EditResource({ resource, setFetch, closeModal }) {
       );
       toast.success("Resource updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the resources again to update the list
+      await fetchResources();
       closeModal();
     } catch (error) {
       console.error("Error updating resource:", error);

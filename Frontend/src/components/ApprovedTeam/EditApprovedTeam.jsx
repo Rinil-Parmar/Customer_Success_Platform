@@ -3,10 +3,19 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditApprovedTeam({ teamMember, setFetch, closeModal }) {
-  const [numberOfResources, setNumberOfResources] = useState(teamMember.number_of_resources);
+function EditApprovedTeam({
+  teamMember,
+  setFetch,
+  closeModal,
+  fetchApprovedTeam,
+}) {
+  const [numberOfResources, setNumberOfResources] = useState(
+    teamMember.number_of_resources
+  );
   const [role, setRole] = useState(teamMember.role);
-  const [availabilityPercentage, setAvailabilityPercentage] = useState(teamMember.availability_percentage);
+  const [availabilityPercentage, setAvailabilityPercentage] = useState(
+    teamMember.availability_percentage
+  );
   const [duration, setDuration] = useState(teamMember.duration);
 
   const { id } = useParams();
@@ -28,6 +37,8 @@ function EditApprovedTeam({ teamMember, setFetch, closeModal }) {
       );
       toast.success("Approved team member updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the approved team members again to update the list
+      await fetchApprovedTeam();
       closeModal();
     } catch (error) {
       console.error("Error updating approved team member:", error);
@@ -57,7 +68,9 @@ function EditApprovedTeam({ teamMember, setFetch, closeModal }) {
             />
           </svg>
         </button>
-        <h2 className="text-lg font-semibold mb-4">Edit Approved Team Member</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          Edit Approved Team Member
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label>Number of Resources:</label>

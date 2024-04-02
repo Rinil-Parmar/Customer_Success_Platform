@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function AddMomsOfClientMeeting({ project, setFetch, closeModal }) {
+function AddMomsOfClientMeeting({ project, setFetch, closeModal, fetchMoms }) {
   const [date, setDate] = useState("");
   const [duration, setDuration] = useState("");
   const [momLink, setMomLink] = useState("");
@@ -28,6 +28,7 @@ function AddMomsOfClientMeeting({ project, setFetch, closeModal }) {
       );
       toast.success("Mom of client meeting added successfully.");
       setFetch((prev) => !prev);
+      await fetchMoms();
       closeModal();
     } catch (error) {
       console.error("Error adding mom of client meeting:", error);

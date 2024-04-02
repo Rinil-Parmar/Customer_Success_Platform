@@ -7,42 +7,32 @@ function UsersList() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("/api/v1/users");
+      setUsers(response.data);
+    } catch (error) {
+      toast.error("Error fetching users");
+      console.error("Error fetching users:", error);
+    }
+  };
+
   useEffect(() => {
-
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("/api/v1/users");
-        setUsers(response.data);
-      } catch (error) {
-        toast.error("Error fetching users");
-        console.error("Error fetching users:", error);
-      }
-
-    };
-
     fetchUsers();
-
-    const intervalId = setInterval(fetchUsers, 6000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
   }, []);
 
   const handleDelete = async (id) => {
-
     const confirmed = window.confirm("Do you want to delete this user?");
     if (confirmed) {
       try {
         await axios.delete(`/api/v1/users/${id}`);
         toast.success("User deleted successfully.");
-        setUsers(users.filter((user) => user.id !== id));
+        fetchUsers(); // Call fetchUsers to update the user list
       } catch (error) {
         console.error("Error deleting user:", error);
         toast.error("An error occurred while deleting the user.");
       }
     }
-    
   };
 
   const handleEdit = (user) => {

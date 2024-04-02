@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditProjectUpdate({ projectUpdate, setFetch, closeModal }) {
+function EditProjectUpdate({ projectUpdate, setFetch, closeModal,fetchProjectUpdates }) {
   const [date, setDate] = useState(projectUpdate.date);
   const [generalUpdates, setGeneralUpdates] = useState(projectUpdate.general_updates);
   const { id } = useParams();
@@ -23,6 +23,8 @@ function EditProjectUpdate({ projectUpdate, setFetch, closeModal }) {
       );
       toast.success("Project update updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the project updates again to update the list
+      await fetchProjectUpdates();
       closeModal();
     } catch (error) {
       console.error("Error updating project update:", error);

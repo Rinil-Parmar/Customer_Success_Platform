@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-function AddStakeholder({ project, setFetch, closeModal }) {
+function AddStakeholder({ setFetch, closeModal,fetchStakeholders }) {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
@@ -22,6 +22,8 @@ function AddStakeholder({ project, setFetch, closeModal }) {
       await axios.post(`/api/v1/projects/${id}/stakeholders`, newStakeholder);
       toast.success("Stakeholder added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the stakeholders again to update the list
+      await fetchStakeholders();
       closeModal();
     } catch (error) {
       console.error("Error adding stakeholder:", error);

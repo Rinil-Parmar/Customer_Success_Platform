@@ -12,33 +12,26 @@ function RiskProfiling({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchRiskProfiles = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/risk_profilings`
+      );
+      setRiskProfiles(response.data);
+    } catch (error) {
+      console.error("Error fetching risk profiles:", error);
+      toast.error("An error occurred while fetching risk profiles.");
+    }
+  };
   useEffect(() => {
-    const fetchRiskProfiles = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/risk_profilings`
-        );
-        setRiskProfiles(response.data);
-      } catch (error) {
-        console.error("Error fetching risk profiles:", error);
-        toast.error("An error occurred while fetching risk profiles.");
-      }
-    };
-
     fetchRiskProfiles();
 
-    // Set interval to fetch risk profiles every minute
-    const intervalId = setInterval(fetchRiskProfiles, 6000);
+  }, []);
 
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
-
-  const handleEdit = (riskProfile) => {
+  const handleEdit = async (riskProfile) => {
     setSelectedRiskProfile(riskProfile);
     setEditModalOpen(true);
+    // await fetchRiskProfiles();
   };
 
   const handleDelete = async (id) => {
@@ -52,6 +45,8 @@ function RiskProfiling({ project, setFetch }) {
         );
         toast.success("Risk profile deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the risk profiles again to update the list
+        await fetchRiskProfiles();
       } catch (error) {
         console.error("Error deleting risk profile:", error);
         toast.error("An error occurred while deleting the risk profile.");
@@ -135,6 +130,7 @@ function RiskProfiling({ project, setFetch }) {
           riskProfile={selectedRiskProfile}
           setFetch={setFetch}
           closeModal={() => setSelectedRiskProfile(null)}
+          fetchRiskProfiles={fetchRiskProfiles}
         />
       )}
 
@@ -152,6 +148,7 @@ function RiskProfiling({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchRiskProfiles={fetchRiskProfiles}
         />
       )}
     </div>

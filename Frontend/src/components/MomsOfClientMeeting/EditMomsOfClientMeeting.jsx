@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditMomsOfClientMeeting({ mom, setFetch, closeModal }) {
+function EditMomsOfClientMeeting({ mom, setFetch, closeModal, fetchMoms }) {
   const [date, setDate] = useState(mom.date);
   const [duration, setDuration] = useState(mom.duration);
   const [momLink, setMomLink] = useState(mom.mom_link);
@@ -27,6 +27,8 @@ function EditMomsOfClientMeeting({ mom, setFetch, closeModal }) {
       );
       toast.success("Mom of client meeting updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the moms of client meetings again to update the list
+      await fetchMoms();
       closeModal();
     } catch (error) {
       console.error("Error updating mom of client meeting:", error);

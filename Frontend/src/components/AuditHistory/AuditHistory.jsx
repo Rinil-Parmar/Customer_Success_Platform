@@ -12,31 +12,24 @@ function AuditHistory({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchAuditHistories = async () => {
+    try {
+      console.log("in fetch audit histories");
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/audit_histories`
+      );
+
+      setAuditHistories(response.data);
+    } catch (error) {
+      toast.error("Error fetching audit histories");
+      console.error("Error fetching audit histories:", error);
+    }
+  };
   useEffect(() => {
-    const fetchAuditHistories = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/audit_histories`
-        );
-        setAuditHistories(response.data);
-      } catch (error) {
-        toast.error("Error fetching audit histories");
-        console.error("Error fetching audit histories:", error);
-      }
-    };
-
     fetchAuditHistories();
+  }, []);
 
-    // Set interval to fetch audit histories every minute
-    const intervalId = setInterval(fetchAuditHistories, 6000);
-
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
-
-  const handleEdit = (audit) => {
+  const handleEdit = async (audit) => {
     setSelectedAudit(audit);
   };
 
@@ -51,6 +44,7 @@ function AuditHistory({ project, setFetch }) {
         );
         toast.success("Audit history deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        await fetchAuditHistories();
       } catch (error) {
         console.error("Error deleting audit history:", error);
         toast.error("An error occurred while deleting the audit history.");
@@ -127,6 +121,7 @@ function AuditHistory({ project, setFetch }) {
           audit={selectedAudit}
           setFetch={setFetch}
           closeModal={() => setSelectedAudit(null)}
+          fetchAuditHistories={fetchAuditHistories}
         />
       )}
 
@@ -139,11 +134,13 @@ function AuditHistory({ project, setFetch }) {
           Add Audit
         </button>
       )}
+
       {addModalOpen && (
         <AddAuditHistory
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchAuditHistories={fetchAuditHistories}
         />
       )}
     </div>

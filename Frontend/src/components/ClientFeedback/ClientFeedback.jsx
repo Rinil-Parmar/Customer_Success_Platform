@@ -13,28 +13,21 @@ function ClientFeedback({ project, setFetch }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
+  const fetchClientFeedbacks = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/projects/${project.id}/client_feedbacks`
+      );
+      setClientFeedbacks(response.data);
+    } catch (error) {
+      console.error("Error fetching client feedbacks:", error);
+    }
+  };
   useEffect(() => {
-    const fetchClientFeedbacks = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/projects/${project.id}/client_feedbacks`
-        );
-        setClientFeedbacks(response.data);
-      } catch (error) {
-        console.error("Error fetching client feedbacks:", error);
-      }
-    };
 
     fetchClientFeedbacks();
 
-    // Set interval to fetch client feedbacks every minute
-    const intervalId = setInterval(fetchClientFeedbacks, 6000);
-
-    // Cleanup function
-    return () => {
-      clearInterval(intervalId); // Cleanup interval on component unmount
-    };
-  }, [project, setFetch]);
+  }, []);
 
   const handleEdit = (clientFeedback) => {
     setSelectedClientFeedback(clientFeedback);
@@ -52,6 +45,8 @@ function ClientFeedback({ project, setFetch }) {
         );
         toast.success("Client feedback deleted successfully.");
         setFetch((prevFetch) => !prevFetch);
+        // Fetch the client feedbacks again to update the list
+        await fetchClientFeedbacks();
       } catch (error) {
         console.error("Error deleting client feedback:", error);
         toast.error("An error occurred while deleting the client feedback.");
@@ -127,6 +122,7 @@ function ClientFeedback({ project, setFetch }) {
           clientFeedback={selectedClientFeedback}
           setFetch={setFetch}
           closeModal={() => setSelectedClientFeedback(null)}
+          fetchClientFeedbacks={fetchClientFeedbacks}
         />
       )}
 
@@ -144,6 +140,7 @@ function ClientFeedback({ project, setFetch }) {
           project={project}
           setFetch={setFetch}
           closeModal={() => setAddModalOpen(false)}
+          fetchClientFeedbacks={fetchClientFeedbacks}
         />
       )}
     </div>

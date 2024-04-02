@@ -3,7 +3,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function AddRiskProfiling({ project, setFetch, closeModal }) {
+function AddRiskProfiling({
+  setFetch,
+  closeModal,
+  fetchRiskProfiles,
+}) {
   const [riskType, setRiskType] = useState("");
   const [description, setDescription] = useState("");
   const [severity, setSeverity] = useState("");
@@ -34,6 +38,8 @@ function AddRiskProfiling({ project, setFetch, closeModal }) {
       );
       toast.success("Risk profiling added successfully.");
       setFetch((prev) => !prev);
+      // Fetch the risk profilings again to update the list
+      await fetchRiskProfiles();
       closeModal();
     } catch (error) {
       console.error("Error adding risk profiling:", error);

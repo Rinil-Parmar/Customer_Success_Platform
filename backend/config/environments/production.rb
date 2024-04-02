@@ -18,14 +18,14 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'gmail.com',
-    user_name:            'parmarrinila2002@gmail.com', # Your Gmail email address
-    password:             'exto eygy kdrw gazj', # Your Gmail password or an App Password if using 2-step verification
-    authentication:       'plain',
-    enable_starttls_auto: true
-  }
+  address:              ENV['SMTP_ADDRESS'],
+  port:                 ENV['SMTP_PORT'],
+  domain:               ENV['SMTP_DOMAIN'],
+  user_name:            ENV['SMTP_USERNAME'],
+  password:             ENV['SMTP_PASSWORD'],
+  authentication:       ENV['SMTP_AUTHENTICATION'],
+  enable_starttls_auto: ENV['SMTP_ENABLE_STARTTLS_AUTO'] == 'true'
+}
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).

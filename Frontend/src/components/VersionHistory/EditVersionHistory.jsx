@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function EditVersionHistory({ versionHistory, setFetch, closeModal }) {
+function EditVersionHistory({ versionHistory, setFetch, closeModal, fetchVersionHistories }) {
   const [versionNo, setVersionNo] = useState(versionHistory.version_no || "");
   const [versionType, setVersionType] = useState(
     versionHistory.version_type || ""
@@ -35,6 +35,8 @@ function EditVersionHistory({ versionHistory, setFetch, closeModal }) {
       );
       toast.success("Version history updated successfully.");
       setFetch((prev) => !prev);
+      // Fetch the version histories again to update the list
+      await fetchVersionHistories();
       closeModal();
     } catch (error) {
       console.error("Error updating version history:", error);
