@@ -33,22 +33,16 @@ export default function ProjectList() {
             <th scope="col" className="px-6 py-3">
               Project name
             </th>
-            <th scope="col" className="px-6 py-3">
-              Actions
-            </th>
           </tr>
         </thead>
         <tbody>
           {projects.map((project) => (
             <tr className="bg-white border-b hover:bg-gray-50" key={project.id}>
-              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                {project.project_name}
-              </td>
-              <td className="px-6 py-4 text-right flex gap-2">
-                <Link to={`/projects/${project.id}`} className="text-blue-600">
-                  View
-                </Link>
-              </td>
+              <Link to={`/projects/${project.id}`} className="text-blue-600">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {project.project_name}
+                </td>
+              </Link>
             </tr>
           ))}
         </tbody>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ProjectModal = ({ closeModal }) => {
+const ProjectModal = ({ closeModal,fetchData }) => {
   const [step, setStep] = useState(1);
   const [projectName, setProjectName] = useState("");
   const [projectDesc, setProjectDesc] = useState("");
@@ -60,6 +60,8 @@ const ProjectModal = ({ closeModal }) => {
       });
 
       toast.success("Project created successfully");
+     
+      console.log("Helo rinil");
       console.log("Project created:", projectResponse.data);
     } catch (error) {
       toast.error("Error creating project");

@@ -28,6 +28,7 @@ export function UserContextProvider({ children }) {
 
           setMyUser(filteredUser);
           
+          
         } catch (error) {
           console.error("Error fetching user:", error);
         }

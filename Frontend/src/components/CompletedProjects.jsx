@@ -19,6 +19,7 @@ function CompletedProjects({ fetch, setFetch }) {
         (project) => project.project_status === "Completed"
       );
       setCompletedProjects(filteredProjects);
+     
     } catch (error) {
       toast.error("Error fetching completed projects");
       console.error("Error fetching completed projects:", error);

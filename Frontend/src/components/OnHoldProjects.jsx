@@ -19,6 +19,7 @@ function OnHoldProjects({ fetch, setFetch }) {
         (project) => project.project_status === "On hold"
       );
       setOnHoldProjects(filteredProjects);
+     
     } catch (error) {
       toast.error("Error fetching on-hold projects");
       console.error("Error fetching on-hold projects:", error);

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "./EditProject";
 import { UserContext } from "../contexts/UserContext";
+import ProjectModal from "./ProjectModal";
 
 function DisplayProjects({ fetch, setFetch }) {
   const [projects, setProjects] = useState([]);
@@ -15,6 +16,8 @@ function DisplayProjects({ fetch, setFetch }) {
     try {
       const response = await axios.get("/api/v1/projects");
       setProjects(response.data);
+
+      
     } catch (error) {
       // use toast to show error message
       toast.error("Error fetching projects");
@@ -131,7 +134,8 @@ function DisplayProjects({ fetch, setFetch }) {
           closeModal={handleCloseModal}
           fetchData={fetchData}
         />
-      )}
+        )}
+        
     </div>
   );
 }

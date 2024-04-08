@@ -20,6 +20,7 @@ function InProgressProjects({ fetch, setFetch }) {
       );
       // console.log("hello", response);
       setInProgressProjects(filteredProjects);
+      
     } catch (error) {
       // use toast to show error message
       toast.error("Error fetching in-progress projects");

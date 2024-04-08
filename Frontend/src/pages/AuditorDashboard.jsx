@@ -121,22 +121,22 @@ function AuditorDashboard() {
         <TabPanels>
           <TabPanel>
             {/* Display project component */}
-            <DisplayProjects projects={projects.allProjects} />
+            <DisplayProjects fetch={fetch} projects={projects.allProjects} />
           </TabPanel>
 
           <TabPanel>
             {/* In progress projects component */}
-            <InProgressProjects projects={projects.inProgressProjects} />
+            <InProgressProjects fetch={fetch} projects={projects.inProgressProjects} />
           </TabPanel>
 
           <TabPanel>
             {/* Completed projects component */}
-            <CompletedProjects projects={projects.completedProjects} />
+            <CompletedProjects fetch={fetch} projects={projects.completedProjects} />
           </TabPanel>
 
           <TabPanel>
             {/* On hold projects component */}
-            <OnHoldProjects projects={projects.onHoldProjects} />
+            <OnHoldProjects fetch={fetch} projects={projects.onHoldProjects} />
           </TabPanel>
         </TabPanels>
       </TabsContext>
