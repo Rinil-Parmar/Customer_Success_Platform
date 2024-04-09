@@ -3,7 +3,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useProjectContext } from "../contexts/projectContext";
 
-
 const EditProject = ({ project, closeModal }) => {
   const [projectName, setProjectName] = useState(project.project_name);
   const [projectDesc, setProjectDesc] = useState(project.project_desc);
@@ -18,18 +17,16 @@ const EditProject = ({ project, closeModal }) => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      await axios.put(`/api/v1/projects/${project.id}`, {
-        project_name: projectName,
-        project_desc: projectDesc,
-        project_scope: projectScope,
-        project_stack: projectStack,
-        project_status: projectStatus,
-        project_manager: projectManager,
-      });
-      toast.success("Project updated successfully");
-      setLoading(false);
+      // await axios.put(`/api/v1/projects/${project.id}`, {
+      //   project_name: projectName,
+      //   project_desc: projectDesc,
+      //   project_scope: projectScope,
+      //   project_stack: projectStack,
+      //   project_status: projectStatus,
+      //   project_manager: projectManager,
+      // });
 
-      editProject(project.id, {
+      await editProject(project.id, {
         id: project.id,
         project_name: projectName,
         project_desc: projectDesc,
@@ -38,7 +35,9 @@ const EditProject = ({ project, closeModal }) => {
         project_manager: projectManager,
         project_status: projectStatus,
       });
+      toast.success("Project updated successfully");
 
+      setLoading(false);
       // await fetchData();
       closeModal(); // Close the modal after successful update
     } catch (error) {
@@ -53,7 +52,9 @@ const EditProject = ({ project, closeModal }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
       <div className="bg-white rounded-lg p-10 w-96 flex flex-col items-center">
         <div className="modal-content">
-          <h2 className="text-lg font-semibold mb-4 text-black">Edit Project</h2>
+          <h2 className="text-lg font-semibold mb-4 text-black">
+            Edit Project
+          </h2>
           <input
             type="text"
             placeholder="Project Name"
