@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext} from "react";
 import {
   Tab,
   TabList,
@@ -7,50 +7,16 @@ import {
   TabPanel,
 } from "monday-ui-react-core";
 import DisplayProjects from "../components/DisplayProjects";
-import { UserContext } from "../contexts/UserContext";
 import InProgressProjects from "../components/InProgressProjects";
 import CompletedProjects from "../components/CompletedProjects";
 import OnHoldProjects from "../components/OnHoldProjects";
-import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
+import { useProjectContext } from "../contexts/projectContext"; // Import the project context hook
 
-// AuditorDashboard component
 function AuditorDashboard() {
-  const [fetch, setFetch] = useState(false);
   const { myUser } = useContext(UserContext);
-  const [projects, setProjects] = useState({
-    allProjects: [],
-    inProgressProjects: [],
-    completedProjects: [],
-    onHoldProjects: [],
-  });
+  const { projects } = useProjectContext(); // Use the project context hook
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/v1/projects");
-        const allProjects = response.data;
-        const inProgressProjects = allProjects.filter(
-          (project) => project.project_status === "In progress"
-        );
-        const completedProjects = allProjects.filter(
-          (project) => project.project_status === "Completed"
-        );
-        const onHoldProjects = allProjects.filter(
-          (project) => project.project_status === "On hold"
-        );
-        setProjects({
-          allProjects,
-          inProgressProjects,
-          completedProjects,
-          onHoldProjects,
-        });
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-
-    fetchData();
-  }, [fetch]);
 
   if (!myUser) {
     return <div>Loading...</div>;
@@ -76,7 +42,7 @@ function AuditorDashboard() {
           onClick={() => console.log("All Projects clicked")}
         >
           <h3 className="text-xl font-bold mb-2">All Projects</h3>
-          <p className="text-lg">{projects.allProjects.length} projects</p>
+          <p className="text-lg">{projects.length} projects</p>
         </div>
 
         {/* In Progress Card */}
@@ -86,7 +52,7 @@ function AuditorDashboard() {
         >
           <h3 className="text-xl font-bold mb-2">In Progress</h3>
           <p className="text-lg">
-            {projects.inProgressProjects.length} projects
+            {projects.filter(project => project.project_status === "In progress").length} projects
           </p>
         </div>
 
@@ -97,7 +63,7 @@ function AuditorDashboard() {
         >
           <h3 className="text-xl font-bold mb-2">Completed</h3>
           <p className="text-lg">
-            {projects.completedProjects.length} projects
+            {projects.filter(project => project.project_status === "Completed").length} projects
           </p>
         </div>
 
@@ -107,7 +73,9 @@ function AuditorDashboard() {
           onClick={() => console.log("On Hold clicked")}
         >
           <h3 className="text-xl font-bold mb-2">On Hold</h3>
-          <p className="text-lg">{projects.onHoldProjects.length} projects</p>
+          <p className="text-lg">
+            {projects.filter(project => project.project_status === "On hold").length} projects
+          </p>
         </div>
       </div>
 
@@ -121,22 +89,22 @@ function AuditorDashboard() {
         <TabPanels>
           <TabPanel>
             {/* Display project component */}
-            <DisplayProjects fetch={fetch} projects={projects.allProjects} />
+            <DisplayProjects />
           </TabPanel>
 
           <TabPanel>
             {/* In progress projects component */}
-            <InProgressProjects fetch={fetch} projects={projects.inProgressProjects} />
+            <InProgressProjects  />
           </TabPanel>
 
           <TabPanel>
             {/* Completed projects component */}
-            <CompletedProjects fetch={fetch} projects={projects.completedProjects} />
+            <CompletedProjects  />
           </TabPanel>
 
           <TabPanel>
             {/* On hold projects component */}
-            <OnHoldProjects fetch={fetch} projects={projects.onHoldProjects} />
+            <OnHoldProjects />
           </TabPanel>
         </TabPanels>
       </TabsContext>

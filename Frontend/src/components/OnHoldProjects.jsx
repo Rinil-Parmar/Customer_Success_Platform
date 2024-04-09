@@ -1,44 +1,32 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "./EditProject";
 import { UserContext } from "../contexts/UserContext";
+import { useProjectContext } from "../contexts/projectContext";
 
-function OnHoldProjects({ fetch, setFetch }) {
-  const [onHoldProjects, setOnHoldProjects] = useState([]);
+function OnHoldProjects({}) {
+  const { projects,  deleteProject } = useProjectContext(); // Using the project context
   const [selectedProject, setSelectedProject] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/api/v1/projects");
-      // Filter projects by status "On hold"
-      const filteredProjects = response.data.filter(
-        (project) => project.project_status === "On hold"
-      );
-      setOnHoldProjects(filteredProjects);
-     
-    } catch (error) {
-      toast.error("Error fetching on-hold projects");
-      console.error("Error fetching on-hold projects:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData(); // Fetch data initially
+  // useEffect(() => {
+  //   fetchData(); // Fetch data initially
+  // }, []);
 
-  }, []);
+  const onHoldProjects = projects.filter(
+    (project) => project.project_status === "On hold"
+  );
 
   async function handleDelete(id) {
     const confirmed = window.confirm("Do you want to delete?");
 
     if (confirmed) {
       try {
-        await axios.delete(`/api/v1/projects/${id}`);
+        await deleteProject(id);
         toast.success("Project deleted successfully");
-        // setFetch((prev) => !prev);
-        await fetchData();
+        // fetchData(); // Fetch updated data after deletion
       } catch (error) {
         toast.error("Error deleting project");
         console.error(error);
@@ -119,9 +107,8 @@ function OnHoldProjects({ fetch, setFetch }) {
       {selectedProject && (
         <EditProject
           project={selectedProject}
-          setFetch={setFetch}
           closeModal={handleCloseModal}
-          fetchData={fetchData}
+          // fetchData={fetchData}
         />
       )}
     </div>

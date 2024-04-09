@@ -1,46 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "./EditProject";
 import { UserContext } from "../contexts/UserContext";
+import { useProjectContext } from "../contexts/projectContext";
 
-function CompletedProjects({ fetch, setFetch }) {
-  const [completedProjects, setCompletedProjects] = useState([]);
+function CompletedProjects({}) {
+  const { projects, deleteProject } = useProjectContext(); // Using the project context
   const [selectedProject, setSelectedProject] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/api/v1/projects");
-      // Filter projects by status "Complete"
-      const filteredProjects = response.data.filter(
-        (project) => project.project_status === "Completed"
-      );
-      setCompletedProjects(filteredProjects);
-     
-    } catch (error) {
-      toast.error("Error fetching completed projects");
-      console.error("Error fetching completed projects:", error);
-    }
-  };
-  useEffect(() => {
 
-    fetchData(); // Fetch data initially
-
-   
-  }, []);
+  const completedProjects = projects.filter(
+    (project) => project.project_status === "Completed"
+  );
 
   async function handleDelete(id) {
     const confirmed = window.confirm("Do you want to delete?");
 
     if (confirmed) {
       try {
-        await axios.delete(`/api/v1/projects/${id}`);
+        await deleteProject(id);
         toast.success("Project deleted successfully");
-        // setFetch((prev) => !prev);
-        await fetchData();
+        // fetchData(); // Fetch updated data after deletion
       } catch (error) {
         toast.error("Error deleting project");
         console.error(error);
@@ -121,9 +104,8 @@ function CompletedProjects({ fetch, setFetch }) {
       {selectedProject && (
         <EditProject
           project={selectedProject}
-          setFetch={setFetch}
           closeModal={handleCloseModal}
-          fetchData={fetchData}
+          
         />
       )}
     </div>

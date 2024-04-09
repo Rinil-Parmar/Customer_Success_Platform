@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import axios from "axios"; // Add correct import statement for axios
+import { useProjectContext } from "../contexts/projectContext";
 
-const ProjectModal = ({ closeModal,fetchData }) => {
+const ProjectModal = ({ closeModal }) => {
   const [step, setStep] = useState(1);
   const [projectName, setProjectName] = useState("");
   const [projectDesc, setProjectDesc] = useState("");
@@ -12,10 +13,12 @@ const ProjectModal = ({ closeModal,fetchData }) => {
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
 
+  const { addProject } = useProjectContext();
+
   const handleContinue = () => {
     if (step === 1) {
       if (validateProjectDetails()) {
-        handleProjctDetails();
+        handleProjectDetails();
         setStep(step + 1);
       }
     } else {
@@ -47,10 +50,9 @@ const ProjectModal = ({ closeModal,fetchData }) => {
     return true;
   };
 
-  const handleProjctDetails = async () => {
-    // Post request for project details
+  const handleProjectDetails = async () => {
     try {
-      const projectResponse = await axios.post("/api/v1/projects", {
+      await addProject({
         project_name: projectName,
         project_desc: projectDesc,
         project_scope: projectScope,
@@ -60,9 +62,6 @@ const ProjectModal = ({ closeModal,fetchData }) => {
       });
 
       toast.success("Project created successfully");
-     
-      console.log("Helo rinil");
-      console.log("Project created:", projectResponse.data);
     } catch (error) {
       toast.error("Error creating project");
       console.error("Error:", error);
@@ -70,16 +69,14 @@ const ProjectModal = ({ closeModal,fetchData }) => {
   };
 
   const handleClient = async () => {
-    // Post request for client details
     try {
-      const clientResponse = await axios.post("/api/v1/clients", {
+      await axios.post("/api/v1/clients", {
         name: clientName,
         email: clientEmail,
       });
 
-      console.log("Client created:", clientResponse.data);
       toast.success("Client created successfully");
-      closeModal(); // Close modal after successful creation
+      closeModal();
     } catch (error) {
       toast.error("Error creating client");
       console.error("Error:", error);
