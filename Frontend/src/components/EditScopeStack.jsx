@@ -26,7 +26,6 @@ const EditScopeStack = ({ project, setFetch }) => {
       setLoading(false);
       setFetch((prevFetch) => !prevFetch); // Trigger fetch to update project list
       toast.success("Scope and Stack updated successfully");
-      
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again later.");
@@ -42,7 +41,7 @@ const EditScopeStack = ({ project, setFetch }) => {
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Project Stack
         </label>
-        <select
+        {/* <select
           value={projectStack}
           onChange={(e) => setProjectStack(e.target.value)}
           className="border border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500"
@@ -51,7 +50,13 @@ const EditScopeStack = ({ project, setFetch }) => {
           <option value="backend">Backend</option>
           <option value="mobile">Mobile App</option>
           <option value="database">Database</option>
-        </select>
+        </select> */}
+        <input
+          type="text"
+          value={projectStack}
+          onChange={(e) => setProjectStack(e.target.value)}
+          className="border border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-500"
+        />
       </div>
 
       <div className="mb-4">

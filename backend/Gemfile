@@ -6,6 +6,19 @@ ruby "3.2.3"
 gem 'rack-cors'
 
 gem 'jspdf-rails'
+gem 'ffi'
+gem 'net-http-persistent'
+
+
+gem 'jwt'
+gem 'auth0', '~> 5.0'
+
+# gem 'auth0'
+
+ gem 'net-http'
+# gem 'openssl'
+# gem 'json'
+
 
 # for the pdf generation
 

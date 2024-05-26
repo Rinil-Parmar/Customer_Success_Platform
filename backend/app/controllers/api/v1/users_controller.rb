@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  # before_action :authorize
   before_action :set_user, only: %i[ show update destroy ]
 
   # GET /users
@@ -43,6 +44,10 @@ class Api::V1::UsersController < ApplicationController
     def set_user
       @user = User.find(params[:id])
     end
+
+    #def private
+     # render json: { message: 'Hello from a private endpoint! You need to be authenticated to see this.' }
+    #end
 
     # Only allow a list of trusted parameters through.
     def user_params

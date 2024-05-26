@@ -1,54 +1,35 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "./EditProject";
 import { UserContext } from "../contexts/UserContext";
+import { useProjectContext } from "../contexts/projectContext";
+import { Link } from "react-router-dom";
 
-function DisplayProjects({ fetch, setFetch }) {
-  const [projects, setProjects] = useState([]);
+function DisplayProjects({}) {
+  const { projects, deleteProject } = useProjectContext(); // Using the project context
   const [selectedProject, setSelectedProject] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("/api/v1/projects");
-      setProjects(response.data);
-    } catch (error) {
-      // use toast to show error message
-      toast.error("Error fetching projects");
-      console.error("Error fetching projects:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData(); // Fetch data initially
+  // useEffect(() => {
+  //   fetchData(); // Fetch data initially
+  // }, []);
 
-    // Refresh data every six seconds
-    // const intervalId = setInterval(fetchData, 6000);
-
-    // return () => {
-    //   clearInterval(intervalId);
-    // };
-  }, []);
-
-  async function handleDelete(id) {
-    console.log("Delete id:", id);
+  const handleDelete = async (id) => {
     const confirmed = window.confirm("Do you want to delete?");
 
     if (confirmed) {
       try {
-        const response = await axios.delete(`/api/v1/projects/${id}`);
-        // toast.success(response.data.message);
+        await deleteProject(id);
         toast.success("Project deleted successfully");
-        // setFetch((prev) => !prev);
-        await fetchData();
+        // fetchData(); // Fetch updated data after deletion
       } catch (error) {
         toast.error("Error deleting project");
         console.log(error);
       }
     }
-  }
+  };
 
   const handleEdit = (project) => {
     setSelectedProject(project);
@@ -95,9 +76,11 @@ function DisplayProjects({ fetch, setFetch }) {
                 key={project.id}
               >
                 {/* Table row cells */}
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                  {project.project_name}
-                </td>
+                <Link to={`/projects/${project.id}`} className="text-blue-600">
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {project.project_name}
+                  </td>
+                </Link>
                 <td className="px-6 py-4">{project.project_stack}</td>
                 <td className="px-6 py-4">{project.project_status}</td>
                 <td className="px-6 py-4">{project.project_manager}</td>
@@ -127,9 +110,8 @@ function DisplayProjects({ fetch, setFetch }) {
       {selectedProject && (
         <EditProject
           project={selectedProject}
-          setFetch={setFetch}
           closeModal={handleCloseModal}
-          fetchData={fetchData}
+          // fetchData={fetchData}
         />
       )}
     </div>

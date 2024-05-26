@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useProjectContext } from "../contexts/projectContext";
 
-const EditProject = ({ project, setFetch, closeModal,fetchData }) => {
+const EditProject = ({ project, closeModal }) => {
   const [projectName, setProjectName] = useState(project.project_name);
   const [projectDesc, setProjectDesc] = useState(project.project_desc);
   const [projectScope, setProjectScope] = useState(project.project_scope);
@@ -11,26 +12,38 @@ const EditProject = ({ project, setFetch, closeModal,fetchData }) => {
   const [projectStatus, setProjectStatus] = useState(project.project_status);
   const [loading, setLoading] = useState(false);
 
+  const { editProject } = useProjectContext();
+
   const handleSave = async () => {
     try {
       setLoading(true);
-      await axios.put(`/api/v1/projects/${project.id}`, {
+      // await axios.put(`/api/v1/projects/${project.id}`, {
+      //   project_name: projectName,
+      //   project_desc: projectDesc,
+      //   project_scope: projectScope,
+      //   project_stack: projectStack,
+      //   project_status: projectStatus,
+      //   project_manager: projectManager,
+      // });
+
+      await editProject(project.id, {
+        id: project.id,
         project_name: projectName,
         project_desc: projectDesc,
         project_scope: projectScope,
         project_stack: projectStack,
-        project_status: projectStatus,
         project_manager: projectManager,
+        project_status: projectStatus,
       });
       toast.success("Project updated successfully");
+
       setLoading(false);
-    
-      await fetchData();
+      // await fetchData();
       closeModal(); // Close the modal after successful update
     } catch (error) {
       console.error("Error:", error);
       toast.error("An error occurred. Please try again later.");
-      
+
       setLoading(false);
     }
   };

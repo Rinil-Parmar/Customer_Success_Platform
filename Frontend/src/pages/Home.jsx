@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Home = () => {
   const navigation = useNavigate();
-  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -17,10 +17,16 @@ const Home = () => {
 
   const saveUserData = async (userData) => {
     try {
+      const token = await getAccessTokenSilently();
       // Send user data to the backend
       await axios.post("/api/v1/users", {
         name: userData.name,
         email: userData.email,
+        jwt_token: token,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
     } catch (error) {
       console.error("Error saving user data:", error);
@@ -34,7 +40,7 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-blue-700 text-white">
       <h1 className="text-4xl font-bold mb-4">
-        Welcome to Our Customer Success Platform
+        Welcome to Our CS Platform
       </h1>
       <p className="text-lg text-center mb-8">
         Our platform automates the process of notifying stakeholders about any

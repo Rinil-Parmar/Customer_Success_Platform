@@ -6,28 +6,28 @@ export const UserContext = createContext({});
 
 export function UserContextProvider({ children }) {
   const [myUser, setMyUser] = useState(null);
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
-    console.log("User:", user);
     const fetchUser = async () => {
-
       if (isAuthenticated && user) {
         try {
+          const accessToken = await getAccessTokenSilently();
+          console.log("accessToken", accessToken);
           const response = await axios.get(
             "http://localhost:4000/api/v1/users",
             {
-              params: {
-                email: user.email,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
               },
             }
           );
+
           const filteredUser = response.data.find(
             (userData) => userData.email === user.email
           );
 
           setMyUser(filteredUser);
-          
         } catch (error) {
           console.error("Error fetching user:", error);
         }
@@ -35,7 +35,7 @@ export function UserContextProvider({ children }) {
     };
 
     fetchUser();
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, getAccessTokenSilently]);
 
   return (
     <UserContext.Provider

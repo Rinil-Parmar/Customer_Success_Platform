@@ -66,8 +66,6 @@ This command will send a POST request to the `/api/v1/users` endpoint with the f
 After successful execution, You can log in with the admin email `admin@gmail.com` and password `Admin@123`. Now, In another browser, you can log in using MS identity or Google default role will be a client. You can change it from the admin panel in the add user section.
 
 ---
-# Limitation of the Auth0:-
-Generally, Auth0 provides an authentication service that handles user authentication and provides your application with authentication tokens. However, I faced an issue that, in the Chrome browser lost the user data after each refresh but the same thing worked well with the Edge browser. So check it in a different browser for the testing.
 
 
 ### Usage:

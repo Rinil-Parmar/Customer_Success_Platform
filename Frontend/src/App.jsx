@@ -18,6 +18,7 @@ import { UserContextProvider } from "./contexts/UserContext";
 import ProjectManager from "./pages/ProjectManager";
 import Employee from "./pages/Employees";
 import Settings from "./pages/Settings";
+import { ProjectProvider } from "./contexts/projectContext";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
 
       <Router>
         <UserContextProvider>
-
+        <ProjectProvider>
           <Routes>
             <Route path="/" element={<Home />} />
             
@@ -42,7 +43,7 @@ function App() {
               </Route>
             </Route>
           </Routes>
-
+          </ProjectProvider>
         </UserContextProvider>
       </Router>
       
