@@ -4,9 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProject from "./EditProject";
 import { UserContext } from "../contexts/UserContext";
 import { useProjectContext } from "../contexts/projectContext";
+import { Link } from "react-router-dom";
 
 function OnHoldProjects({}) {
-  const { projects,  deleteProject } = useProjectContext(); // Using the project context
+  const { projects, deleteProject } = useProjectContext(); // Using the project context
   const [selectedProject, setSelectedProject] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const { myUser } = useContext(UserContext);
@@ -75,9 +76,11 @@ function OnHoldProjects({}) {
           {onHoldProjects.map((project) => (
             <tr className="bg-white border-b hover:bg-gray-50" key={project.id}>
               {/* Table row cells */}
-              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                {project.project_name}
-              </td>
+              <Link to={`/projects/${project.id}`} className="text-blue-600">
+                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                  {project.project_name}
+                </td>
+              </Link>
               <td className="px-6 py-4">{project.project_stack}</td>
               <td className="px-6 py-4">{project.project_status}</td>
               <td className="px-6 py-4">{project.project_manager}</td>

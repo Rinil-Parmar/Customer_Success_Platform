@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Create context
 const ProjectContext = createContext();
@@ -12,12 +13,18 @@ export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { getAccessTokenSilently } = useAuth0();
 
   // Fetch projects on component mount
   const fetchProjects = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/v1/projects");
+      const accessToken = await getAccessTokenSilently();
+      const response = await axios.get("/api/v1/projects", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setProjects(response.data);
     } catch (error) {
       setError(error);
@@ -26,13 +33,17 @@ export const ProjectProvider = ({ children }) => {
     }
   };
   useEffect(() => {
-
     fetchProjects();
-  }, []);
+  }, [getAccessTokenSilently]);
 
   const addProject = async (project) => {
     try {
-      const response = await axios.post("/api/v1/projects", project);
+      const accessToken = await getAccessTokenSilently();
+      const response = await axios.post("/api/v1/projects", project, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setProjects([...projects, response.data]);
     } catch (error) {
       setError(error);
@@ -41,7 +52,12 @@ export const ProjectProvider = ({ children }) => {
 
   const editProject = async (projectId, updatedProject) => {
     try {
-      const response = await axios.put(`/api/v1/projects/${projectId}`, updatedProject);
+      const accessToken = await getAccessTokenSilently();
+      const response = await axios.put(`/api/v1/projects/${projectId}`, updatedProject, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       const updatedProjects = projects.map(project =>
         project.id === projectId ? response.data : project
       );
@@ -53,7 +69,12 @@ export const ProjectProvider = ({ children }) => {
 
   const deleteProject = async (projectId) => {
     try {
-      await axios.delete(`/api/v1/projects/${projectId}`);
+      const accessToken = await getAccessTokenSilently();
+      await axios.delete(`/api/v1/projects/${projectId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       const updatedProjects = projects.filter(project => project.id !== projectId);
       setProjects(updatedProjects);
     } catch (error) {

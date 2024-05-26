@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProject from "./EditProject";
 import { UserContext } from "../contexts/UserContext";
 import { useProjectContext } from "../contexts/projectContext";
+import { Link } from "react-router-dom";
 
 function DisplayProjects({}) {
   const { projects, deleteProject } = useProjectContext(); // Using the project context
@@ -75,9 +76,11 @@ function DisplayProjects({}) {
                 key={project.id}
               >
                 {/* Table row cells */}
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                  {project.project_name}
-                </td>
+                <Link to={`/projects/${project.id}`} className="text-blue-600">
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {project.project_name}
+                  </td>
+                </Link>
                 <td className="px-6 py-4">{project.project_stack}</td>
                 <td className="px-6 py-4">{project.project_status}</td>
                 <td className="px-6 py-4">{project.project_manager}</td>
@@ -111,8 +114,6 @@ function DisplayProjects({}) {
           // fetchData={fetchData}
         />
       )}
-
-     
     </div>
   );
 }

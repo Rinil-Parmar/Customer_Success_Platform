@@ -12,6 +12,7 @@ root.render(
   
   <React.StrictMode>
     <Auth0Provider
+    
       domain="dev-twrzck2hag6l1yfu.us.auth0.com"
       clientId="3Ijd6paF7RvvpRnVltmlaLdochukdAA0"
       authorizationParams={{
