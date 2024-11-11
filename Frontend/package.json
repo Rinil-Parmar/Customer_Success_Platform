@@ -13,7 +13,7 @@
     "axios": "^1.6.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "http-proxy-middleware": "^2.0.6",
+    "http-proxy-middleware": "^2.0.7",
     "jspdf": "^2.5.1",
     "monday-ui-react-core": "^2.93.0",
     "react": "^18.2.0",
